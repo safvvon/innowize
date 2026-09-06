@@ -5,7 +5,6 @@ import { Intro } from '../components/home/Intro';
 import { IntroSection2 } from '../components/home/IntroSection2';
 import { IntroSection3 } from '../components/home/IntroSection3';
 import { Clients } from '../components/home/Clients';
-import { TeamMembers } from '../components/home/TeamMembers';
 
 export const Home: React.FC = () => {
   return (
@@ -18,7 +17,6 @@ export const Home: React.FC = () => {
         <IntroSection3 />
       </div>
       <Clients />
-      <TeamMembers />
     </div>
   );
 };
