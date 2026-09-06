@@ -106,7 +106,7 @@ export const Services: React.FC<{ onOpenContact?: () => void }> = ({ onOpenConta
   return (
     <div className="min-h-screen bg-[#0B0E17] text-white overflow-hidden pt-28 pb-20">
       {/* Top Header Row */}
-      <section className="w-full max-w-[1920px] mx-auto px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 pt-4 pb-12">
+      <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 pt-4 pb-12">
         <div className="border-b border-white/10 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <span className="text-[#60A5FA] text-xs font-poppins font-semibold tracking-[0.3em] uppercase mb-2 block">
@@ -116,15 +116,15 @@ export const Services: React.FC<{ onOpenContact?: () => void }> = ({ onOpenConta
               Our Services
             </h1>
           </div>
-          <p className="text-white/70 text-sm md:text-base font-poppins max-w-xl leading-relaxed">
+          <p className="text-white/70 text-sm md:text-base font-poppins max-w-2xl leading-relaxed">
             End-to-end creative digital solutions and media production crafted to help modern brands engage, connect, and thrive.
           </p>
         </div>
       </section>
 
       {/* Full-Width 3-Column Services Grid */}
-      <section className="w-full max-w-[1920px] mx-auto px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 py-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 xl:gap-10">
+      <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 xl:gap-10 w-full">
           {servicesData.map((service, idx) => (
             <motion.div
               key={service.id}
@@ -177,7 +177,7 @@ export const Services: React.FC<{ onOpenContact?: () => void }> = ({ onOpenConta
       </section>
 
       {/* Episodes Section from Page 2 of Brand Spec PDF */}
-      <section className="w-full max-w-[1920px] mx-auto px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 py-16">
+      <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-16">
         <div className="mb-8">
           <span className="text-[#60A5FA] text-xs font-poppins font-semibold tracking-[0.3em] uppercase mb-2 block">
             Featured Productions
@@ -187,7 +187,7 @@ export const Services: React.FC<{ onOpenContact?: () => void }> = ({ onOpenConta
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 xl:gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 xl:gap-10 w-full">
           {episodes.map((ep, idx) => (
             <motion.div
               key={idx}
@@ -226,7 +226,7 @@ export const Services: React.FC<{ onOpenContact?: () => void }> = ({ onOpenConta
       </section>
 
       {/* Wide Bottom CTA Box Banner */}
-      <section className="w-full max-w-[1920px] mx-auto px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 mt-8 mb-16">
+      <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 mt-8 mb-16">
         <div className="rounded-3xl bg-[#0F1628] border border-[#141A2B] p-10 md:p-16 lg:p-20 text-center shadow-2xl">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#2563FF]/10 border border-[#2563FF]/20 text-[#60A5FA] text-xs font-poppins font-medium tracking-widest uppercase mb-4">
             <Sparkles className="w-3.5 h-3.5 text-[#2563FF]" />

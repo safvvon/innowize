@@ -42,7 +42,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
       <div className="w-full h-px bg-gradient-to-r from-transparent via-[#2563FF]/60 to-transparent" />
 
       {/* Main Expansive Container */}
-      <div className="relative z-10 w-full max-w-[1920px] mx-auto px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 pt-16 md:pt-20 pb-12">
+      <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 pt-16 md:pt-20 pb-12">
         {/* Pre-Footer Action Banner */}
         <div className="w-full mb-16 md:mb-20 rounded-3xl bg-gradient-to-r from-[#0F1628] via-[#141A2B] to-[#0F1628] border border-white/10 p-8 sm:p-10 md:p-14 lg:p-16 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-[#2563FF]/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />

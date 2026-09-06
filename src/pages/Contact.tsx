@@ -43,12 +43,12 @@ export const Contact: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#0B0E17] text-white overflow-hidden pt-28 pb-24">
       {/* Top Header Section matching Page 4 of PDF */}
-      <section className="w-full max-w-[1920px] mx-auto px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 pt-4 pb-12 text-center">
+      <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 pt-4 pb-12 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="max-w-4xl mx-auto"
+          className="w-full max-w-5xl mx-auto"
         >
           <div className="inline-flex items-center gap-2 text-[#60A5FA] text-xs md:text-sm font-semibold tracking-[0.3em] uppercase mb-4">
             <span>•</span>
@@ -58,21 +58,21 @@ export const Contact: React.FC = () => {
           <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 font-barlow leading-tight">
             Let's Talk
           </h1>
-          <p className="text-base sm:text-lg md:text-xl text-white/70 leading-relaxed font-poppins">
+          <p className="text-base sm:text-lg md:text-xl text-white/70 leading-relaxed font-poppins max-w-4xl mx-auto">
             We'd love to hear your vision. Let's work together to create digital experiences that inspire and drive results. Drop us a message, and we'll get back to you soon!
           </p>
         </motion.div>
       </section>
 
       {/* Main Content: Wide Two-Column Container */}
-      <section className="w-full max-w-[1920px] mx-auto px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 mb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-14 items-start w-full">
+      <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-start w-full">
           {/* Left: Message Form Column */}
           <motion.div
             initial={{ opacity: 0, x: -25 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="lg:col-span-7 bg-[#0F1628] border border-[#141A2B] rounded-3xl p-8 sm:p-10 md:p-12 lg:p-14 xl:p-16 shadow-2xl backdrop-blur-sm"
+            className="lg:col-span-7 bg-[#0F1628] border border-[#141A2B] rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 shadow-2xl backdrop-blur-sm w-full"
           >
             <div className="mb-8">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 font-barlow">

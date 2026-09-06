@@ -184,7 +184,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
   return (
     <div className="min-h-screen bg-[#0B0E17] text-white overflow-x-hidden pt-28 pb-20">
       {/* Top Header Row matching Page 3 of PDF */}
-      <section className="w-full max-w-[1920px] mx-auto px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 pt-4 pb-8">
+      <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 pt-4 pb-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-8">
           <div>
             <span className="text-[#60A5FA] text-xs font-poppins font-semibold tracking-[0.3em] uppercase mb-2 block">
@@ -239,10 +239,10 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
       </section>
 
       {/* 4-Column Full-Width Projects Showcase Grid */}
-      <section className="w-full max-w-[1920px] mx-auto px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 py-6">
+      <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6">
         <motion.div
           layout
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 lg:gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 lg:gap-8 w-full"
         >
           <AnimatePresence>
             {filteredProjects.map((project, idx) => (
@@ -332,13 +332,13 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
       </AnimatePresence>
 
       {/* Bottom CTA Banner */}
-      <section className="w-full max-w-[1920px] mx-auto px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 mt-16">
-        <div className="rounded-3xl bg-[#0F1628] border border-[#141A2B] p-10 md:p-16 lg:p-20 text-center shadow-2xl">
+      <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 mt-16 mb-16">
+        <div className="rounded-3xl bg-[#0F1628] border border-[#141A2B] p-10 md:p-16 lg:p-20 text-center shadow-2xl w-full">
           <h2 className="text-3xl sm:text-5xl md:text-6xl font-black italic text-white uppercase font-barlow leading-tight mb-4">
             READY TO CREATE <br />
             <span className="text-[#2563FF]">YOUR STORY?</span>
           </h2>
-          <p className="text-white/70 text-base md:text-lg font-poppins max-w-3xl mx-auto leading-relaxed mb-8">
+          <p className="text-white/70 text-base md:text-lg font-poppins max-w-4xl mx-auto leading-relaxed mb-8">
             Let's collaborate to bring your vision to life with compelling visuals and digital experiences that resonate.
           </p>
           <button

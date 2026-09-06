@@ -64,7 +64,7 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
   return (
     <div className="min-h-screen bg-[#0B0E17] text-white overflow-hidden pt-28 pb-20">
       {/* Top Header Section */}
-      <section className="w-full max-w-[1920px] mx-auto px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 pt-4 pb-12">
+      <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 pt-4 pb-12">
         <div className="border-b border-white/10 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <span className="text-[#60A5FA] text-xs font-poppins font-semibold tracking-[0.3em] uppercase mb-2 block">
@@ -74,15 +74,15 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
               The Digital Frontier
             </h1>
           </div>
-          <p className="text-white/70 text-sm md:text-base font-poppins max-w-xl leading-relaxed">
+          <p className="text-white/70 text-sm md:text-base font-poppins max-w-2xl leading-relaxed">
             We craft future-ready digital experiences that blend creativity, technology, and strategy to help brands thrive in the digital age.
           </p>
         </div>
       </section>
 
       {/* Interactive Tabs Section (Mission / Vision / Values from Page 2 of Brand PDF) */}
-      <section className="w-full max-w-[1920px] mx-auto px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 py-8">
-        <div className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-8 sm:p-12 lg:p-16 shadow-2xl">
+      <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-8">
+        <div className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-8 sm:p-12 lg:p-16 shadow-2xl w-full">
           {/* Tab Buttons */}
           <div className="flex items-center gap-3 mb-10 pb-6 border-b border-white/10">
             {(['mission', 'vision', 'values'] as const).map((tab) => (
@@ -101,7 +101,7 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
           </div>
 
           {/* Active Tab Content */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center w-full">
             <div className="lg:col-span-7 space-y-6">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-barlow text-white leading-tight">
                 {tabContent[activeTab].title}
@@ -142,7 +142,7 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
       </section>
 
       {/* 3 Core Pillars Section (from Page 2 of Brand Spec PDF) */}
-      <section className="w-full max-w-[1920px] mx-auto px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 py-12">
+      <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-12">
         <div className="mb-8">
           <span className="text-[#60A5FA] text-xs font-poppins font-semibold tracking-[0.3em] uppercase mb-2 block">
             Our Foundation
@@ -152,7 +152,7 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 xl:gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 xl:gap-10 w-full">
           {pillars.map((pillar, idx) => (
             <motion.div
               key={idx}
@@ -177,8 +177,8 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
       </section>
 
       {/* Stats Counter Section (from Page 2 of Brand Spec PDF) */}
-      <section className="w-full max-w-[1920px] mx-auto px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-10 md:p-16 rounded-3xl bg-[#0F1628] border border-[#141A2B] text-center shadow-xl">
+      <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-10 md:p-16 rounded-3xl bg-[#0F1628] border border-[#141A2B] text-center shadow-xl w-full">
           <div>
             <div className="text-5xl md:text-7xl lg:text-8xl font-black font-barlow text-white mb-2">
               87.2K
@@ -207,13 +207,13 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
       </section>
 
       {/* Wide Bottom CTA Banner */}
-      <section className="w-full max-w-[1920px] mx-auto px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 mt-8 mb-16">
-        <div className="rounded-3xl bg-[#0F1628] border border-[#141A2B] p-10 md:p-16 lg:p-20 text-center shadow-2xl">
+      <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 mt-8 mb-16">
+        <div className="rounded-3xl bg-[#0F1628] border border-[#141A2B] p-10 md:p-16 lg:p-20 text-center shadow-2xl w-full">
           <h2 className="text-3xl sm:text-5xl md:text-6xl font-black italic text-white uppercase font-barlow leading-tight mb-4">
             READY TO CREATE <br />
             <span className="text-[#2563FF]">TOGETHER?</span>
           </h2>
-          <p className="text-white/70 text-base md:text-lg font-poppins max-w-3xl mx-auto leading-relaxed mb-8">
+          <p className="text-white/70 text-base md:text-lg font-poppins max-w-4xl mx-auto leading-relaxed mb-8">
             Let's bring your vision to life. Whether you have an established brand or an ambitious new venture, we are here to craft something extraordinary.
           </p>
           <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
