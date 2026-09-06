@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Plus, X, LayoutGrid, Grid, Sparkles, ChevronDown, Eye } from 'lucide-react';
+import { Play, Plus, X, LayoutGrid, Grid, Sparkles, Eye, Film } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface Project {
@@ -20,7 +20,7 @@ interface Project {
   featured?: boolean;
 }
 
-// 16 Exact Projects from Page 3 of Brand Spec PDF with Editorial Proportions
+// 32 Curated Works with Editorial Dynamic Proportions
 const projectsData: Project[] = [
   {
     id: 1,
@@ -250,21 +250,250 @@ const projectsData: Project[] = [
     masonryHeight: 'h-[430px]',
     featured: true,
   },
+  {
+    id: 17,
+    url: 'https://player.vimeo.com/video/1153483174?autoplay=1',
+    thumbnail: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80',
+    title: 'Hyperion',
+    category: 'Motion Graphics',
+    client: 'Orbital Aerospace',
+    year: '2024',
+    tagline: 'Deep space exploration vehicle reveal utilizing photoreal CGI VFX.',
+    gridSpan: 'col-span-1 md:col-span-2 lg:col-span-2',
+    minHeight: 'min-h-[440px] lg:min-h-[500px]',
+    aspectClass: 'aspect-[16/10]',
+    masonryHeight: 'h-[520px]',
+    featured: true,
+  },
+  {
+    id: 18,
+    url: 'https://player.vimeo.com/video/1153483221?autoplay=1',
+    thumbnail: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80',
+    title: 'Kurogane',
+    category: 'Fashion Film',
+    client: 'Tokyo Streetwear',
+    year: '2024',
+    tagline: 'Cyber-noir apparel filmed on the rain-soaked neon streets of Shibuya.',
+    gridSpan: 'col-span-1',
+    minHeight: 'min-h-[460px] lg:min-h-[500px]',
+    aspectClass: 'aspect-[3/4]',
+    masonryHeight: 'h-[470px]',
+  },
+  {
+    id: 19,
+    url: 'https://player.vimeo.com/video/1153483144?autoplay=1',
+    thumbnail: 'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=80',
+    title: 'Apex Velocity',
+    category: 'Commercial',
+    client: 'Formula GT Racing',
+    year: '2024',
+    tagline: 'High-octane track battle captured with custom gyrostabilized pursuit drones.',
+    gridSpan: 'col-span-1 md:col-span-2 lg:col-span-2',
+    minHeight: 'min-h-[380px]',
+    aspectClass: 'aspect-[16/9]',
+    masonryHeight: 'h-[390px]',
+  },
+  {
+    id: 20,
+    url: 'https://player.vimeo.com/video/1153483177?autoplay=1',
+    thumbnail: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80',
+    title: 'Atelier Noir',
+    category: 'Product Film',
+    client: 'Geneva High Jewelry',
+    year: '2024',
+    tagline: 'Light diffraction across flawless diamonds filmed on specialized probe lenses.',
+    gridSpan: 'col-span-1',
+    minHeight: 'min-h-[460px] lg:min-h-[500px]',
+    aspectClass: 'aspect-[3/4]',
+    masonryHeight: 'h-[490px]',
+  },
+  {
+    id: 21,
+    url: 'https://player.vimeo.com/video/1153483192?autoplay=1',
+    thumbnail: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80',
+    title: 'Mirage',
+    category: 'Architecture Film',
+    client: 'Atacama Desert Retreat',
+    year: '2023',
+    tagline: 'Subterranean luxury villa interacting with the harshest desert elements.',
+    gridSpan: 'col-span-1',
+    minHeight: 'min-h-[360px]',
+    aspectClass: 'aspect-[4/3]',
+    masonryHeight: 'h-[350px]',
+  },
+  {
+    id: 22,
+    url: 'https://player.vimeo.com/video/76979871?autoplay=1',
+    thumbnail: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80',
+    title: 'CyberPulse',
+    category: 'Motion Graphics',
+    client: 'Neural Matrix',
+    year: '2023',
+    tagline: 'Real-time generative visuals and holographic interface concept reel.',
+    gridSpan: 'col-span-1 md:col-span-2 lg:col-span-2',
+    minHeight: 'min-h-[400px]',
+    aspectClass: 'aspect-[16/9]',
+    masonryHeight: 'h-[420px]',
+  },
+  {
+    id: 23,
+    url: 'https://player.vimeo.com/video/169599296?autoplay=1',
+    thumbnail: 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=800&q=80',
+    title: 'Symphonia',
+    category: 'Music Video',
+    client: 'Berlin Philharmonic',
+    year: '2023',
+    tagline: 'A multi-sensory journey blending classical acoustics with responsive light art.',
+    gridSpan: 'col-span-1',
+    minHeight: 'min-h-[360px]',
+    aspectClass: 'aspect-[4/3]',
+    masonryHeight: 'h-[360px]',
+  },
+  {
+    id: 24,
+    url: 'https://player.vimeo.com/video/148751763?autoplay=1',
+    thumbnail: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&w=800&q=80',
+    title: 'Savage Peaks',
+    category: 'Documentary',
+    client: 'Redline Action Media',
+    year: '2023',
+    tagline: 'First descents of unchartered Alaskan peaks in sub-zero whiteout conditions.',
+    gridSpan: 'col-span-1',
+    minHeight: 'min-h-[480px] lg:min-h-[520px]',
+    aspectClass: 'aspect-[3/4]',
+    masonryHeight: 'h-[510px]',
+  },
+  {
+    id: 25,
+    url: 'https://player.vimeo.com/video/1153483218?autoplay=1',
+    thumbnail: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80',
+    title: "L'Artisan",
+    category: 'Brand Film',
+    client: 'Maison Troisgros',
+    year: '2023',
+    tagline: 'The art of three-star Michelin gastronomy chronicled from soil to plate.',
+    gridSpan: 'col-span-1 md:col-span-2 lg:col-span-2',
+    minHeight: 'min-h-[420px] lg:min-h-[480px]',
+    aspectClass: 'aspect-[16/10]',
+    masonryHeight: 'h-[480px]',
+    featured: true,
+  },
+  {
+    id: 26,
+    url: 'https://player.vimeo.com/video/125095515?autoplay=1',
+    thumbnail: 'https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&w=800&q=80',
+    title: 'Kroma Displays',
+    category: 'Product Film',
+    client: 'Quantum OLED',
+    year: '2023',
+    tagline: 'Pure black levels and billions of spectral colors in commercial spectacle.',
+    gridSpan: 'col-span-1',
+    minHeight: 'min-h-[360px]',
+    aspectClass: 'aspect-square',
+    masonryHeight: 'h-[360px]',
+  },
+  {
+    id: 27,
+    url: 'https://player.vimeo.com/video/115783408?autoplay=1',
+    thumbnail: 'https://images.unsplash.com/photo-1569263979104-865ab7cd8d17?auto=format&fit=crop&w=1200&q=80',
+    title: 'Zephyr',
+    category: 'Commercial',
+    client: 'Monaco Marine Superyachts',
+    year: '2023',
+    tagline: 'Elegance in open water: an 80m custom yacht navigating the Mediterranean.',
+    gridSpan: 'col-span-1 md:col-span-2 lg:col-span-2',
+    minHeight: 'min-h-[380px]',
+    aspectClass: 'aspect-[16/9]',
+    masonryHeight: 'h-[400px]',
+  },
+  {
+    id: 28,
+    url: 'https://player.vimeo.com/video/1153483221?autoplay=1',
+    thumbnail: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80',
+    title: 'Vortex Robotics',
+    category: 'Product Film',
+    client: 'Apex Cybernetics',
+    year: '2023',
+    tagline: 'Autonomous bipedal engineering demonstration in controlled industrial environments.',
+    gridSpan: 'col-span-1',
+    minHeight: 'min-h-[460px] lg:min-h-[500px]',
+    aspectClass: 'aspect-[3/4]',
+    masonryHeight: 'h-[480px]',
+  },
+  {
+    id: 29,
+    url: 'https://player.vimeo.com/video/1153483177?autoplay=1',
+    thumbnail: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80',
+    title: 'Echoes of Kyoto',
+    category: 'Documentary',
+    client: 'Heritage Preservation Trust',
+    year: '2022',
+    tagline: 'Generations of master sword-smiths preserving centuries-old metallurgy rituals.',
+    gridSpan: 'col-span-1',
+    minHeight: 'min-h-[360px]',
+    aspectClass: 'aspect-[4/3]',
+    masonryHeight: 'h-[350px]',
+  },
+  {
+    id: 30,
+    url: 'https://player.vimeo.com/video/179859217?autoplay=1',
+    thumbnail: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=1200&q=80',
+    title: 'Lumina Core',
+    category: 'Brand Identity',
+    client: 'Helios Quantum Computing',
+    year: '2022',
+    tagline: 'Quantum coherence visualized through laser caustics and kinetic sculpture.',
+    gridSpan: 'col-span-1 md:col-span-2 lg:col-span-2',
+    minHeight: 'min-h-[390px]',
+    aspectClass: 'aspect-[16/9]',
+    masonryHeight: 'h-[410px]',
+  },
+  {
+    id: 31,
+    url: 'https://player.vimeo.com/video/1153483144?autoplay=1',
+    thumbnail: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80',
+    title: 'Velvet & Stone',
+    category: 'Architecture Film',
+    client: 'Milano Salone Del Mobile',
+    year: '2022',
+    tagline: 'Sculptural stone monoliths and raw plaster textures in cinematic dialogue.',
+    gridSpan: 'col-span-1',
+    minHeight: 'min-h-[460px] lg:min-h-[500px]',
+    aspectClass: 'aspect-[3/4]',
+    masonryHeight: 'h-[460px]',
+  },
+  {
+    id: 32,
+    url: 'https://player.vimeo.com/video/76979871?autoplay=1',
+    thumbnail: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80',
+    title: 'Supernova Live',
+    category: 'Motion Graphics',
+    client: 'Tomorrowland Festival',
+    year: '2022',
+    tagline: 'Massive stadium LED holographic takeover synchronized to 140 BPM pyro cues.',
+    gridSpan: 'col-span-1 md:col-span-2 lg:col-span-2',
+    minHeight: 'min-h-[440px] lg:min-h-[500px]',
+    aspectClass: 'aspect-[16/10]',
+    masonryHeight: 'h-[530px]',
+    featured: true,
+  },
 ];
 
 const categories = [
   { id: 'all', label: 'All Projects' },
   { id: 'Brand Film', label: 'Brand Films' },
-  { id: 'Product Film', label: 'Product Films' },
   { id: 'Commercial', label: 'Commercials' },
+  { id: 'Product Film', label: 'Product Films' },
   { id: 'Documentary', label: 'Documentaries' },
-  { id: 'Motion Graphics', label: 'Motion' },
+  { id: 'Architecture Film', label: 'Architecture' },
+  { id: 'Motion Graphics', label: 'Motion & 3D' },
+  { id: 'Fashion Film', label: 'Fashion' },
+  { id: 'VR Experience', label: 'Spatial / VR' },
 ];
 
 export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [viewMode, setViewMode] = useState<'bento' | 'masonry'>('bento');
-  const [showAll, setShowAll] = useState(false);
   const [activeVideo, setActiveVideo] = useState<Project | null>(null);
   const navigate = useNavigate();
 
@@ -273,28 +502,23 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
       ? projectsData
       : projectsData.filter((p) => p.category === selectedCategory);
 
-  // If viewing all categories and showAll is false, show curated 8 items
-  const displayedProjects =
-    selectedCategory === 'all' && !showAll
-      ? filteredProjects.slice(0, 8)
-      : filteredProjects;
-
   return (
     <div className="min-h-screen bg-[#0B0E17] text-white overflow-x-hidden pt-28 pb-20">
-      {/* Top Header Row with Curated Project Status */}
+      {/* Top Header Row with Extensive Works Count */}
       <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 pt-4 pb-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-8">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-white/10 pb-8">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <span className="text-[#60A5FA] text-xs font-poppins font-semibold tracking-[0.3em] uppercase">
-                Portfolio Showcase
+              <span className="text-[#60A5FA] text-xs font-poppins font-semibold tracking-[0.3em] uppercase flex items-center gap-1.5">
+                <Film className="w-3.5 h-3.5 text-[#2563FF]" />
+                <span>Complete Archives</span>
               </span>
-              <span className="px-2.5 py-0.5 rounded-full bg-[#2563FF]/15 border border-[#2563FF]/30 text-[#60A5FA] text-[11px] font-poppins font-medium">
-                {displayedProjects.length} of {filteredProjects.length} Projects
+              <span className="px-3 py-0.5 rounded-full bg-[#2563FF]/15 border border-[#2563FF]/30 text-[#60A5FA] text-xs font-poppins font-medium">
+                {filteredProjects.length} Projects Available
               </span>
             </div>
             <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold font-barlow text-white tracking-tight">
-              Selected Work
+              Our Works
             </h1>
           </div>
 
@@ -304,10 +528,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
               {categories.map((cat) => (
                 <button
                   key={cat.id}
-                  onClick={() => {
-                    setSelectedCategory(cat.id);
-                    setShowAll(true); // Automatically show all matching projects when a category is selected
-                  }}
+                  onClick={() => setSelectedCategory(cat.id)}
                   className={`px-4 py-2 rounded-full text-xs font-poppins font-medium tracking-wider uppercase transition-all duration-300 cursor-pointer ${
                     selectedCategory === cat.id
                       ? 'bg-[#2563FF] text-white shadow-[0_0_15px_rgba(37,99,255,0.4)] border border-[#2563FF]'
@@ -347,20 +568,20 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
       {/* Dynamic Proportions Showcase Section */}
       <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6">
         {viewMode === 'bento' ? (
-          /* BENTO MOSAIC VIEW: Varied 2-col wide landscape, 1-col tall portrait, and standard cards */
+          /* BENTO MOSAIC VIEW: All 32 projects in varied 2-col landscape, 1-col tall portrait, and standard cards */
           <motion.div
             layout
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8 w-full auto-rows-[minmax(340px,auto)]"
           >
             <AnimatePresence>
-              {displayedProjects.map((project, idx) => (
+              {filteredProjects.map((project, idx) => (
                 <motion.div
                   layout
                   key={project.id}
                   initial={{ opacity: 0, y: 25 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.45, delay: idx * 0.05 }}
+                  transition={{ duration: 0.45, delay: (idx % 8) * 0.04 }}
                   onClick={() => setActiveVideo(project)}
                   className={`group relative rounded-3xl overflow-hidden cursor-pointer bg-[#0F1628] border border-[#141A2B] hover:border-[#2563FF]/60 transition-all duration-500 shadow-2xl flex flex-col justify-between ${project.gridSpan} ${project.minHeight}`}
                 >
@@ -404,7 +625,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                       {project.title}
                     </h3>
 
-                    {/* Tagline shows on wide cards or on hover */}
+                    {/* Tagline blurb */}
                     <p className="text-xs sm:text-sm text-white/70 font-poppins leading-relaxed line-clamp-2 max-w-xl">
                       {project.tagline}
                     </p>
@@ -426,12 +647,12 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
         ) : (
           /* MASONRY VIEW: True CSS Multi-Column flow with varied heights */
           <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 lg:gap-8 space-y-6 lg:space-y-8 w-full">
-            {displayedProjects.map((project, idx) => (
+            {filteredProjects.map((project, idx) => (
               <motion.div
                 key={project.id}
                 initial={{ opacity: 0, y: 25 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.45, delay: idx * 0.04 }}
+                transition={{ duration: 0.45, delay: (idx % 8) * 0.04 }}
                 onClick={() => setActiveVideo(project)}
                 className={`break-inside-avoid group relative rounded-3xl overflow-hidden cursor-pointer bg-[#0F1628] border border-[#141A2B] hover:border-[#2563FF]/60 transition-all duration-500 shadow-2xl flex flex-col justify-between ${project.masonryHeight}`}
               >
@@ -482,31 +703,6 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                 </div>
               </motion.div>
             ))}
-          </div>
-        )}
-
-        {/* Curated View Toggle (Solves "So many work is there") */}
-        {selectedCategory === 'all' && (
-          <div className="mt-14 text-center">
-            {!showAll ? (
-              <button
-                onClick={() => setShowAll(true)}
-                className="inline-flex items-center gap-3 px-10 py-4 bg-[#0F1628] hover:bg-[#2563FF] text-white rounded-full border border-white/15 hover:border-[#2563FF] text-xs sm:text-sm font-poppins font-semibold uppercase tracking-wider transition-all duration-300 hover:scale-105 shadow-xl cursor-pointer group"
-              >
-                <span>Load Remaining Projects ({projectsData.length - 8} More)</span>
-                <ChevronDown className="w-4 h-4 text-[#60A5FA] group-hover:text-white group-hover:translate-y-0.5 transition-all" />
-              </button>
-            ) : (
-              <button
-                onClick={() => {
-                  setShowAll(false);
-                  window.scrollTo({ top: 300, behavior: 'smooth' });
-                }}
-                className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/5 hover:bg-white/10 text-white/75 hover:text-white rounded-full border border-white/10 text-xs font-poppins font-medium uppercase tracking-wider transition-all cursor-pointer"
-              >
-                <span>Show Curated View (8 Projects)</span>
-              </button>
-            )}
           </div>
         )}
       </section>
