@@ -1,10 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-  --color-alpha: #363636;
-  --color-beta: #248A61;
-  --color-tango: #e3d9d1;
-  --color-zigma: #9ac7b3;
+  /* Exact Innowize Digital Color Palette from Brand Spec */
+  --color-midnight: #0B0E17;
+  --color-deepnavy: #0F1628;
+  --color-slate: #141A2B;
+  --color-electric: #2563FF;
+  --color-brightblue: #3B82F6;
+  --color-softblue: #60A5FA;
+
+  /* Aliases mapped for components */
+  --color-alpha: #0B0E17;       /* Midnight background */
+  --color-beta: #2563FF;        /* Electric Blue primary accent */
+  --color-zigma: #3B82F6;       /* Bright Blue secondary */
+  --color-tango: #FFFFFF;       /* Crisp White typography */
 
   --font-barlow: 'Barlow Condensed', sans-serif;
   --font-paytone: 'Paytone One', system-ui, -apple-system, sans-serif;
@@ -22,14 +31,15 @@
   html {
     scroll-behavior: smooth;
     font-family: 'Poppins', sans-serif;
-    background-color: #363636;
-    color: #e3d9d1;
+    background-color: #0B0E17;
+    color: #FFFFFF;
   }
 
   body {
     overflow-x: hidden;
     margin: 0;
     padding: 0;
+    background-color: #0B0E17;
   }
 }
 
@@ -38,12 +48,12 @@
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #2b2b2b;
+  background: #0B0E17;
 }
 ::-webkit-scrollbar-thumb {
-  background: #248A61;
+  background: #2563FF;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #9ac7b3;
+  background: #3B82F6;
 }

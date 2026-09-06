@@ -168,7 +168,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-3.5 px-6 rounded-xl bg-beta hover:bg-[#1e7250] text-white font-medium text-sm transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-beta/20 cursor-pointer disabled:opacity-50"
+                  className="w-full py-3.5 px-6 rounded-xl bg-[#2563FF] hover:bg-[#3B82F6] text-white font-medium text-sm transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-[#2563FF]/30 cursor-pointer disabled:opacity-50"
                 >
                   {isSubmitting ? (
                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -184,13 +184,13 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
               {/* Divider */}
               <div className="flex items-center gap-4 my-5">
                 <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                <span className="text-tango/40 text-xs font-poppins uppercase tracking-wider">or</span>
+                <span className="text-white/40 text-xs font-poppins uppercase tracking-wider">or</span>
                 <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
               </div>
 
               {/* WhatsApp Quick Connect */}
               <a
-                href="https://wa.me/919876543210?text=Hello!%20I%20would%20like%20to%20discuss%20a%20project."
+                href="https://wa.me/919061717000?text=Hello!%20I%20would%20like%20to%20discuss%20a%20project."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-3 px-4 rounded-xl bg-[#25D366]/15 hover:bg-[#25D366]/25 border border-[#25D366]/30 text-[#25D366] text-xs font-medium flex items-center justify-center gap-2 transition-all duration-300"

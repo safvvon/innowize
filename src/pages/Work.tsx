@@ -192,7 +192,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
       : projectsData.filter((p) => p.category === selectedCategory);
 
   return (
-    <div ref={pageRef} className="min-h-screen bg-tango overflow-x-hidden pt-20">
+    <div ref={pageRef} className="min-h-screen bg-[#0B0E17] text-white overflow-x-hidden pt-20">
       {/* Hero Section */}
       <section
         ref={heroRef}
@@ -205,13 +205,13 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
         <div className="absolute inset-0 flex flex-col justify-center items-center pointer-events-none overflow-hidden">
           <div
             ref={text1}
-            className="text-[25vw] font-black italic text-alpha/5 uppercase font-barlow whitespace-nowrap will-change-transform"
+            className="text-[25vw] font-black italic text-white/[0.04] uppercase font-barlow whitespace-nowrap will-change-transform"
           >
             PORTFOLIO
           </div>
           <div
             ref={text2}
-            className="text-[25vw] font-black italic text-alpha/5 uppercase font-barlow whitespace-nowrap will-change-transform"
+            className="text-[25vw] font-black italic text-white/[0.04] uppercase font-barlow whitespace-nowrap will-change-transform"
           >
             SHOWCASE
           </div>
@@ -219,7 +219,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
 
         <div className="relative z-10 max-w-4xl mx-auto text-center px-6">
           <motion.span
-            className="inline-block text-beta text-xs md:text-sm font-semibold tracking-[0.3em] uppercase mb-6"
+            className="inline-block text-[#60A5FA] text-xs md:text-sm font-semibold tracking-[0.3em] uppercase mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -227,16 +227,16 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
             Selected Works
           </motion.span>
           <motion.h1
-            className="text-5xl sm:text-7xl md:text-8xl font-black italic text-alpha uppercase font-barlow leading-tight mb-8"
+            className="text-5xl sm:text-7xl md:text-8xl font-black italic text-white uppercase font-barlow leading-tight mb-8"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
             Stories That <br />
-            <span className="text-beta">Inspire Action</span>
+            <span className="text-[#2563FF]">Inspire Action</span>
           </motion.h1>
           <motion.p
-            className="text-alpha/70 text-base md:text-xl font-poppins max-w-2xl mx-auto leading-relaxed"
+            className="text-white/70 text-base md:text-xl font-poppins max-w-2xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
@@ -247,7 +247,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
       </section>
 
       {/* Filter and View Toggle Controls */}
-      <section className="relative z-20 max-w-7xl mx-auto px-6 md:px-12 py-8 flex flex-col md:flex-row items-center justify-between gap-6 border-b border-alpha/10">
+      <section className="relative z-20 max-w-7xl mx-auto px-6 md:px-12 py-8 flex flex-col md:flex-row items-center justify-between gap-6 border-b border-white/10">
         {/* Category Pills */}
         <div className="flex flex-wrap items-center gap-2">
           {categories.map((cat) => (
@@ -256,8 +256,8 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
               onClick={() => setSelectedCategory(cat.id)}
               className={`px-5 py-2.5 rounded-full text-xs font-poppins font-medium tracking-wider uppercase transition-all duration-300 cursor-pointer ${
                 selectedCategory === cat.id
-                  ? 'bg-alpha text-tango shadow-md'
-                  : 'bg-white/40 text-alpha/70 hover:bg-white/70 hover:text-alpha'
+                  ? 'bg-[#2563FF] text-white shadow-[0_0_15px_rgba(37,99,255,0.4)] border border-[#2563FF]'
+                  : 'bg-[#0F1628] text-white/70 hover:bg-[#141A2B] hover:text-white border border-[#141A2B]'
               }`}
             >
               {cat.label}
@@ -266,11 +266,11 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
         </div>
 
         {/* View Mode Toggle */}
-        <div className="flex items-center gap-2 bg-white/30 p-1 rounded-full border border-alpha/10">
+        <div className="flex items-center gap-2 bg-[#0F1628] p-1 rounded-full border border-[#141A2B]">
           <button
             onClick={() => setViewMode('masonry')}
             className={`p-2 rounded-full transition-all duration-200 cursor-pointer ${
-              viewMode === 'masonry' ? 'bg-alpha text-tango' : 'text-alpha/50 hover:text-alpha'
+              viewMode === 'masonry' ? 'bg-[#2563FF] text-white' : 'text-white/50 hover:text-white'
             }`}
             title="Masonry View"
           >
@@ -279,7 +279,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
           <button
             onClick={() => setViewMode('grid')}
             className={`p-2 rounded-full transition-all duration-200 cursor-pointer ${
-              viewMode === 'grid' ? 'bg-alpha text-tango' : 'text-alpha/50 hover:text-alpha'
+              viewMode === 'grid' ? 'bg-[#2563FF] text-white' : 'text-white/50 hover:text-white'
             }`}
             title="Grid View"
           >
@@ -308,7 +308,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.4 }}
                 onClick={() => setActiveVideo(project)}
-                className={`group relative rounded-2xl overflow-hidden cursor-pointer bg-black/10 shadow-xl border border-alpha/10 ${
+                className={`group relative rounded-2xl overflow-hidden cursor-pointer bg-[#0F1628] shadow-xl border border-[#141A2B] hover:border-[#2563FF]/50 transition-all duration-300 ${
                   viewMode === 'masonry' ? project.height : 'h-[420px]'
                 }`}
               >
@@ -320,22 +320,22 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                 />
 
                 {/* Dark Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E17]/95 via-[#0B0E17]/40 to-transparent opacity-85 group-hover:opacity-95 transition-opacity duration-300" />
 
                 {/* Play Button Icon */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 rounded-full bg-beta/90 text-white flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-16 h-16 rounded-full bg-[#2563FF]/90 text-white flex items-center justify-center shadow-[0_0_25px_rgba(37,99,255,0.6)] group-hover:scale-110 transition-transform duration-300">
                     <Play className="w-6 h-6 fill-current ml-1" />
                   </div>
                 </div>
 
                 {/* Card Meta Content */}
                 <div className="absolute bottom-0 inset-x-0 p-6 flex flex-col justify-end text-left">
-                  <div className="flex items-center justify-between text-xs font-poppins text-zigma font-semibold tracking-wider uppercase mb-1">
+                  <div className="flex items-center justify-between text-xs font-poppins text-[#60A5FA] font-semibold tracking-wider uppercase mb-1">
                     <span>{project.category}</span>
                     <span>{project.year}</span>
                   </div>
-                  <h3 className="text-2xl font-bold font-barlow text-white mb-1 group-hover:text-zigma transition-colors">
+                  <h3 className="text-2xl font-bold font-barlow text-white mb-1 group-hover:text-[#60A5FA] transition-colors">
                     {project.title}
                   </h3>
                   <p className="text-xs font-poppins text-white/70">Client: {project.client}</p>

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { InnowizeLogo } from './InnowizeLogo';
 
 interface HeaderProps {
   onOpenContact: () => void;
@@ -58,73 +59,62 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
+  const navLinks = [
+    { name: 'HOME', path: '/' },
+    { name: 'ABOUT', path: '/about' },
+    { name: 'SERVICES', path: '/services' },
+    { name: 'WORK', path: '/work' },
+    { name: 'CONTACT', path: '/contact' },
+  ];
+
   return (
     <>
       {/* Full-width Glassy Navbar (Right to Left Side) */}
       <header
         className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
           scrolled
-            ? 'bg-[#2b2b2b]/80 backdrop-blur-2xl border-b border-white/15 shadow-[0_10px_35px_rgba(0,0,0,0.4)] py-3 md:py-3.5'
-            : 'bg-[#363636]/60 backdrop-blur-xl border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.2)] py-4 md:py-4.5'
+            ? 'bg-[#0B0E17]/85 backdrop-blur-2xl border-b border-white/10 shadow-[0_10px_35px_rgba(0,0,0,0.5)] py-3 md:py-3.5'
+            : 'bg-[#0F1628]/60 backdrop-blur-xl border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.25)] py-4 md:py-4.5'
         }`}
       >
-        {/* Subtle top edge shimmer */}
-        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-beta/50 to-transparent pointer-events-none" />
+        {/* Subtle top edge shimmer line in electric blue */}
+        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#2563FF]/60 to-transparent pointer-events-none" />
 
         <nav className="max-w-[1440px] mx-auto w-full flex items-center justify-between px-6 md:px-12">
           {/* Logo on Left */}
           <Link to="/" className="flex-shrink-0 relative z-50 group flex items-center">
-            <img
-              src="/images/logo.png"
-              alt="Noozi Productions"
-              className="h-8 md:h-9 object-contain transition-transform duration-500 group-hover:scale-105"
-            />
+            <InnowizeLogo className="h-8 md:h-9" />
           </Link>
 
-          {/* Desktop Navigation Links in Center */}
+          {/* Desktop Navigation Links in Center with HOME */}
           <div className="hidden lg:flex items-center">
-            <ul className="flex items-center space-x-10 text-white/90 text-xs font-semibold tracking-[0.18em] font-poppins">
-              <li>
-                <Link
-                  to="/services"
-                  className="relative hover:text-beta transition-colors duration-300 after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:w-0 after:h-[1.5px] after:bg-beta hover:after:w-full after:transition-all after:duration-300"
-                >
-                  SERVICES
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/work"
-                  className="relative hover:text-beta transition-colors duration-300 after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:w-0 after:h-[1.5px] after:bg-beta hover:after:w-full after:transition-all after:duration-300"
-                >
-                  WORK
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/about"
-                  className="relative hover:text-beta transition-colors duration-300 after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:w-0 after:h-[1.5px] after:bg-beta hover:after:w-full after:transition-all after:duration-300"
-                >
-                  ABOUT
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/contact"
-                  className="relative hover:text-beta transition-colors duration-300 after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:w-0 after:h-[1.5px] after:bg-beta hover:after:w-full after:transition-all after:duration-300"
-                >
-                  CONTACT
-                </Link>
-              </li>
+            <ul className="flex items-center space-x-8 xl:space-x-10 text-white/90 text-xs font-semibold tracking-[0.18em] font-poppins">
+              {navLinks.map((link) => {
+                const isActive = location.pathname === link.path;
+                return (
+                  <li key={link.name}>
+                    <Link
+                      to={link.path}
+                      className={`relative transition-colors duration-300 after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:h-[2px] after:transition-all after:duration-300 ${
+                        isActive
+                          ? 'text-[#60A5FA] after:w-full after:bg-[#2563FF]'
+                          : 'hover:text-[#60A5FA] after:w-0 hover:after:w-full after:bg-[#2563FF]'
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
           {/* Right Action: Let's Talk CTA & Mobile Hamburger */}
           <div className="flex items-center gap-4">
-            {/* Interactive Eyeball CTA Button */}
+            {/* Interactive Eyeball CTA Button in Electric Blue */}
             <button
               onClick={onOpenContact}
-              className="relative flex items-center gap-3 bg-gradient-to-r from-beta to-[#1e7250] hover:from-[#1e7250] hover:to-beta shadow-[0_4px_20px_rgba(36,138,97,0.4)] hover:shadow-[0_6px_25px_rgba(36,138,97,0.6)] transition-all duration-300 ease-out rounded-full pl-2 pr-6 py-2 group overflow-hidden border border-white/10 cursor-pointer"
+              className="relative flex items-center gap-3 bg-gradient-to-r from-[#2563FF] to-[#1D4ED8] hover:from-[#1D4ED8] hover:to-[#2563FF] shadow-[0_4px_20px_rgba(37,99,255,0.4)] hover:shadow-[0_6px_25px_rgba(37,99,255,0.6)] transition-all duration-300 ease-out rounded-full pl-2 pr-6 py-2 group overflow-hidden border border-white/10 cursor-pointer"
             >
               <div className="absolute inset-x-0 top-0 h-[40%] bg-gradient-to-b from-white/30 to-transparent pointer-events-none rounded-t-full" />
               <div
@@ -167,7 +157,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+              className="fixed inset-0 bg-black/70 backdrop-blur-sm"
             />
 
             {/* Drawer Panel: Right to Left Side */}
@@ -176,11 +166,11 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 260 }}
-              className="fixed top-0 right-0 bottom-0 w-full sm:w-80 bg-[#242424]/90 backdrop-blur-2xl border-l border-white/10 p-8 flex flex-col justify-between shadow-2xl z-50"
+              className="fixed top-0 right-0 bottom-0 w-full sm:w-80 bg-[#0F1628]/95 backdrop-blur-2xl border-l border-white/10 p-8 flex flex-col justify-between shadow-2xl z-50"
             >
               <div>
                 <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-8">
-                  <img src="/images/logo.png" alt="Noozi" className="h-8 object-contain" />
+                  <InnowizeLogo className="h-8" />
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-white cursor-pointer"
@@ -190,62 +180,23 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
                 </div>
 
                 <ul className="flex flex-col gap-6 text-white font-poppins text-lg font-medium tracking-wider">
-                  <motion.li
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 }}
-                  >
-                    <Link
-                      to="/services"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="hover:text-beta transition-colors flex items-center justify-between"
+                  {navLinks.map((link, idx) => (
+                    <motion.li
+                      key={link.name}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.05 * (idx + 1) }}
                     >
-                      <span>SERVICES</span>
-                      <span className="text-xs text-white/30">01</span>
-                    </Link>
-                  </motion.li>
-                  <motion.li
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.15 }}
-                  >
-                    <Link
-                      to="/work"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="hover:text-beta transition-colors flex items-center justify-between"
-                    >
-                      <span>WORK</span>
-                      <span className="text-xs text-white/30">02</span>
-                    </Link>
-                  </motion.li>
-                  <motion.li
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2 }}
-                  >
-                    <Link
-                      to="/about"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="hover:text-beta transition-colors flex items-center justify-between"
-                    >
-                      <span>ABOUT</span>
-                      <span className="text-xs text-white/30">03</span>
-                    </Link>
-                  </motion.li>
-                  <motion.li
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.25 }}
-                  >
-                    <Link
-                      to="/contact"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="hover:text-beta transition-colors flex items-center justify-between"
-                    >
-                      <span>CONTACT</span>
-                      <span className="text-xs text-white/30">04</span>
-                    </Link>
-                  </motion.li>
+                      <Link
+                        to={link.path}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="hover:text-[#3B82F6] transition-colors flex items-center justify-between"
+                      >
+                        <span>{link.name}</span>
+                        <span className="text-xs text-white/30">0{idx + 1}</span>
+                      </Link>
+                    </motion.li>
+                  ))}
                 </ul>
               </div>
 
@@ -253,7 +204,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
+                transition={{ delay: 0.35 }}
                 className="pt-6 border-t border-white/10"
               >
                 <button
@@ -261,7 +212,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
                     setIsMobileMenuOpen(false);
                     onOpenContact();
                   }}
-                  className="w-full bg-beta hover:bg-[#1e7250] text-white py-4 rounded-xl font-paytone tracking-wider uppercase text-sm shadow-[0_0_25px_rgba(36,138,97,0.4)] cursor-pointer"
+                  className="w-full bg-[#2563FF] hover:bg-[#1D4ED8] text-white py-4 rounded-xl font-paytone tracking-wider uppercase text-sm shadow-[0_0_25px_rgba(37,99,255,0.4)] cursor-pointer"
                 >
                   Let's Talk
                 </button>

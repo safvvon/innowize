@@ -16,7 +16,7 @@ interface ValueCardProps {
 
 const ValueCard: React.FC<ValueCardProps> = ({ icon, title, description, index }) => (
   <motion.div
-    className="group relative bg-alpha/[0.03] hover:bg-alpha/[0.07] border border-alpha/[0.08] hover:border-alpha/[0.18] rounded-2xl p-8 cursor-pointer transition-all duration-500 overflow-hidden"
+    className="group relative bg-[#0F1628] hover:bg-[#141A2B] border border-[#141A2B] hover:border-[#2563FF]/50 rounded-2xl p-8 cursor-pointer transition-all duration-500 overflow-hidden shadow-lg"
     initial={{ opacity: 0, y: 50 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: '-60px' }}
@@ -27,18 +27,18 @@ const ValueCard: React.FC<ValueCardProps> = ({ icon, title, description, index }
       className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
       style={{
         background:
-          'radial-gradient(circle at 50% 0%, rgba(36, 138, 97, 0.06) 0%, transparent 70%)',
+          'radial-gradient(circle at 50% 0%, rgba(37, 99, 255, 0.15) 0%, transparent 70%)',
       }}
     />
-    <div className="mb-5 w-12 h-12 rounded-xl bg-alpha/[0.06] group-hover:bg-beta/10 flex items-center justify-center transition-colors duration-500">
-      <span className="text-alpha/50 group-hover:text-beta transition-colors duration-500">
+    <div className="mb-5 w-12 h-12 rounded-xl bg-[#2563FF]/10 group-hover:bg-[#2563FF]/20 flex items-center justify-center transition-colors duration-500 border border-[#2563FF]/20">
+      <span className="text-[#60A5FA] group-hover:text-[#2563FF] transition-colors duration-500">
         {icon}
       </span>
     </div>
-    <h3 className="text-xl font-barlow font-bold text-alpha uppercase tracking-wide mb-3 group-hover:text-beta/90 transition-colors duration-500">
+    <h3 className="text-xl font-barlow font-bold text-white uppercase tracking-wide mb-3 group-hover:text-[#60A5FA] transition-colors duration-500">
       {title}
     </h3>
-    <p className="text-sm font-poppins text-alpha/60 leading-relaxed group-hover:text-alpha/80 transition-colors duration-500">
+    <p className="text-sm font-poppins text-white/70 leading-relaxed group-hover:text-white/90 transition-colors duration-500">
       {description}
     </p>
   </motion.div>
@@ -82,11 +82,11 @@ const Counter: React.FC<{
       viewport={{ once: true, margin: '-80px' }}
       transition={{ delay: delay / 1000, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
     >
-      <span className="text-5xl md:text-7xl font-barlow font-black text-alpha tracking-tight">
+      <span className="text-5xl md:text-7xl font-barlow font-black text-white tracking-tight">
         {count}
         {suffix}
       </span>
-      <span className="text-xs md:text-sm font-poppins text-alpha/50 tracking-[0.2em] uppercase font-medium">
+      <span className="text-xs md:text-sm font-poppins text-white/50 tracking-[0.2em] uppercase font-medium">
         {label}
       </span>
     </motion.div>
@@ -178,7 +178,7 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
   ];
 
   return (
-    <div ref={pageRef} className="min-h-screen bg-tango overflow-x-hidden pt-20">
+    <div ref={pageRef} className="min-h-screen bg-[#0B0E17] text-white overflow-x-hidden pt-20">
       {/* Hero with Parallax Typography */}
       <motion.section
         ref={heroRef}
@@ -192,19 +192,19 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
         <div className="absolute inset-0 flex flex-col justify-center items-center pointer-events-none overflow-hidden">
           <div
             ref={word1}
-            className="text-[20vw] font-black italic text-alpha/5 uppercase font-barlow whitespace-nowrap will-change-transform"
+            className="text-[20vw] font-black italic text-white/[0.03] uppercase font-barlow whitespace-nowrap will-change-transform"
           >
             CREATIVE
           </div>
           <div
             ref={word2}
-            className="text-[20vw] font-black italic text-alpha/5 uppercase font-barlow whitespace-nowrap will-change-transform"
+            className="text-[20vw] font-black italic text-white/[0.03] uppercase font-barlow whitespace-nowrap will-change-transform"
           >
             AGENCY
           </div>
           <div
             ref={word3}
-            className="text-[20vw] font-black italic text-alpha/5 uppercase font-barlow whitespace-nowrap will-change-transform"
+            className="text-[20vw] font-black italic text-white/[0.03] uppercase font-barlow whitespace-nowrap will-change-transform"
           >
             EXPERIENCES
           </div>
@@ -212,7 +212,7 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
 
         <div className="relative z-10 max-w-4xl mx-auto text-center px-6">
           <motion.span
-            className="inline-block text-beta text-xs md:text-sm font-semibold tracking-[0.3em] uppercase mb-6"
+            className="inline-block text-[#60A5FA] text-xs md:text-sm font-semibold tracking-[0.3em] uppercase mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -220,16 +220,16 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
             About The Studio
           </motion.span>
           <motion.h1
-            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black italic text-alpha uppercase font-barlow leading-tight mb-8"
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black italic text-white uppercase font-barlow leading-tight mb-8"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
             Where Bold Ideas <br />
-            <span className="text-beta">Come to Life</span>
+            <span className="text-[#2563FF]">Come to Life</span>
           </motion.h1>
           <motion.p
-            className="text-alpha/70 text-base md:text-xl font-poppins max-w-2xl mx-auto leading-relaxed"
+            className="text-white/70 text-base md:text-xl font-poppins max-w-2xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
@@ -244,18 +244,18 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             <div className="lg:col-span-5">
-              <span className="text-beta text-xs md:text-sm font-semibold tracking-[0.25em] uppercase mb-4 block">
+              <span className="text-[#60A5FA] text-xs md:text-sm font-semibold tracking-[0.25em] uppercase mb-4 block">
                 Our Mission
               </span>
-              <h2 className="text-3xl md:text-5xl font-black italic text-alpha uppercase font-barlow leading-tight">
+              <h2 className="text-3xl md:text-5xl font-black italic text-white uppercase font-barlow leading-tight">
                 Crafting visual experiences that move people.
               </h2>
             </div>
-            <div className="lg:col-span-7 space-y-6 text-alpha/70 font-poppins text-base md:text-lg leading-relaxed">
+            <div className="lg:col-span-7 space-y-6 text-white/70 font-poppins text-base md:text-lg leading-relaxed">
               <p>
                 We believe in the power of creativity to transform businesses and inspire audiences. Our mission is to craft visual experiences that don't just look good—they tell stories, evoke emotions, and drive results.
               </p>
-              <p className="text-sm md:text-base text-alpha/60">
+              <p className="text-sm md:text-base text-white/60">
                 Every project is an opportunity to push boundaries, challenge conventions, and create something truly extraordinary.
               </p>
             </div>
@@ -264,13 +264,13 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
       </section>
 
       {/* Values Section */}
-      <section className="relative py-24 md:py-32 px-6 bg-alpha/[0.02] border-y border-alpha/10">
+      <section className="relative py-24 md:py-32 px-6 bg-[#0F1628]/40 border-y border-white/10">
         <div className="max-w-6xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-beta text-xs md:text-sm font-semibold tracking-[0.25em] uppercase mb-3 block">
+            <span className="text-[#60A5FA] text-xs md:text-sm font-semibold tracking-[0.25em] uppercase mb-3 block">
               What Drives Us
             </span>
-            <h2 className="text-3xl md:text-5xl font-black italic text-alpha uppercase font-barlow leading-tight">
+            <h2 className="text-3xl md:text-5xl font-black italic text-white uppercase font-barlow leading-tight">
               Our Core Values
             </h2>
           </div>
@@ -297,7 +297,7 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
           <Counter end={45} suffix="+" label="Happy Clients" delay={400} />
         </div>
         <motion.div
-          className="max-w-4xl mx-auto h-px bg-gradient-to-r from-transparent via-alpha/15 to-transparent mt-16"
+          className="max-w-4xl mx-auto h-px bg-gradient-to-r from-transparent via-white/15 to-transparent mt-16"
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
           viewport={{ once: true }}
@@ -309,17 +309,17 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
       <section className="relative py-24 md:py-32 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <motion.h2
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black italic text-alpha uppercase font-barlow leading-tight mb-6"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black italic text-white uppercase font-barlow leading-tight mb-6"
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
             READY TO CREATE <br />
-            <span className="text-beta">TOGETHER?</span>
+            <span className="text-[#2563FF]">TOGETHER?</span>
           </motion.h2>
           <motion.p
-            className="text-alpha/60 text-sm md:text-base font-poppins max-w-2xl mx-auto leading-relaxed mb-10"
+            className="text-white/70 text-sm md:text-base font-poppins max-w-2xl mx-auto leading-relaxed mb-10"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
@@ -336,9 +336,8 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
           >
             <button
               onClick={onOpenContact ? onOpenContact : () => navigate('/contact')}
-              className="group relative px-8 py-4 rounded-full bg-alpha text-tango text-sm font-poppins font-semibold tracking-[0.1em] uppercase overflow-hidden transition-all duration-500 w-full sm:w-auto cursor-pointer"
+              className="group relative px-8 py-4 rounded-full bg-[#2563FF] hover:bg-[#3B82F6] text-white text-sm font-poppins font-semibold tracking-[0.1em] uppercase overflow-hidden transition-all duration-300 w-full sm:w-auto cursor-pointer shadow-[0_0_25px_rgba(37,99,255,0.5)] border border-[#60A5FA]/40"
             >
-              <span className="absolute inset-0 bg-beta translate-y-full group-hover:translate-y-0 transition-transform duration-500 rounded-full" />
               <span className="relative z-10 flex items-center justify-center gap-2">
                 Get In Touch
                 <span className="transform group-hover:translate-x-1 transition-transform">→</span>
@@ -346,7 +345,7 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
             </button>
             <button
               onClick={() => navigate('/work')}
-              className="group px-8 py-4 rounded-full border border-alpha/20 hover:border-alpha/40 text-alpha text-sm font-poppins font-medium tracking-[0.1em] uppercase transition-all duration-500 w-full sm:w-auto cursor-pointer"
+              className="group px-8 py-4 rounded-full border border-white/20 hover:border-white/50 text-white text-sm font-poppins font-medium tracking-[0.1em] uppercase transition-all duration-300 w-full sm:w-auto cursor-pointer bg-[#0F1628]/60 hover:bg-[#0F1628]"
             >
               <span className="flex items-center justify-center gap-2">
                 View Our Work

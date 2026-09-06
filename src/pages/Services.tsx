@@ -108,44 +108,44 @@ const ServiceCard: React.FC<{ service: ServiceItem; index: number }> = ({
       viewport={{ once: true, margin: '-100px' }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
       whileHover={{ y: -8 }}
-      className="group relative bg-beta/5 border border-beta/10 rounded-2xl p-6 md:p-8 hover:bg-beta/10 hover:border-beta/20 transition-all duration-500"
+      className="group relative bg-[#0F1628] border border-[#141A2B] rounded-2xl p-6 md:p-8 hover:border-[#2563FF]/50 transition-all duration-500 shadow-xl"
     >
       <div className="text-5xl md:text-6xl mb-6 group-hover:scale-110 transition-transform duration-500">
         {service.icon}
       </div>
-      <h3 className="text-2xl md:text-3xl font-bold text-tango mb-2 font-barlow">
+      <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 font-barlow">
         {service.title}
       </h3>
-      <p className="text-sm md:text-base text-zigma font-semibold uppercase tracking-wider mb-4">
+      <p className="text-sm md:text-base text-[#60A5FA] font-semibold uppercase tracking-wider mb-4 font-poppins">
         {service.subtitle}
       </p>
-      <p className="text-sm md:text-base text-tango/70 mb-6 leading-relaxed font-poppins">
+      <p className="text-sm md:text-base text-white/70 mb-6 leading-relaxed font-poppins">
         {service.description}
       </p>
-      <ul className="space-y-2">
+      <ul className="space-y-2 font-poppins">
         {service.features.map((feature, idx) => (
-          <li key={idx} className="flex items-start gap-2 text-sm text-tango/60">
-            <span className="text-beta mt-0.5">→</span>
+          <li key={idx} className="flex items-start gap-2 text-sm text-white/70">
+            <span className="text-[#2563FF] mt-0.5 font-bold">→</span>
             <span>{feature}</span>
           </li>
         ))}
       </ul>
-      <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-beta/30 transition-all duration-500 pointer-events-none" />
+      <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-[#2563FF]/30 transition-all duration-500 pointer-events-none" />
     </motion.div>
   );
 };
 
 export const Services: React.FC = () => {
   return (
-    <div className="min-h-screen bg-alpha overflow-hidden pt-20">
+    <div className="min-h-screen bg-[#0B0E17] text-white overflow-hidden pt-20">
       {/* Hero Section */}
       <section className="relative min-h-[60vh] flex items-center justify-center px-4 md:px-8 py-20 md:py-32">
         <div className="absolute inset-0 overflow-hidden">
           <motion.div
-            className="absolute inset-0 opacity-5"
+            className="absolute inset-0 opacity-10"
             style={{
               backgroundImage:
-                'radial-gradient(circle at 50% 50%, #248a61 1px, transparent 1px)',
+                'radial-gradient(circle at 50% 50%, #2563FF 1px, transparent 1px)',
               backgroundSize: '50px 50px',
             }}
             animate={{ backgroundPosition: ['0px 0px', '50px 50px'] }}
@@ -160,18 +160,18 @@ export const Services: React.FC = () => {
             transition={{ duration: 0.8 }}
           >
             <motion.span
-              className="inline-block text-zigma text-sm md:text-base font-semibold tracking-[0.3em] uppercase mb-6"
+              className="inline-block text-[#60A5FA] text-sm md:text-base font-semibold tracking-[0.3em] uppercase mb-6"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
               What We Do
             </motion.span>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-tango mb-6 font-barlow leading-tight">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 font-barlow leading-tight">
               Our Services
             </h1>
-            <p className="text-lg md:text-xl text-tango/70 max-w-3xl mx-auto leading-relaxed font-poppins">
-              From concept to creation, we craft video content that captures attention, tells your story, and drives real results on social media.
+            <p className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto leading-relaxed font-poppins">
+              From concept to creation, we craft digital experiences and content that captures attention, tells your story, and drives real results.
             </p>
           </motion.div>
         </div>
@@ -196,26 +196,26 @@ export const Services: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="bg-beta/10 border border-beta/20 rounded-3xl p-8 md:p-12 backdrop-blur-sm"
+            className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-8 md:p-12 backdrop-blur-sm shadow-2xl"
           >
-            <h2 className="text-3xl md:text-5xl font-bold text-tango mb-6 font-barlow">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 font-barlow">
               Ready to Create Something Amazing?
             </h2>
-            <p className="text-lg md:text-xl text-tango/70 mb-8 font-poppins">
-              Let's discuss your project and bring your vision to life with compelling video content.
+            <p className="text-lg md:text-xl text-white/70 mb-8 font-poppins">
+              Let's discuss your project and bring your vision to life with compelling digital experiences.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="https://wa.me/919495885632?text=Hello!%20I%20would%20like%20to%20discuss%20a%20project."
+                href="https://wa.me/919061717000?text=Hello!%20I%20would%20like%20to%20discuss%20a%20project."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-8 py-4 bg-beta text-alpha font-bold rounded-full text-sm md:text-base uppercase tracking-wider hover:bg-beta/90 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+                className="px-8 py-4 bg-[#2563FF] hover:bg-[#3B82F6] text-white font-bold rounded-full text-sm md:text-base uppercase tracking-wider transition-all duration-300 hover:scale-105 shadow-[0_0_25px_rgba(37,99,255,0.5)] border border-[#60A5FA]/30"
               >
                 Start a Project
               </a>
               <a
-                href="tel:+919495885632"
-                className="px-8 py-4 bg-transparent border-2 border-beta text-beta rounded-full font-semibold text-sm md:text-base uppercase tracking-wider hover:bg-beta hover:text-alpha transition-all duration-300 hover:scale-105"
+                href="tel:+919061717000"
+                className="px-8 py-4 bg-transparent border border-[#2563FF] text-[#60A5FA] hover:bg-[#2563FF] hover:text-white rounded-full font-semibold text-sm md:text-base uppercase tracking-wider transition-all duration-300 hover:scale-105"
               >
                 Call Us
               </a>

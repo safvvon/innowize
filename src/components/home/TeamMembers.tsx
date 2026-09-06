@@ -23,7 +23,7 @@ const team: TeamMember[] = [
     role: 'Chief Executive',
     specialty: 'Vision & Strategy',
     image: '/images/team/02.jpeg',
-    bio: "The architect of Noozi's future. Aadish bridges the gap between disruptive innovation and timeless design.",
+    bio: "The architect of Innowize's future. Aadish bridges the gap between disruptive innovation and timeless design.",
   },
   {
     name: 'Mayoora',
@@ -92,7 +92,7 @@ export const TeamMembers: React.FC = () => {
           className="absolute inset-0"
           style={{
             backgroundImage:
-              'radial-gradient(circle at 50% 50%, #248a61 1px, transparent 1px)',
+              'radial-gradient(circle at 50% 50%, #2563FF 1px, transparent 1px)',
             backgroundSize: '40px 40px',
             transform: 'translateZ(0)',
           }}
@@ -104,17 +104,17 @@ export const TeamMembers: React.FC = () => {
       <div className="relative z-10 max-w-6xl w-full px-6 md:px-12 flex flex-col items-center">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-beta/10 border border-beta/30 text-zigma text-xs font-poppins font-medium tracking-widest uppercase mb-4">
-            <Sparkles className="w-3.5 h-3.5 text-beta" />
-            <span>The Minds Behind Noozi</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#2563FF]/10 border border-[#2563FF]/30 text-[#60A5FA] text-xs font-poppins font-medium tracking-widest uppercase mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-[#2563FF]" />
+            <span>The Minds Behind Innowize</span>
           </div>
-          <h2 className="text-4xl md:text-6xl font-bold font-barlow text-tango leading-tight">
+          <h2 className="text-4xl md:text-6xl font-bold font-barlow text-white leading-tight">
             Meet the Visionaries
           </h2>
         </div>
 
         {/* Member Showcase Card */}
-        <div className="relative w-full max-w-4xl bg-white/5 border border-white/10 rounded-3xl p-6 md:p-12 backdrop-blur-xl shadow-2xl shadow-black/40 overflow-hidden">
+        <div className="relative w-full max-w-4xl bg-[#0F1628]/80 border border-white/10 rounded-3xl p-6 md:p-12 backdrop-blur-xl shadow-2xl shadow-black/40 overflow-hidden">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={currentIndex}
@@ -139,16 +139,16 @@ export const TeamMembers: React.FC = () => {
 
               {/* Bio & Details */}
               <div className="md:col-span-7 flex flex-col justify-center text-left">
-                <span className="text-xs font-poppins font-semibold uppercase tracking-[0.25em] text-zigma mb-2">
+                <span className="text-xs font-poppins font-semibold uppercase tracking-[0.25em] text-[#60A5FA] mb-2">
                   {member.specialty}
                 </span>
-                <h3 className="text-3xl md:text-5xl font-bold font-barlow text-tango mb-1">
+                <h3 className="text-3xl md:text-5xl font-bold font-barlow text-white mb-1">
                   {member.name}
                 </h3>
-                <h4 className="text-sm md:text-base font-poppins text-beta font-medium mb-6">
+                <h4 className="text-sm md:text-base font-poppins text-[#2563FF] font-medium mb-6">
                   {member.role}
                 </h4>
-                <p className="text-tango/75 text-sm md:text-base font-poppins leading-relaxed mb-8">
+                <p className="text-white/80 text-sm md:text-base font-poppins leading-relaxed mb-8">
                   "{member.bio}"
                 </p>
 
@@ -164,7 +164,7 @@ export const TeamMembers: React.FC = () => {
                         }}
                         className={`h-2 rounded-full transition-all duration-300 ${
                           i === currentIndex
-                            ? 'w-8 bg-beta'
+                            ? 'w-8 bg-[#2563FF] shadow-[0_0_12px_rgba(37,99,255,0.6)]'
                             : 'w-2 bg-white/20 hover:bg-white/40'
                         }`}
                         aria-label={`Go to slide ${i + 1}`}
@@ -175,14 +175,14 @@ export const TeamMembers: React.FC = () => {
                   <div className="flex items-center gap-3">
                     <button
                       onClick={prevMember}
-                      className="w-11 h-11 rounded-full bg-white/5 hover:bg-beta border border-white/10 flex items-center justify-center text-tango hover:text-white transition-all duration-300 cursor-pointer"
+                      className="w-11 h-11 rounded-full bg-white/5 hover:bg-[#2563FF] border border-white/10 flex items-center justify-center text-white hover:text-white transition-all duration-300 cursor-pointer shadow-md"
                       aria-label="Previous member"
                     >
                       <ChevronLeft className="w-5 h-5" />
                     </button>
                     <button
                       onClick={nextMember}
-                      className="w-11 h-11 rounded-full bg-white/5 hover:bg-beta border border-white/10 flex items-center justify-center text-tango hover:text-white transition-all duration-300 cursor-pointer"
+                      className="w-11 h-11 rounded-full bg-white/5 hover:bg-[#2563FF] border border-white/10 flex items-center justify-center text-white hover:text-white transition-all duration-300 cursor-pointer shadow-md"
                       aria-label="Next member"
                     >
                       <ChevronRight className="w-5 h-5" />

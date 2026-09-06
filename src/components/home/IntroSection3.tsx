@@ -108,18 +108,18 @@ export const IntroSection3: React.FC = () => {
   ];
 
   const bigTextStyle =
-    'text-[38vw] md:text-[15vw] leading-[0.75] font-extrabold italic text-alpha uppercase font-barlow relative';
+    'text-[38vw] md:text-[15vw] leading-[0.75] font-extrabold italic text-white/[0.07] uppercase font-barlow relative';
 
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[75vh] md:min-h-screen w-full bg-alpha overflow-visible md:overflow-hidden pt-16 md:pt-24 z-10"
+      className="relative min-h-[75vh] md:min-h-screen w-full bg-[#0B0E17] overflow-visible md:overflow-hidden pt-16 md:pt-24 z-10"
     >
       {/* Flipped Background Overlay */}
       <img
         src="/images/introbg.svg"
         alt="Intro Background Flipped"
-        className="absolute top-0 right-0 w-[160%] max-w-none z-[1] pointer-events-none scale-x-[-1] scale-y-[-1]"
+        className="absolute top-0 right-0 w-[160%] max-w-none z-[1] pointer-events-none scale-x-[-1] scale-y-[-1] opacity-20"
       />
 
       {/* Angled Rotating Video Reels Row */}
@@ -149,8 +149,7 @@ export const IntroSection3: React.FC = () => {
       <div className="absolute bottom-20 md:bottom-24 left-1/2 transform -translate-x-1/2 z-50 pointer-events-auto">
         <button
           onClick={() => navigate('/work')}
-          className="px-6 py-3 md:px-10 md:py-4 rounded-full text-sm md:text-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer"
-          style={{ backgroundColor: '#a8c5b4', color: '#2d3436' }}
+          className="px-6 py-3 md:px-10 md:py-4 rounded-full text-sm md:text-lg font-semibold tracking-wider font-poppins transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(37,99,255,0.6)] cursor-pointer bg-[#2563FF] hover:bg-[#3B82F6] text-white border border-[#60A5FA]/40"
         >
           Check out our work
         </button>

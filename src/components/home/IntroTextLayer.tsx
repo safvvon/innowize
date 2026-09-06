@@ -88,7 +88,7 @@ export const IntroTextLayer: React.FC = () => {
   }, []);
 
   const textStyle =
-    'text-[25vw] md:text-[16vw] lg:text-[15vw] leading-[0.7] md:leading-[0.65] lg:leading-[0.75] font-extrabold italic text-[#e3d9d1] uppercase font-barlow relative';
+    'text-[25vw] md:text-[16vw] lg:text-[15vw] leading-[0.7] md:leading-[0.65] lg:leading-[0.75] font-extrabold italic text-white/[0.08] uppercase font-barlow relative';
 
   return (
     <div
@@ -115,7 +115,7 @@ export const IntroTextLayer: React.FC = () => {
       </div>
       <div
         ref={r7}
-        className="w-full flex justify-start pl-[20vw] mt-4 md:mt-3 lg:mt-12 mb-2 md:mb-1 lg:mb-4 will-change-transform"
+        className="w-full flex justify-start pl-[20vw] mt-4 md:mt-3 lg:mt-12 mb-2 md:mb-1 lg:mb-4 will-change-transform opacity-30"
       >
         <svg
           width="35vw"
@@ -124,7 +124,7 @@ export const IntroTextLayer: React.FC = () => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path d="M5 25 Q 150 0 295 25 Q 150 15 5 25 Z" fill="#d5d4d3ff" />
+          <path d="M5 25 Q 150 0 295 25 Q 150 15 5 25 Z" fill="#2563FF" />
         </svg>
       </div>
     </div>

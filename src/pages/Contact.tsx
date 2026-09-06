@@ -45,15 +45,15 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-alpha overflow-hidden pt-20">
+    <div className="min-h-screen bg-[#0B0E17] text-white overflow-hidden pt-20">
       {/* Hero Section */}
       <section className="relative min-h-[50vh] flex items-center justify-center px-4 md:px-8 py-20 md:py-32">
         <div className="absolute inset-0 overflow-hidden">
           <motion.div
-            className="absolute inset-0 opacity-5"
+            className="absolute inset-0 opacity-10"
             style={{
               backgroundImage:
-                'radial-gradient(circle at 50% 50%, #248a61 1px, transparent 1px)',
+                'radial-gradient(circle at 50% 50%, #2563FF 1px, transparent 1px)',
               backgroundSize: '50px 50px',
             }}
             animate={{ backgroundPosition: ['0px 0px', '50px 50px'] }}
@@ -68,18 +68,18 @@ export const Contact: React.FC = () => {
             transition={{ duration: 0.8 }}
           >
             <motion.span
-              className="inline-block text-zigma text-sm md:text-base font-semibold tracking-[0.3em] uppercase mb-6"
+              className="inline-block text-[#60A5FA] text-sm md:text-base font-semibold tracking-[0.3em] uppercase mb-6"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
               Get In Touch
             </motion.span>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-tango mb-6 font-barlow leading-tight">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 font-barlow leading-tight">
               Let's Talk
             </h1>
-            <p className="text-lg md:text-xl text-tango/70 max-w-2xl mx-auto leading-relaxed font-poppins">
-              Ready to bring your vision to life? We'd love to hear about your project and discuss how we can help you create compelling video content.
+            <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed font-poppins">
+              We'd love to hear your vision. Let's work together to create digital experiences that inspire and drive results.
             </p>
           </motion.div>
         </div>
@@ -94,20 +94,19 @@ export const Contact: React.FC = () => {
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative bg-beta/5 border border-beta/10 rounded-3xl p-6 md:p-8 backdrop-blur-sm"
+              className="relative bg-[#0F1628] border border-[#141A2B] rounded-3xl p-6 md:p-8 backdrop-blur-sm shadow-xl"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-beta/5 via-transparent to-zigma/5 pointer-events-none rounded-3xl" />
               <div className="relative">
-                <h2 className="text-2xl md:text-3xl font-bold text-tango mb-2 font-barlow">
+                <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 font-barlow">
                   Send us a Message
                 </h2>
-                <p className="text-tango/60 text-sm md:text-base font-poppins mb-6">
+                <p className="text-white/60 text-sm md:text-base font-poppins mb-6">
                   Fill out the form below and we'll get back to you within 24 hours.
                 </p>
 
                 {submitStatus === 'success' && (
-                  <div className="mb-6 p-4 rounded-xl bg-beta/20 border border-beta/40 text-zigma text-sm flex items-center gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-beta flex-shrink-0" />
+                  <div className="mb-6 p-4 rounded-xl bg-[#2563FF]/20 border border-[#2563FF]/40 text-[#60A5FA] text-sm flex items-center gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-[#2563FF] flex-shrink-0" />
                     <span>Message sent successfully! We'll get back to you soon.</span>
                   </div>
                 )}
@@ -179,7 +178,7 @@ export const Contact: React.FC = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full py-4 px-6 rounded-xl bg-beta hover:bg-[#1e7250] text-white font-semibold text-sm uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-beta/20 cursor-pointer disabled:opacity-50"
+                    className="w-full py-4 px-6 rounded-xl bg-[#2563FF] hover:bg-[#3B82F6] text-white font-semibold text-sm uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(37,99,255,0.4)] cursor-pointer disabled:opacity-50 border border-[#60A5FA]/30"
                   >
                     {isSubmitting ? (
                       <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -202,49 +201,49 @@ export const Contact: React.FC = () => {
               className="space-y-8"
             >
               {/* Contact Information */}
-              <div className="bg-beta/5 border border-beta/10 rounded-3xl p-6 md:p-8 backdrop-blur-sm">
-                <h3 className="text-xl md:text-2xl font-bold text-tango mb-6 font-barlow">
+              <div className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-6 md:p-8 backdrop-blur-sm shadow-xl">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-6 font-barlow">
                   Contact Information
                 </h3>
-                <div className="space-y-6">
-                  <a href="mailto:nooziproductions@gmail.com" className="flex items-start gap-4 group">
-                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-beta/10 border border-beta/20 flex items-center justify-center group-hover:bg-beta/20 transition-all duration-300">
-                      <Mail className="w-5 h-5 text-beta" />
+                <div className="space-y-6 font-poppins">
+                  <a href="mailto:hello@innowize.digital" className="flex items-start gap-4 group">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-[#2563FF]/10 border border-[#2563FF]/20 flex items-center justify-center group-hover:bg-[#2563FF]/20 transition-all duration-300">
+                      <Mail className="w-5 h-5 text-[#2563FF]" />
                     </div>
                     <div>
-                      <p className="text-xs text-tango/50 uppercase tracking-wider mb-1 font-poppins">
+                      <p className="text-xs text-white/50 uppercase tracking-wider mb-1">
                         Email
                       </p>
-                      <p className="text-tango group-hover:text-beta transition-colors font-poppins text-sm md:text-base">
-                        nooziproductions@gmail.com
+                      <p className="text-white group-hover:text-[#60A5FA] transition-colors text-sm md:text-base">
+                        hello@innowize.digital
                       </p>
                     </div>
                   </a>
 
-                  <a href="tel:+919495885632" className="flex items-start gap-4 group">
-                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-beta/10 border border-beta/20 flex items-center justify-center group-hover:bg-beta/20 transition-all duration-300">
-                      <Phone className="w-5 h-5 text-beta" />
+                  <a href="tel:+919061717000" className="flex items-start gap-4 group">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-[#2563FF]/10 border border-[#2563FF]/20 flex items-center justify-center group-hover:bg-[#2563FF]/20 transition-all duration-300">
+                      <Phone className="w-5 h-5 text-[#2563FF]" />
                     </div>
                     <div>
-                      <p className="text-xs text-tango/50 uppercase tracking-wider mb-1 font-poppins">
+                      <p className="text-xs text-white/50 uppercase tracking-wider mb-1">
                         Phone
                       </p>
-                      <p className="text-tango group-hover:text-beta transition-colors font-poppins text-sm md:text-base">
-                        +91 94958 85632
+                      <p className="text-white group-hover:text-[#60A5FA] transition-colors text-sm md:text-base">
+                        +91 90617 17000
                       </p>
                     </div>
                   </a>
 
                   <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-beta/10 border border-beta/20 flex items-center justify-center">
-                      <MapPin className="w-5 h-5 text-beta" />
+                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-[#2563FF]/10 border border-[#2563FF]/20 flex items-center justify-center">
+                      <MapPin className="w-5 h-5 text-[#2563FF]" />
                     </div>
                     <div>
-                      <p className="text-xs text-tango/50 uppercase tracking-wider mb-1 font-poppins">
+                      <p className="text-xs text-white/50 uppercase tracking-wider mb-1">
                         Location
                       </p>
-                      <p className="text-tango font-poppins text-sm md:text-base">
-                        Kozhikode, Kerala, India
+                      <p className="text-white text-sm md:text-base">
+                        Kochi, Kerala, India 682030
                       </p>
                     </div>
                   </div>
@@ -252,46 +251,46 @@ export const Contact: React.FC = () => {
               </div>
 
               {/* Quick Connect Actions */}
-              <div className="bg-beta/5 border border-beta/10 rounded-3xl p-6 md:p-8 backdrop-blur-sm">
-                <h3 className="text-xl md:text-2xl font-bold text-tango mb-6 font-barlow">
+              <div className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-6 md:p-8 backdrop-blur-sm shadow-xl font-poppins">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-6 font-barlow">
                   Quick Connect
                 </h3>
                 <div className="space-y-4">
                   <a
-                    href="https://wa.me/919495885632?text=Hello!%20I%20would%20like%20to%20discuss%20a%20project."
+                    href="https://wa.me/919061717000?text=Hello!%20I%20would%20like%20to%20discuss%20a%20project."
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-3 w-full px-6 py-4 bg-beta text-alpha font-bold rounded-full text-sm uppercase tracking-wider hover:bg-beta/90 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+                    className="flex items-center justify-center gap-3 w-full px-6 py-4 bg-[#2563FF] hover:bg-[#3B82F6] text-white font-bold rounded-full text-sm uppercase tracking-wider transition-all duration-300 hover:scale-105 shadow-[0_0_25px_rgba(37,99,255,0.4)] border border-[#60A5FA]/30"
                   >
-                    <span>WhatsApp Us</span>
+                    <span>Chat on WhatsApp</span>
                   </a>
                   <a
-                    href="tel:+919495885632"
-                    className="flex items-center justify-center gap-3 w-full px-6 py-4 bg-transparent border-2 border-beta text-beta rounded-full font-semibold text-sm uppercase tracking-wider hover:bg-beta hover:text-alpha transition-all duration-300 hover:scale-105"
+                    href="tel:+919061717000"
+                    className="flex items-center justify-center gap-3 w-full px-6 py-4 bg-transparent border border-[#2563FF] text-[#60A5FA] hover:bg-[#2563FF] hover:text-white rounded-full font-semibold text-sm uppercase tracking-wider transition-all duration-300 hover:scale-105"
                   >
                     <Phone className="w-5 h-5" />
-                    <span>Call Now</span>
+                    <span>Call Us Now</span>
                   </a>
                 </div>
               </div>
 
               {/* Business Hours */}
-              <div className="bg-beta/5 border border-beta/10 rounded-3xl p-6 md:p-8 backdrop-blur-sm">
-                <h3 className="text-xl md:text-2xl font-bold text-tango mb-4 font-barlow">
+              <div className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-6 md:p-8 backdrop-blur-sm shadow-xl">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-4 font-barlow">
                   Business Hours
                 </h3>
                 <div className="space-y-2 text-sm font-poppins">
                   <div className="flex justify-between">
-                    <span className="text-tango/60">Monday - Friday</span>
-                    <span className="text-tango font-medium">9:00 AM - 6:00 PM</span>
+                    <span className="text-white/60">Monday - Friday</span>
+                    <span className="text-white font-medium">10:00 AM - 6:00 PM</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-tango/60">Saturday</span>
-                    <span className="text-tango font-medium">10:00 AM - 4:00 PM</span>
+                    <span className="text-white/60">Saturday</span>
+                    <span className="text-white font-medium">10:00 AM - 3:00 PM</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-tango/60">Sunday</span>
-                    <span className="text-tango/50">Closed</span>
+                    <span className="text-white/60">Sunday</span>
+                    <span className="text-white/50">Closed</span>
                   </div>
                 </div>
               </div>
