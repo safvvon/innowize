@@ -54,13 +54,13 @@ export const AppContent: React.FC = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About onOpenContact={() => setIsContactOpen(true)} />} />
-          <Route path="/services" element={<Services />} />
+          <Route path="/services" element={<Services onOpenContact={() => setIsContactOpen(true)} />} />
           <Route path="/work" element={<Work onOpenContact={() => setIsContactOpen(true)} />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
       </main>
 
-      <Footer />
+      <Footer onOpenContact={() => setIsContactOpen(true)} />
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
     </div>
   );

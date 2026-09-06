@@ -80,7 +80,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
         {/* Subtle top edge shimmer line in electric blue */}
         <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#2563FF]/60 to-transparent pointer-events-none" />
 
-        <nav className="max-w-[1440px] mx-auto w-full flex items-center justify-between px-6 md:px-12">
+        <nav className="w-full max-w-[1920px] mx-auto flex items-center justify-between px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20">
           {/* Logo on Left */}
           <Link to="/" className="flex-shrink-0 relative z-50 group flex items-center">
             <InnowizeLogo className="h-8 md:h-9" />
