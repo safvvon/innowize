@@ -42,13 +42,13 @@ export const Contact: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#0B0E17] text-white overflow-hidden pt-28 pb-24">
-      {/* Top Header Section matching Page 4 of PDF */}
-      <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 pt-4 pb-12 text-center">
+      {/* Top Header Section */}
+      <section className="max-w-4xl mx-auto px-6 pt-4 pb-12 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="w-full max-w-5xl mx-auto"
+          className="w-full mx-auto"
         >
           <div className="inline-flex items-center gap-2 text-[#60A5FA] text-xs md:text-sm font-semibold tracking-[0.3em] uppercase mb-4">
             <span>•</span>
@@ -58,14 +58,14 @@ export const Contact: React.FC = () => {
           <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 font-barlow leading-tight">
             Let's Talk
           </h1>
-          <p className="text-base sm:text-lg md:text-xl text-white/70 leading-relaxed font-poppins max-w-4xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-white/70 leading-relaxed font-poppins max-w-3xl mx-auto">
             We'd love to hear your vision. Let's work together to create digital experiences that inspire and drive results. Drop us a message, and we'll get back to you soon!
           </p>
         </motion.div>
       </section>
 
-      {/* Main Content: Wide Two-Column Container */}
-      <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 mb-16">
+      {/* Main Content: Two-Column Container */}
+      <section className="max-w-6xl mx-auto px-6 md:px-12 mb-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-start w-full">
           {/* Left: Message Form Column */}
           <motion.div

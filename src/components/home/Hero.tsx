@@ -198,7 +198,7 @@ export const Hero: React.FC = () => {
   const subWords = ['WE', 'CREATE', 'STORIES', 'THAT', 'MOVE'];
 
   return (
-    <section className="relative min-h-screen md:min-h-[88vh] w-full bg-[#0B0E17] flex items-center justify-center overflow-hidden pt-20">
+    <section className="relative h-screen md:h-[84vh] w-full bg-[#0B0E17] flex items-center justify-center overflow-hidden">
       {/* 3D Interactive Vector Background */}
       <motion.div
         className="fixed inset-0 w-full h-full object-cover pointer-events-none"
@@ -319,7 +319,7 @@ export const Hero: React.FC = () => {
 
       {/* Main Content Container */}
       <motion.div
-        className="relative z-10 flex flex-col items-center text-center px-6 max-w-5xl mx-auto"
+        className="relative z-10 flex flex-col items-center text-center px-6"
         style={{ y: heroY, opacity: heroOpacity }}
       >
         {/* Top studio badge */}
@@ -348,7 +348,7 @@ export const Hero: React.FC = () => {
 
         {/* Master Heading: INNOWIZE */}
         <div className="overflow-hidden mb-2" style={{ perspective: '800px' }}>
-          <h1 className="flex items-center justify-center text-[16vw] md:text-[13vw] lg:text-[11vw] leading-[0.85] font-barlow font-black text-white tracking-[-0.02em]">
+          <h1 className="flex items-center justify-center text-[15vw] md:text-[11.5vw] lg:text-[9.8vw] leading-[0.85] font-barlow font-black text-white tracking-[-0.02em]">
             {headlineChars.map((char, index) => (
               <AnimatedChar key={index} char={char} index={index} />
             ))}

@@ -69,36 +69,27 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
 
   return (
     <>
-      {/* Full-width Glassy Navbar (Right to Left Side) */}
-      <header
-        className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
-          scrolled
-            ? 'bg-[#0B0E17]/85 backdrop-blur-2xl border-b border-white/10 shadow-[0_10px_35px_rgba(0,0,0,0.5)] py-3 md:py-3.5'
-            : 'bg-[#0F1628]/60 backdrop-blur-xl border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.25)] py-4 md:py-4.5'
-        }`}
-      >
-        {/* Subtle top edge shimmer line in electric blue */}
-        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#2563FF]/60 to-transparent pointer-events-none" />
-
-        <nav className="w-full flex items-center justify-between px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-1">
+      {/* Header with Exact Original Proportions and Floating Nav Pill */}
+      <header className="fixed top-0 left-0 w-full z-50 pointer-events-none transition-all duration-300">
+        <nav className="max-w-[1440px] mx-auto w-full flex items-center justify-between px-6 md:px-12 py-5 pointer-events-auto">
           {/* Logo on Left */}
           <Link to="/" className="flex-shrink-0 relative z-50 group flex items-center">
-            <InnowizeLogo className="h-9 md:h-10 lg:h-11" />
+            <InnowizeLogo className="h-9 md:h-10" />
           </Link>
 
-          {/* Desktop Navigation Links in Center with Large, Prominent Text */}
-          <div className="hidden lg:flex items-center">
-            <ul className="flex items-center space-x-7 lg:space-x-9 xl:space-x-12 text-white font-bold text-sm lg:text-[15px] xl:text-base tracking-[0.14em] uppercase font-poppins">
+          {/* Center Floating Nav Pill with Exact Reference Sizing */}
+          <div className="hidden lg:flex bg-white/5 backdrop-blur-xl border border-white/10 rounded-full px-8 py-3.5 shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
+            <ul className="flex items-center space-x-8 xl:space-x-10 text-white/90 text-xs font-semibold tracking-[0.15em] font-poppins">
               {navLinks.map((link) => {
                 const isActive = location.pathname === link.path;
                 return (
                   <li key={link.name}>
                     <Link
                       to={link.path}
-                      className={`relative py-1.5 transition-all duration-300 after:content-[''] after:absolute after:-bottom-1 after:left-0 after:h-[3px] after:rounded-full after:transition-all after:duration-300 ${
+                      className={`relative py-1 transition-colors duration-300 hover:text-[#60A5FA] after:content-[''] after:absolute after:-bottom-1 after:left-0 after:h-[1.5px] after:transition-all after:duration-300 ${
                         isActive
-                          ? 'text-[#60A5FA] drop-shadow-[0_0_12px_rgba(96,165,250,0.6)] after:w-full after:bg-[#2563FF] after:shadow-[0_0_10px_rgba(37,99,255,0.8)]'
-                          : 'text-white/90 hover:text-white hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] after:w-0 hover:after:w-full after:bg-[#2563FF]'
+                          ? 'text-[#60A5FA] after:w-full after:bg-[#2563FF]'
+                          : 'text-white/90 after:w-0 hover:after:w-full after:bg-[#2563FF]'
                       }`}
                     >
                       {link.name}
@@ -111,15 +102,15 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
 
           {/* Right Action: Let's Talk CTA & Mobile Hamburger */}
           <div className="flex items-center gap-4">
-            {/* Interactive Eyeball CTA Button in Electric Blue */}
+            {/* Interactive Eyeball CTA Button */}
             <button
               onClick={onOpenContact}
-              className="relative flex items-center gap-3 bg-gradient-to-r from-[#2563FF] to-[#1D4ED8] hover:from-[#1D4ED8] hover:to-[#2563FF] shadow-[0_4px_25px_rgba(37,99,255,0.5)] hover:shadow-[0_6px_30px_rgba(37,99,255,0.8)] transition-all duration-300 ease-out rounded-full pl-2.5 pr-6 py-2.5 group overflow-hidden border border-white/20 cursor-pointer"
+              className="relative flex items-center gap-3 bg-gradient-to-r from-[#2563FF] to-[#1D4ED8] hover:from-[#1D4ED8] hover:to-[#2563FF] shadow-[0_4px_20px_rgba(37,99,255,0.4)] hover:shadow-[0_6px_25px_rgba(37,99,255,0.6)] transition-all duration-300 ease-out rounded-full pl-2 pr-6 py-2 group overflow-hidden border border-white/10 cursor-pointer"
             >
               <div className="absolute inset-x-0 top-0 h-[40%] bg-gradient-to-b from-white/30 to-transparent pointer-events-none rounded-t-full" />
               <div
                 ref={eyeRef}
-                className="relative w-8 h-8 rounded-full bg-black/20 flex items-center justify-center overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)] backdrop-blur-sm"
+                className="relative w-7 h-7 rounded-full bg-black/20 flex items-center justify-center overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)] backdrop-blur-sm"
               >
                 <motion.img
                   src="/images/eyeball.png"
@@ -129,7 +120,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
                   transition={{ type: 'spring', stiffness: 200, damping: 20 }}
                 />
               </div>
-              <span className="relative text-white font-bold text-xs sm:text-sm uppercase tracking-[0.12em] font-paytone mt-[2px] drop-shadow-md">
+              <span className="relative text-white font-bold text-xs uppercase tracking-[0.1em] font-paytone mt-[2px] drop-shadow-md">
                 Let's Talk
               </span>
             </button>
@@ -137,7 +128,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
             {/* Mobile Menu Toggle Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="flex lg:hidden w-10 h-10 items-center justify-center rounded-full bg-white/10 border border-white/15 backdrop-blur-md text-white hover:bg-white/20 transition-colors cursor-pointer"
+              className="flex lg:hidden w-10 h-10 items-center justify-center rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white hover:bg-white/10 transition-colors cursor-pointer"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}

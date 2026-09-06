@@ -81,7 +81,7 @@ const ReelCard: React.FC<{
       onClick={() => onSelect(reel)}
       whileHover={{ y: -8, scale: 1.02 }}
       transition={{ duration: 0.35, ease: 'easeOut' }}
-      className="group flex-shrink-0 rounded-2xl overflow-hidden relative w-[280px] h-[360px] md:w-[380px] md:h-[480px] -mt-4 md:mt-0 cursor-pointer border border-white/15 hover:border-[#2563FF]/70 shadow-[0_20px_45px_rgba(0,0,0,0.6)] bg-[#0B0E17]"
+      className="group flex-shrink-0 rounded-md overflow-hidden relative w-[280px] h-[320px] md:w-[420px] md:h-[480.5px] -mt-4 md:mt-0 cursor-pointer border border-white/10 hover:border-[#2563FF]/70 shadow-[0_20px_45px_rgba(0,0,0,0.6)] bg-[#0B0E17]"
       style={{
         willChange: 'transform',
         transform: 'translateZ(0)',
@@ -196,7 +196,7 @@ export const IntroSection3: React.FC = () => {
       <img
         src="/images/introbg.svg"
         alt="Intro Background Flipped"
-        className="absolute top-0 right-0 w-[160%] max-w-none z-[1] pointer-events-none scale-x-[-1] scale-y-[-1] opacity-20"
+        className="absolute top-0 right-0 w-[160%] max-w-none z-[1] pointer-events-none scale-x-[-1] scale-y-[-1]"
       />
 
       {/* Angled Rotating Video Reels Row */}

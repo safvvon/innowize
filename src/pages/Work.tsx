@@ -517,7 +517,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
   return (
     <div className="min-h-screen bg-[#0B0E17] text-white overflow-x-hidden pt-28 pb-20">
       {/* Top Header Row with Full Archive Counts */}
-      <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 pt-4 pb-8">
+      <section className="max-w-7xl mx-auto px-6 md:px-12 pt-4 pb-8">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-white/10 pb-8">
           <div>
             <div className="flex items-center gap-3 mb-2">
@@ -578,7 +578,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
       </section>
 
       {/* Dynamic Proportions Showcase Section with Full-Length & Extra-Tall Length Works */}
-      <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6">
+      <section className="max-w-[1800px] mx-auto px-4 md:px-8 py-6">
         {viewMode === 'bento' ? (
           /* BENTO MOSAIC VIEW: Features Full-Length Panoramic Banners, Extra-Tall Vertical Length Works, and Medium Landscapes */
           <motion.div
@@ -831,7 +831,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
       </AnimatePresence>
 
       {/* Bottom CTA Banner */}
-      <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 mt-16 mb-16">
+      <section className="max-w-5xl mx-auto px-6 mt-16 mb-16">
         <div className="rounded-3xl bg-[#0F1628] border border-[#141A2B] p-10 md:p-16 lg:p-20 text-center shadow-2xl w-full">
           <h2 className="text-3xl sm:text-5xl md:text-6xl font-black italic text-white uppercase font-barlow leading-tight mb-4">
             READY TO CREATE <br />
