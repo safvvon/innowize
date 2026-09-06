@@ -178,9 +178,9 @@ export const Services: React.FC = () => {
       </section>
 
       {/* Services Grid Section */}
-      <section className="relative px-4 md:px-8 py-16 md:py-24">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+      <section className="relative px-6 sm:px-8 md:px-12 lg:px-16 py-16 md:py-24">
+        <div className="max-w-[1600px] w-full mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
             {servicesData.map((service, idx) => (
               <ServiceCard key={idx} service={service} index={idx} />
             ))}
@@ -189,33 +189,33 @@ export const Services: React.FC = () => {
       </section>
 
       {/* CTA Box Section */}
-      <section className="relative px-4 md:px-8 py-20 md:py-32">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="relative px-6 sm:px-8 md:px-12 lg:px-16 py-20 md:py-32">
+        <div className="max-w-[1440px] w-full mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-8 md:p-12 backdrop-blur-sm shadow-2xl"
+            className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-10 md:p-16 lg:p-20 backdrop-blur-sm shadow-2xl"
           >
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 font-barlow">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 font-barlow leading-tight">
               Ready to Create Something Amazing?
             </h2>
-            <p className="text-lg md:text-xl text-white/70 mb-8 font-poppins">
+            <p className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto mb-10 font-poppins leading-relaxed">
               Let's discuss your project and bring your vision to life with compelling digital experiences.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
               <a
                 href="https://wa.me/919061717000?text=Hello!%20I%20would%20like%20to%20discuss%20a%20project."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-8 py-4 bg-[#2563FF] hover:bg-[#3B82F6] text-white font-bold rounded-full text-sm md:text-base uppercase tracking-wider transition-all duration-300 hover:scale-105 shadow-[0_0_25px_rgba(37,99,255,0.5)] border border-[#60A5FA]/30"
+                className="px-10 py-4 bg-[#2563FF] hover:bg-[#3B82F6] text-white font-bold rounded-full text-sm md:text-base uppercase tracking-wider transition-all duration-300 hover:scale-105 shadow-[0_0_25px_rgba(37,99,255,0.5)] border border-[#60A5FA]/30"
               >
                 Start a Project
               </a>
               <a
                 href="tel:+919061717000"
-                className="px-8 py-4 bg-transparent border border-[#2563FF] text-[#60A5FA] hover:bg-[#2563FF] hover:text-white rounded-full font-semibold text-sm md:text-base uppercase tracking-wider transition-all duration-300 hover:scale-105"
+                className="px-10 py-4 bg-transparent border border-[#2563FF] text-[#60A5FA] hover:bg-[#2563FF] hover:text-white rounded-full font-semibold text-sm md:text-base uppercase tracking-wider transition-all duration-300 hover:scale-105"
               >
                 Call Us
               </a>

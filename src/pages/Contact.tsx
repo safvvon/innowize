@@ -86,21 +86,21 @@ export const Contact: React.FC = () => {
       </section>
 
       {/* Main Content: Form and Info */}
-      <section className="relative px-4 md:px-8 py-12 md:py-20">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+      <section className="relative px-6 sm:px-8 md:px-12 lg:px-16 py-12 md:py-20">
+        <div className="max-w-[1600px] w-full mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             {/* Form Column */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative bg-[#0F1628] border border-[#141A2B] rounded-3xl p-6 md:p-8 backdrop-blur-sm shadow-xl"
+              className="lg:col-span-7 relative bg-[#0F1628] border border-[#141A2B] rounded-3xl p-8 md:p-12 lg:p-14 backdrop-blur-sm shadow-xl"
             >
               <div className="relative">
-                <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 font-barlow">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 font-barlow">
                   Send us a Message
                 </h2>
-                <p className="text-white/60 text-sm md:text-base font-poppins mb-6">
+                <p className="text-white/60 text-sm md:text-base font-poppins mb-8">
                   Fill out the form below and we'll get back to you within 24 hours.
                 </p>
 
@@ -118,67 +118,70 @@ export const Contact: React.FC = () => {
                   </div>
                 )}
 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div>
-                    <label className="block text-xs font-poppins text-tango/70 uppercase tracking-wider mb-2">
-                      Your Name
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="John Doe"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-tango placeholder-tango/30 focus:outline-none focus:border-beta/60 transition-colors"
-                    />
-                    {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name}</p>}
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Two-Column Responsive Row for Name & Email */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                    <div>
+                      <label className="block text-xs font-poppins text-white/70 uppercase tracking-wider mb-2">
+                        Your Name
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="John Doe"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#2563FF] focus:ring-1 focus:ring-[#2563FF] transition-all"
+                      />
+                      {errors.name && <p className="text-red-400 text-xs mt-1.5">{errors.name}</p>}
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-poppins text-white/70 uppercase tracking-wider mb-2">
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        placeholder="john@example.com"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#2563FF] focus:ring-1 focus:ring-[#2563FF] transition-all"
+                      />
+                      {errors.email && <p className="text-red-400 text-xs mt-1.5">{errors.email}</p>}
+                    </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-poppins text-tango/70 uppercase tracking-wider mb-2">
-                      Your Email
-                    </label>
-                    <input
-                      type="email"
-                      placeholder="john@example.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-tango placeholder-tango/30 focus:outline-none focus:border-beta/60 transition-colors"
-                    />
-                    {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-poppins text-tango/70 uppercase tracking-wider mb-2">
+                    <label className="block text-xs font-poppins text-white/70 uppercase tracking-wider mb-2">
                       Subject / Project Type
                     </label>
                     <input
                       type="text"
-                      placeholder="Instagram Reels, Brand Video..."
+                      placeholder="Instagram Reels, Brand Experience, Video Production..."
                       value={formData.subject}
                       onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-tango placeholder-tango/30 focus:outline-none focus:border-beta/60 transition-colors"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#2563FF] focus:ring-1 focus:ring-[#2563FF] transition-all"
                     />
-                    {errors.subject && <p className="text-red-400 text-xs mt-1">{errors.subject}</p>}
+                    {errors.subject && <p className="text-red-400 text-xs mt-1.5">{errors.subject}</p>}
                   </div>
 
                   <div>
-                    <label className="block text-xs font-poppins text-tango/70 uppercase tracking-wider mb-2">
-                      Your Message
+                    <label className="block text-xs font-poppins text-white/70 uppercase tracking-wider mb-2">
+                      Tell us about your project...
                     </label>
                     <textarea
-                      rows={4}
-                      placeholder="Tell us about your project goals and timeline..."
+                      rows={5}
+                      placeholder="Tell us about your project goals, deliverables, and timeline..."
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-tango placeholder-tango/30 focus:outline-none focus:border-beta/60 transition-colors resize-none"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#2563FF] focus:ring-1 focus:ring-[#2563FF] transition-all resize-none"
                     />
-                    {errors.message && <p className="text-red-400 text-xs mt-1">{errors.message}</p>}
+                    {errors.message && <p className="text-red-400 text-xs mt-1.5">{errors.message}</p>}
                   </div>
 
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full py-4 px-6 rounded-xl bg-[#2563FF] hover:bg-[#3B82F6] text-white font-semibold text-sm uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(37,99,255,0.4)] cursor-pointer disabled:opacity-50 border border-[#60A5FA]/30"
+                    className="w-full py-4 px-8 rounded-xl bg-[#2563FF] hover:bg-[#3B82F6] text-white font-semibold text-sm uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(37,99,255,0.4)] cursor-pointer disabled:opacity-50 border border-[#60A5FA]/30"
                   >
                     {isSubmitting ? (
                       <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -198,10 +201,10 @@ export const Contact: React.FC = () => {
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="space-y-8"
+              className="lg:col-span-5 space-y-6"
             >
               {/* Contact Information */}
-              <div className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-6 md:p-8 backdrop-blur-sm shadow-xl">
+              <div className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-8 md:p-10 backdrop-blur-sm shadow-xl">
                 <h3 className="text-xl md:text-2xl font-bold text-white mb-6 font-barlow">
                   Contact Information
                 </h3>
@@ -251,7 +254,7 @@ export const Contact: React.FC = () => {
               </div>
 
               {/* Quick Connect Actions */}
-              <div className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-6 md:p-8 backdrop-blur-sm shadow-xl font-poppins">
+              <div className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-8 md:p-10 backdrop-blur-sm shadow-xl font-poppins">
                 <h3 className="text-xl md:text-2xl font-bold text-white mb-6 font-barlow">
                   Quick Connect
                 </h3>
@@ -275,11 +278,11 @@ export const Contact: React.FC = () => {
               </div>
 
               {/* Business Hours */}
-              <div className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-6 md:p-8 backdrop-blur-sm shadow-xl">
+              <div className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-8 md:p-10 backdrop-blur-sm shadow-xl">
                 <h3 className="text-xl md:text-2xl font-bold text-white mb-4 font-barlow">
                   Business Hours
                 </h3>
-                <div className="space-y-2 text-sm font-poppins">
+                <div className="space-y-2.5 text-sm font-poppins">
                   <div className="flex justify-between">
                     <span className="text-white/60">Monday - Friday</span>
                     <span className="text-white font-medium">10:00 AM - 6:00 PM</span>

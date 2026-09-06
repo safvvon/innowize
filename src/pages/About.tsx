@@ -240,22 +240,22 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
       </motion.section>
 
       {/* Mission Section */}
-      <section className="relative py-24 md:py-32 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      <section className="relative py-24 md:py-32 px-6 sm:px-8 md:px-12 lg:px-16">
+        <div className="max-w-[1600px] w-full mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
             <div className="lg:col-span-5">
               <span className="text-[#60A5FA] text-xs md:text-sm font-semibold tracking-[0.25em] uppercase mb-4 block">
                 Our Mission
               </span>
-              <h2 className="text-3xl md:text-5xl font-black italic text-white uppercase font-barlow leading-tight">
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-black italic text-white uppercase font-barlow leading-tight">
                 Crafting visual experiences that move people.
               </h2>
             </div>
-            <div className="lg:col-span-7 space-y-6 text-white/70 font-poppins text-base md:text-lg leading-relaxed">
+            <div className="lg:col-span-7 space-y-6 text-white/70 font-poppins text-base md:text-lg lg:text-xl leading-relaxed">
               <p>
                 We believe in the power of creativity to transform businesses and inspire audiences. Our mission is to craft visual experiences that don't just look good—they tell stories, evoke emotions, and drive results.
               </p>
-              <p className="text-sm md:text-base text-white/60">
+              <p className="text-sm md:text-base lg:text-lg text-white/60">
                 Every project is an opportunity to push boundaries, challenge conventions, and create something truly extraordinary.
               </p>
             </div>
@@ -264,18 +264,18 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
       </section>
 
       {/* Values Section */}
-      <section className="relative py-24 md:py-32 px-6 bg-[#0F1628]/40 border-y border-white/10">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-16">
+      <section className="relative py-24 md:py-32 px-6 sm:px-8 md:px-12 lg:px-16 bg-[#0F1628]/40 border-y border-white/10">
+        <div className="max-w-[1600px] w-full mx-auto">
+          <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="text-[#60A5FA] text-xs md:text-sm font-semibold tracking-[0.25em] uppercase mb-3 block">
               What Drives Us
             </span>
-            <h2 className="text-3xl md:text-5xl font-black italic text-white uppercase font-barlow leading-tight">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-black italic text-white uppercase font-barlow leading-tight">
               Our Core Values
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {values.map((val, idx) => (
               <ValueCard
                 key={idx}
@@ -290,14 +290,14 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
       </section>
 
       {/* Stats Counter Section */}
-      <section className="relative py-20 px-6">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+      <section className="relative py-20 px-6 sm:px-8 md:px-12 lg:px-16">
+        <div className="max-w-[1500px] w-full mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
           <Counter end={200} suffix="+" label="Projects Delivered" delay={0} />
           <Counter end={10} suffix="+" label="Years Experience" delay={200} />
           <Counter end={45} suffix="+" label="Happy Clients" delay={400} />
         </div>
         <motion.div
-          className="max-w-4xl mx-auto h-px bg-gradient-to-r from-transparent via-white/15 to-transparent mt-16"
+          className="max-w-[1500px] mx-auto h-px bg-gradient-to-r from-transparent via-white/15 to-transparent mt-16"
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
           viewport={{ once: true }}
@@ -306,10 +306,10 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
       </section>
 
       {/* Bottom CTA Banner */}
-      <section className="relative py-24 md:py-32 px-6">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="relative py-24 md:py-32 px-6 sm:px-8 md:px-12 lg:px-16">
+        <div className="max-w-[1440px] w-full mx-auto text-center">
           <motion.h2
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black italic text-white uppercase font-barlow leading-tight mb-6"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black italic text-white uppercase font-barlow leading-tight mb-6"
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
@@ -319,7 +319,7 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
             <span className="text-[#2563FF]">TOGETHER?</span>
           </motion.h2>
           <motion.p
-            className="text-white/70 text-sm md:text-base font-poppins max-w-2xl mx-auto leading-relaxed mb-10"
+            className="text-white/70 text-base md:text-lg lg:text-xl font-poppins max-w-3xl mx-auto leading-relaxed mb-10"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
@@ -328,7 +328,7 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
             Let's bring your vision to life. Whether you have a clear idea or just a spark of inspiration, we're here to help you create something extraordinary.
           </motion.p>
           <motion.div
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            className="flex flex-col sm:flex-row items-center justify-center gap-5"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
@@ -336,7 +336,7 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
           >
             <button
               onClick={onOpenContact ? onOpenContact : () => navigate('/contact')}
-              className="group relative px-8 py-4 rounded-full bg-[#2563FF] hover:bg-[#3B82F6] text-white text-sm font-poppins font-semibold tracking-[0.1em] uppercase overflow-hidden transition-all duration-300 w-full sm:w-auto cursor-pointer shadow-[0_0_25px_rgba(37,99,255,0.5)] border border-[#60A5FA]/40"
+              className="group relative px-10 py-4 rounded-full bg-[#2563FF] hover:bg-[#3B82F6] text-white text-sm font-poppins font-semibold tracking-[0.1em] uppercase overflow-hidden transition-all duration-300 w-full sm:w-auto cursor-pointer shadow-[0_0_25px_rgba(37,99,255,0.5)] border border-[#60A5FA]/40"
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
                 Get In Touch
@@ -345,7 +345,7 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
             </button>
             <button
               onClick={() => navigate('/work')}
-              className="group px-8 py-4 rounded-full border border-white/20 hover:border-white/50 text-white text-sm font-poppins font-medium tracking-[0.1em] uppercase transition-all duration-300 w-full sm:w-auto cursor-pointer bg-[#0F1628]/60 hover:bg-[#0F1628]"
+              className="group px-10 py-4 rounded-full border border-white/20 hover:border-white/50 text-white text-sm font-poppins font-medium tracking-[0.1em] uppercase transition-all duration-300 w-full sm:w-auto cursor-pointer bg-[#0F1628]/60 hover:bg-[#0F1628]"
             >
               <span className="flex items-center justify-center gap-2">
                 View Our Work

@@ -247,9 +247,9 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
       </section>
 
       {/* Filter and View Toggle Controls */}
-      <section className="relative z-20 max-w-7xl mx-auto px-6 md:px-12 py-8 flex flex-col md:flex-row items-center justify-between gap-6 border-b border-white/10">
+      <section className="relative z-20 max-w-[1600px] w-full mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-8 flex flex-col md:flex-row items-center justify-between gap-6 border-b border-white/10">
         {/* Category Pills */}
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2.5">
           {categories.map((cat) => (
             <button
               key={cat.id}
@@ -266,7 +266,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
         </div>
 
         {/* View Mode Toggle */}
-        <div className="flex items-center gap-2 bg-[#0F1628] p-1 rounded-full border border-[#141A2B]">
+        <div className="flex items-center gap-2 bg-[#0F1628] p-1.5 rounded-full border border-[#141A2B]">
           <button
             onClick={() => setViewMode('masonry')}
             className={`p-2 rounded-full transition-all duration-200 cursor-pointer ${
@@ -289,13 +289,13 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
       </section>
 
       {/* Projects Display */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 py-16">
+      <section className="relative z-10 max-w-[1600px] w-full mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-12 md:py-16">
         <motion.div
           layout
-          className={`grid gap-8 ${
+          className={`grid gap-6 md:gap-8 ${
             viewMode === 'masonry'
-              ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
-              : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+              ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+              : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
           }`}
         >
           <AnimatePresence>
