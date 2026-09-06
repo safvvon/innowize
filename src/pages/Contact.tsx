@@ -42,58 +42,123 @@ export const Contact: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#0B0E17] text-white overflow-hidden pt-28 pb-24">
-      {/* Top Header Section matching Page 4 of PDF */}
-      <section className="max-w-[1600px] w-full mx-auto px-6 sm:px-8 md:px-12 lg:px-16 pt-4 pb-12 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="max-w-3xl mx-auto"
-        >
-          <div className="inline-flex items-center gap-2 text-[#60A5FA] text-xs md:text-sm font-semibold tracking-[0.3em] uppercase mb-4">
-            <span>•</span>
-            <span>GET IN TOUCH</span>
-            <span>•</span>
+      {/* Top Header Section spanning full width */}
+      <section className="w-full px-4 sm:px-6 md:px-10 lg:px-12 xl:px-16 pt-4 pb-10">
+        <div className="border-b border-white/10 pb-8 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#2563FF]/10 border border-[#2563FF]/20 text-[#60A5FA] text-xs font-poppins font-semibold tracking-[0.25em] uppercase mb-3">
+              <span>•</span>
+              <span>GET IN TOUCH</span>
+              <span>•</span>
+            </div>
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white font-barlow tracking-tight leading-none">
+              Let's Talk
+            </h1>
+            <p className="text-base sm:text-lg text-white/70 mt-3 max-w-2xl font-poppins leading-relaxed">
+              We'd love to hear your vision. Let's work together to create digital experiences and cinematic content that inspire, connect, and drive measurable results.
+            </p>
           </div>
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 font-barlow leading-tight">
-            Let's Talk
-          </h1>
-          <p className="text-base sm:text-lg md:text-xl text-white/70 leading-relaxed font-poppins">
-            We'd love to hear your vision. Let's work together to create digital experiences that inspire and drive results. Drop us a message, and we'll get back to you soon!
-          </p>
-        </motion.div>
+
+          {/* Availability Status Badge */}
+          <div className="flex items-center gap-3 bg-[#0F1628] border border-[#141A2B] px-5 py-3 rounded-2xl">
+            <span className="w-3 h-3 rounded-full bg-emerald-400 animate-ping" />
+            <div>
+              <p className="text-xs font-poppins font-semibold text-white">Currently Booking New Projects</p>
+              <p className="text-[11px] font-poppins text-white/50">Average response time: under 24 hours</p>
+            </div>
+          </div>
+        </div>
       </section>
 
-      {/* Main Content: Wide Two-Column Container */}
-      <section className="max-w-[1600px] w-full mx-auto px-6 sm:px-8 md:px-12 lg:px-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          {/* Left: Message Form Column */}
+      {/* 4 Quick Contact Metric & Channel Cards across full width */}
+      <section className="w-full px-4 sm:px-6 md:px-10 lg:px-12 xl:px-16 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <a
+            href="mailto:hello@innowize.digital"
+            className="group bg-[#0F1628] border border-[#141A2B] hover:border-[#2563FF] rounded-2xl p-6 transition-all duration-300 shadow-xl hover:shadow-[0_8px_25px_rgba(37,99,255,0.2)]"
+          >
+            <div className="w-12 h-12 rounded-xl bg-[#2563FF]/10 border border-[#2563FF]/20 flex items-center justify-center text-[#2563FF] group-hover:bg-[#2563FF] group-hover:text-white transition-all duration-300 mb-4">
+              <Mail className="w-5 h-5" />
+            </div>
+            <span className="text-xs font-poppins font-semibold text-white/50 uppercase tracking-wider block mb-1">
+              Direct Email
+            </span>
+            <span className="text-base font-medium font-poppins text-white group-hover:text-[#60A5FA] transition-colors block">
+              hello@innowize.digital
+            </span>
+          </a>
+
+          <a
+            href="tel:+919061717000"
+            className="group bg-[#0F1628] border border-[#141A2B] hover:border-[#2563FF] rounded-2xl p-6 transition-all duration-300 shadow-xl hover:shadow-[0_8px_25px_rgba(37,99,255,0.2)]"
+          >
+            <div className="w-12 h-12 rounded-xl bg-[#2563FF]/10 border border-[#2563FF]/20 flex items-center justify-center text-[#2563FF] group-hover:bg-[#2563FF] group-hover:text-white transition-all duration-300 mb-4">
+              <Phone className="w-5 h-5" />
+            </div>
+            <span className="text-xs font-poppins font-semibold text-white/50 uppercase tracking-wider block mb-1">
+              Phone & WhatsApp
+            </span>
+            <span className="text-base font-medium font-poppins text-white group-hover:text-[#60A5FA] transition-colors block">
+              +91 90617 17000
+            </span>
+          </a>
+
+          <div className="bg-[#0F1628] border border-[#141A2B] rounded-2xl p-6 shadow-xl">
+            <div className="w-12 h-12 rounded-xl bg-[#2563FF]/10 border border-[#2563FF]/20 flex items-center justify-center text-[#2563FF] mb-4">
+              <MapPin className="w-5 h-5" />
+            </div>
+            <span className="text-xs font-poppins font-semibold text-white/50 uppercase tracking-wider block mb-1">
+              Studio Location
+            </span>
+            <span className="text-base font-medium font-poppins text-white block">
+              Kochi, Kerala, India 682030
+            </span>
+          </div>
+
+          <div className="bg-[#0F1628] border border-[#141A2B] rounded-2xl p-6 shadow-xl">
+            <div className="w-12 h-12 rounded-xl bg-[#2563FF]/10 border border-[#2563FF]/20 flex items-center justify-center text-[#2563FF] mb-4">
+              <CheckCircle2 className="w-5 h-5" />
+            </div>
+            <span className="text-xs font-poppins font-semibold text-white/50 uppercase tracking-wider block mb-1">
+              Studio Hours
+            </span>
+            <span className="text-base font-medium font-poppins text-white block">
+              Mon – Sat: 10:00 AM – 6:00 PM IST
+            </span>
+          </div>
+        </div>
+      </section>
+
+      {/* Main Content: Full-Width 12-Column Grid */}
+      <section className="w-full px-4 sm:px-6 md:px-10 lg:px-12 xl:px-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+          {/* Left: Message Form Column (7 cols) */}
           <motion.div
-            initial={{ opacity: 0, x: -25 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="lg:col-span-7 bg-[#0F1628] border border-[#141A2B] rounded-3xl p-8 sm:p-10 md:p-12 lg:p-14 shadow-2xl backdrop-blur-sm"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-7 bg-[#0F1628] border border-[#141A2B] rounded-3xl p-8 sm:p-10 md:p-12 shadow-2xl"
           >
             <div className="mb-8">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 font-barlow">
                 Send us a Message
               </h2>
               <p className="text-white/60 text-sm md:text-base font-poppins">
-                Fill out the form below and we'll get back to you within 24 hours.
+                Fill out the brief below and our creative team will get back to you with insights and next steps.
               </p>
             </div>
 
             {submitStatus === 'success' && (
               <div className="mb-6 p-4 rounded-xl bg-[#2563FF]/20 border border-[#2563FF]/40 text-[#60A5FA] text-sm flex items-center gap-3">
                 <CheckCircle2 className="w-5 h-5 text-[#2563FF] flex-shrink-0" />
-                <span>Message sent successfully! We'll get back to you soon.</span>
+                <span>Message sent successfully! We'll get back to you within 24 hours.</span>
               </div>
             )}
 
             {submitStatus === 'error' && (
               <div className="mb-6 p-4 rounded-xl bg-red-500/20 border border-red-500/40 text-red-200 text-sm flex items-center gap-3">
                 <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
-                <span>Failed to send message. Please try again or contact us directly.</span>
+                <span>Failed to send message. Please try again or contact us directly via WhatsApp.</span>
               </div>
             )}
 
@@ -102,8 +167,8 @@ export const Contact: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <label className="text-xs font-poppins text-white/70 uppercase tracking-wider">
-                      Your Name
+                    <label className="text-xs font-poppins text-white/70 uppercase tracking-wider font-semibold">
+                      Your Name *
                     </label>
                     <span className="text-[11px] text-white/40 font-poppins">
                       {formData.name.length}/50
@@ -112,7 +177,7 @@ export const Contact: React.FC = () => {
                   <input
                     type="text"
                     maxLength={50}
-                    placeholder="John Doe"
+                    placeholder="e.g. John Smith"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#2563FF] focus:ring-1 focus:ring-[#2563FF] transition-all"
@@ -122,8 +187,8 @@ export const Contact: React.FC = () => {
 
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <label className="text-xs font-poppins text-white/70 uppercase tracking-wider">
-                      Email Address
+                    <label className="text-xs font-poppins text-white/70 uppercase tracking-wider font-semibold">
+                      Email Address *
                     </label>
                     <span className="text-[11px] text-white/40 font-poppins">
                       {formData.email.length}/254
@@ -132,7 +197,7 @@ export const Contact: React.FC = () => {
                   <input
                     type="email"
                     maxLength={254}
-                    placeholder="john@example.com"
+                    placeholder="e.g. john@company.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#2563FF] focus:ring-1 focus:ring-[#2563FF] transition-all"
@@ -143,8 +208,8 @@ export const Contact: React.FC = () => {
 
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-poppins text-white/70 uppercase tracking-wider">
-                    Subject
+                  <label className="text-xs font-poppins text-white/70 uppercase tracking-wider font-semibold">
+                    Subject / Project Type *
                   </label>
                   <span className="text-[11px] text-white/40 font-poppins">
                     {formData.subject.length}/100
@@ -153,7 +218,7 @@ export const Contact: React.FC = () => {
                 <input
                   type="text"
                   maxLength={100}
-                  placeholder="Instagram Reels, Video Production, Brand Experience..."
+                  placeholder="e.g. Brand Film, Commercial Production, Social Media Retainer..."
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#2563FF] focus:ring-1 focus:ring-[#2563FF] transition-all"
@@ -162,12 +227,12 @@ export const Contact: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-poppins text-white/70 uppercase tracking-wider mb-2">
-                  Tell us about your project...
+                <label className="block text-xs font-poppins text-white/70 uppercase tracking-wider font-semibold mb-2">
+                  Project Details & Goals *
                 </label>
                 <textarea
-                  rows={5}
-                  placeholder="Tell us about your project goals, vision, and timeline..."
+                  rows={6}
+                  placeholder="Tell us about your brand, target audience, timeline, and what you want to achieve..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#2563FF] focus:ring-1 focus:ring-[#2563FF] transition-all resize-none"
@@ -178,7 +243,7 @@ export const Contact: React.FC = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-4 px-8 rounded-xl bg-[#2563FF] hover:bg-[#3B82F6] text-white font-semibold text-sm uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(37,99,255,0.4)] cursor-pointer disabled:opacity-50 border border-[#60A5FA]/30"
+                className="w-full py-4 px-8 rounded-xl bg-[#2563FF] hover:bg-[#3B82F6] text-white font-semibold text-sm uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(37,99,255,0.4)] cursor-pointer disabled:opacity-50 border border-[#60A5FA]/30 hover:scale-[1.01]"
               >
                 {isSubmitting ? (
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -192,104 +257,87 @@ export const Contact: React.FC = () => {
             </form>
           </motion.div>
 
-          {/* Right: Info & Contact Cards Column */}
+          {/* Right: Info & Connect Column (5 cols) */}
           <motion.div
-            initial={{ opacity: 0, x: 25 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
             className="lg:col-span-5 space-y-6"
           >
-            {/* Contact Information Card */}
-            <div className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-8 md:p-10 shadow-xl">
-              <h3 className="text-xl md:text-2xl font-bold text-white mb-6 font-barlow">
-                Contact Information
-              </h3>
-              <div className="space-y-6 font-poppins">
-                <a href="mailto:hello@innowize.digital" className="flex items-start gap-4 group">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-[#2563FF]/10 border border-[#2563FF]/20 flex items-center justify-center group-hover:bg-[#2563FF]/20 transition-all duration-300">
-                    <Mail className="w-5 h-5 text-[#2563FF]" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-white/50 uppercase tracking-wider mb-1">
-                      Email
-                    </p>
-                    <p className="text-white group-hover:text-[#60A5FA] transition-colors text-sm md:text-base font-medium">
-                      hello@innowize.digital
-                    </p>
-                  </div>
-                </a>
-
-                <a href="tel:+919061717000" className="flex items-start gap-4 group">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-[#2563FF]/10 border border-[#2563FF]/20 flex items-center justify-center group-hover:bg-[#2563FF]/20 transition-all duration-300">
-                    <Phone className="w-5 h-5 text-[#2563FF]" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-white/50 uppercase tracking-wider mb-1">
-                      Phone
-                    </p>
-                    <p className="text-white group-hover:text-[#60A5FA] transition-colors text-sm md:text-base font-medium">
-                      +91 90617 17000
-                    </p>
-                  </div>
-                </a>
-
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-[#2563FF]/10 border border-[#2563FF]/20 flex items-center justify-center">
-                    <MapPin className="w-5 h-5 text-[#2563FF]" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-white/50 uppercase tracking-wider mb-1">
-                      Location
-                    </p>
-                    <p className="text-white text-sm md:text-base font-medium">
-                      Kochi, Kerala, India 682030
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Quick Connect Actions Card */}
+            {/* Quick Connect Card */}
             <div className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-8 md:p-10 shadow-xl font-poppins">
-              <h3 className="text-xl md:text-2xl font-bold text-white mb-6 font-barlow">
-                Quick Connect
+              <span className="text-xs font-poppins font-semibold text-[#60A5FA] tracking-wider uppercase block mb-1">
+                Instant Response
+              </span>
+              <h3 className="text-xl md:text-2xl font-bold text-white mb-4 font-barlow">
+                Need an Immediate Answer?
               </h3>
-              <div className="space-y-4">
+              <p className="text-white/65 text-sm mb-6 leading-relaxed">
+                Connect directly with our producers and creative directors for urgent shoots or immediate quotes.
+              </p>
+              <div className="space-y-3.5">
                 <a
                   href="https://wa.me/919061717000?text=Hello!%20I%20would%20like%20to%20discuss%20a%20project."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full px-6 py-4 bg-[#2563FF] hover:bg-[#3B82F6] text-white font-bold rounded-full text-sm uppercase tracking-wider transition-all duration-300 hover:scale-105 shadow-[0_0_25px_rgba(37,99,255,0.4)] border border-[#60A5FA]/30"
+                  className="flex items-center justify-center gap-3 w-full px-6 py-4 bg-[#2563FF] hover:bg-[#3B82F6] text-white font-bold rounded-xl text-sm uppercase tracking-wider transition-all duration-300 hover:scale-[1.02] shadow-[0_0_25px_rgba(37,99,255,0.4)] border border-[#60A5FA]/30"
                 >
                   <span>Chat on WhatsApp</span>
                 </a>
                 <a
                   href="tel:+919061717000"
-                  className="flex items-center justify-center gap-3 w-full px-6 py-4 bg-transparent border border-[#2563FF] text-[#60A5FA] hover:bg-[#2563FF] hover:text-white rounded-full font-semibold text-sm uppercase tracking-wider transition-all duration-300 hover:scale-105"
+                  className="flex items-center justify-center gap-3 w-full px-6 py-4 bg-transparent border border-[#2563FF] text-[#60A5FA] hover:bg-[#2563FF] hover:text-white rounded-xl font-semibold text-sm uppercase tracking-wider transition-all duration-300 hover:scale-[1.02]"
                 >
                   <Phone className="w-5 h-5" />
-                  <span>Call Us Now</span>
+                  <span>Call Us: +91 90617 17000</span>
                 </a>
               </div>
             </div>
 
-            {/* Business Hours Card */}
+            {/* What to Expect Card */}
             <div className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-8 md:p-10 shadow-xl">
-              <h3 className="text-xl md:text-2xl font-bold text-white mb-4 font-barlow">
-                Business Hours
+              <h3 className="text-xl md:text-2xl font-bold text-white mb-6 font-barlow">
+                What You Can Expect
               </h3>
-              <div className="space-y-3 text-sm font-poppins">
-                <div className="flex justify-between items-center pb-2 border-b border-white/5">
-                  <span className="text-white/60">Monday - Friday</span>
-                  <span className="text-white font-medium">10:00 AM - 6:00 PM</span>
+              <div className="space-y-4 text-sm font-poppins">
+                <div className="flex items-start gap-3.5">
+                  <div className="w-7 h-7 rounded-lg bg-[#2563FF]/20 text-[#60A5FA] flex items-center justify-center flex-shrink-0 text-xs font-bold font-barlow mt-0.5">
+                    01
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-white">Discovery & Alignment</h4>
+                    <p className="text-white/60 text-xs mt-0.5">We review your brief, objectives, and brand aesthetics within 24h.</p>
+                  </div>
                 </div>
-                <div className="flex justify-between items-center pb-2 border-b border-white/5">
-                  <span className="text-white/60">Saturday</span>
-                  <span className="text-white font-medium">10:00 AM - 3:00 PM</span>
+
+                <div className="flex items-start gap-3.5">
+                  <div className="w-7 h-7 rounded-lg bg-[#2563FF]/20 text-[#60A5FA] flex items-center justify-center flex-shrink-0 text-xs font-bold font-barlow mt-0.5">
+                    02
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-white">Concept & Creative Treatment</h4>
+                    <p className="text-white/60 text-xs mt-0.5">We prepare moodboards, storyboards, and clear budget estimates.</p>
+                  </div>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-white/60">Sunday</span>
-                  <span className="text-white/50">Closed</span>
+
+                <div className="flex items-start gap-3.5">
+                  <div className="w-7 h-7 rounded-lg bg-[#2563FF]/20 text-[#60A5FA] flex items-center justify-center flex-shrink-0 text-xs font-bold font-barlow mt-0.5">
+                    03
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-white">Cinematic Production</h4>
+                    <p className="text-white/60 text-xs mt-0.5">Full-scale shoot execution with cinema-grade cameras, lighting, and audio.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3.5">
+                  <div className="w-7 h-7 rounded-lg bg-[#2563FF]/20 text-[#60A5FA] flex items-center justify-center flex-shrink-0 text-xs font-bold font-barlow mt-0.5">
+                    04
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-white">Master Delivery</h4>
+                    <p className="text-white/60 text-xs mt-0.5">Multi-format export optimized for 4K cinema, web, and vertical social channels.</p>
+                  </div>
                 </div>
               </div>
             </div>

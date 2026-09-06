@@ -183,16 +183,21 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
 
   return (
     <div className="min-h-screen bg-[#0B0E17] text-white overflow-x-hidden pt-28 pb-20">
-      {/* Top Header Row matching Page 3 of PDF */}
-      <section className="max-w-[1700px] w-full mx-auto px-6 sm:px-8 md:px-12 lg:px-16 pt-4 pb-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-8">
+      {/* Top Header Row spanning full screen width */}
+      <section className="w-full px-4 sm:px-6 md:px-10 lg:px-12 xl:px-16 pt-4 pb-8">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 border-b border-white/10 pb-8">
           <div>
-            <span className="text-[#60A5FA] text-xs font-poppins font-semibold tracking-[0.3em] uppercase mb-2 block">
-              Portfolio
-            </span>
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold font-barlow text-white tracking-tight">
-              Work
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#2563FF]/10 border border-[#2563FF]/20 text-[#60A5FA] text-xs font-poppins font-semibold tracking-[0.25em] uppercase mb-3">
+              <span>•</span>
+              <span>PORTFOLIO & SHOWCASE</span>
+              <span>•</span>
+            </div>
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold font-barlow text-white tracking-tight leading-none">
+              Selected Works
             </h1>
+            <p className="text-white/70 text-sm sm:text-base font-poppins mt-3 max-w-2xl leading-relaxed">
+              Explore our curated portfolio of commercial films, brand documentaries, spatial experiences, and visual campaigns crafted for industry leaders.
+            </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
@@ -202,9 +207,9 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id)}
-                  className={`px-4 py-2 rounded-full text-xs font-poppins font-medium tracking-wider uppercase transition-all duration-300 cursor-pointer ${
+                  className={`px-4 py-2 rounded-full text-xs font-poppins font-semibold tracking-wider uppercase transition-all duration-300 cursor-pointer ${
                     selectedCategory === cat.id
-                      ? 'bg-[#2563FF] text-white shadow-[0_0_15px_rgba(37,99,255,0.4)] border border-[#2563FF]'
+                      ? 'bg-[#2563FF] text-white shadow-[0_0_20px_rgba(37,99,255,0.45)] border border-[#2563FF]'
                       : 'bg-[#0F1628] text-white/70 hover:bg-[#141A2B] hover:text-white border border-[#141A2B]'
                   }`}
                 >
@@ -238,11 +243,11 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
         </div>
       </section>
 
-      {/* 4-Column Full-Width Projects Showcase Grid */}
-      <section className="max-w-[1700px] w-full mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-6">
+      {/* Full-Width Projects Showcase Grid */}
+      <section className="w-full px-4 sm:px-6 md:px-10 lg:px-12 xl:px-16 py-6">
         <motion.div
           layout
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-7"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-4 gap-6 lg:gap-8"
         >
           <AnimatePresence>
             {filteredProjects.map((project, idx) => (
@@ -252,49 +257,97 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4, delay: idx * 0.04 }}
+                transition={{ duration: 0.4, delay: idx * 0.03 }}
                 onClick={() => setActiveVideo(project)}
-                className={`group relative rounded-2xl overflow-hidden cursor-pointer bg-[#0F1628] border border-[#141A2B] hover:border-[#2563FF]/50 transition-all duration-500 shadow-xl ${
-                  viewMode === 'masonry' && (idx % 3 === 0) ? 'h-[440px]' : 'h-[360px]'
+                className={`group relative rounded-2xl overflow-hidden cursor-pointer bg-[#0F1628] border border-[#141A2B] hover:border-[#2563FF] transition-all duration-500 shadow-xl hover:shadow-[0_12px_35px_rgba(37,99,255,0.25)] ${
+                  viewMode === 'masonry' && idx % 3 === 0 ? 'h-[480px]' : 'h-[400px] xl:h-[440px]'
                 }`}
               >
                 {/* Thumbnail Image */}
                 <img
                   src={project.thumbnail}
                   alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 brightness-90 group-hover:brightness-100"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108 brightness-90 group-hover:brightness-100"
                 />
 
                 {/* Dark Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E17]/95 via-[#0B0E17]/30 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E17] via-[#0B0E17]/40 to-transparent opacity-85 group-hover:opacity-95 transition-opacity duration-300" />
+
+                {/* Top Client Badge */}
+                <div className="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none">
+                  <span className="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-[11px] font-poppins font-medium text-white/80 border border-white/10">
+                    {project.client}
+                  </span>
+                  <span className="text-xs font-poppins font-bold text-white/40 tracking-wider">
+                    {project.year}
+                  </span>
+                </div>
 
                 {/* Center Play Icon on Hover */}
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                  <div className="w-14 h-14 rounded-full bg-[#2563FF] text-white flex items-center justify-center shadow-[0_0_25px_rgba(37,99,255,0.7)] group-hover:scale-110 transition-transform">
-                    <Play className="w-5 h-5 fill-current ml-0.5" />
+                  <div className="w-16 h-16 rounded-full bg-[#2563FF] text-white flex items-center justify-center shadow-[0_0_30px_rgba(37,99,255,0.8)] group-hover:scale-110 transition-transform">
+                    <Play className="w-6 h-6 fill-current ml-0.5" />
                   </div>
                 </div>
 
-                {/* Card Bottom Meta (matching Page 3 of PDF) */}
-                <div className="absolute bottom-0 inset-x-0 p-5 flex items-end justify-between">
+                {/* Card Bottom Meta */}
+                <div className="absolute bottom-0 inset-x-0 p-6 flex items-end justify-between bg-gradient-to-t from-[#0B0E17] to-transparent">
                   <div>
-                    <h3 className="text-xl md:text-2xl font-bold font-barlow text-white group-hover:text-[#60A5FA] transition-colors leading-tight">
+                    <span className="text-[11px] font-poppins font-semibold uppercase tracking-wider text-[#60A5FA] block mb-1">
+                      {project.category}
+                    </span>
+                    <h3 className="text-2xl lg:text-3xl font-bold font-barlow text-white group-hover:text-[#60A5FA] transition-colors leading-tight">
                       {project.title}
                     </h3>
-                    <p className="text-xs font-poppins text-white/60 mt-0.5">
-                      {project.category}
-                    </p>
                   </div>
 
-                  {/* Plus Pill Button (from Page 3 of PDF) */}
-                  <div className="w-8 h-8 rounded-full bg-white/10 group-hover:bg-[#2563FF] text-white/70 group-hover:text-white flex items-center justify-center transition-all duration-300 backdrop-blur-md border border-white/10 group-hover:border-[#2563FF]">
-                    <Plus className="w-4 h-4" />
+                  {/* Plus Pill Button */}
+                  <div className="w-10 h-10 rounded-full bg-white/10 group-hover:bg-[#2563FF] text-white/80 group-hover:text-white flex items-center justify-center transition-all duration-300 backdrop-blur-md border border-white/15 group-hover:border-[#2563FF] group-hover:scale-110 shadow-lg">
+                    <Plus className="w-5 h-5" />
                   </div>
                 </div>
               </motion.div>
             ))}
           </AnimatePresence>
         </motion.div>
+      </section>
+
+      {/* Full-Width Capabilities Banner */}
+      <section className="w-full px-4 sm:px-6 md:px-10 lg:px-12 xl:px-16 py-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-8 lg:p-12 rounded-3xl bg-[#0F1628] border border-[#141A2B] shadow-2xl text-center">
+          <div>
+            <div className="text-3xl sm:text-4xl md:text-5xl font-black font-barlow text-white mb-1">
+              16+
+            </div>
+            <div className="text-xs font-poppins font-semibold tracking-wider text-[#60A5FA] uppercase">
+              Featured Productions
+            </div>
+          </div>
+          <div>
+            <div className="text-3xl sm:text-4xl md:text-5xl font-black font-barlow text-white mb-1">
+              8K & 4K
+            </div>
+            <div className="text-xs font-poppins font-semibold tracking-wider text-[#60A5FA] uppercase">
+              Cinema Grade Pipeline
+            </div>
+          </div>
+          <div>
+            <div className="text-3xl sm:text-4xl md:text-5xl font-black font-barlow text-white mb-1">
+              100%
+            </div>
+            <div className="text-xs font-poppins font-semibold tracking-wider text-[#60A5FA] uppercase">
+              In-House Execution
+            </div>
+          </div>
+          <div>
+            <div className="text-3xl sm:text-4xl md:text-5xl font-black font-barlow text-white mb-1">
+              28+
+            </div>
+            <div className="text-xs font-poppins font-semibold tracking-wider text-[#60A5FA] uppercase">
+              Global Brand Partners
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Video Playback Modal Overlay */}
@@ -306,7 +359,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setActiveVideo(null)}
-              className="fixed inset-0 bg-black/85 backdrop-blur-md"
+              className="fixed inset-0 bg-black/90 backdrop-blur-md"
             />
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
@@ -331,15 +384,15 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
         )}
       </AnimatePresence>
 
-      {/* Bottom CTA Banner */}
-      <section className="max-w-[1700px] w-full mx-auto px-6 sm:px-8 md:px-12 lg:px-16 mt-16">
+      {/* Full-Width Bottom CTA Banner */}
+      <section className="w-full px-4 sm:px-6 md:px-10 lg:px-12 xl:px-16 mt-8">
         <div className="rounded-3xl bg-[#0F1628] border border-[#141A2B] p-10 md:p-16 lg:p-20 text-center shadow-2xl">
           <h2 className="text-3xl sm:text-5xl md:text-6xl font-black italic text-white uppercase font-barlow leading-tight mb-4">
             READY TO CREATE <br />
             <span className="text-[#2563FF]">YOUR STORY?</span>
           </h2>
-          <p className="text-white/70 text-base md:text-lg font-poppins max-w-2xl mx-auto leading-relaxed mb-8">
-            Let's collaborate to bring your vision to life with compelling visuals and digital experiences that resonate.
+          <p className="text-white/70 text-base md:text-lg font-poppins max-w-3xl mx-auto leading-relaxed mb-8">
+            Let's collaborate to bring your vision to life with compelling visuals and digital experiences that resonate and convert.
           </p>
           <button
             onClick={onOpenContact ? onOpenContact : () => navigate('/contact')}

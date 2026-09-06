@@ -105,25 +105,36 @@ export const Services: React.FC<{ onOpenContact?: () => void }> = ({ onOpenConta
 
   return (
     <div className="min-h-screen bg-[#0B0E17] text-white overflow-hidden pt-28 pb-20">
-      {/* Top Header Row */}
-      <section className="max-w-[1700px] w-full mx-auto px-6 sm:px-8 md:px-12 lg:px-16 pt-4 pb-12">
-        <div className="border-b border-white/10 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+      {/* Top Header Row spanning full width */}
+      <section className="w-full px-4 sm:px-6 md:px-10 lg:px-12 xl:px-16 pt-4 pb-12">
+        <div className="border-b border-white/10 pb-8 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
           <div>
-            <span className="text-[#60A5FA] text-xs font-poppins font-semibold tracking-[0.3em] uppercase mb-2 block">
-              Capabilities
-            </span>
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold font-barlow text-white tracking-tight">
-              Our Services
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#2563FF]/10 border border-[#2563FF]/20 text-[#60A5FA] text-xs font-poppins font-semibold tracking-[0.25em] uppercase mb-3">
+              <span>•</span>
+              <span>CAPABILITIES & MEDIA SOLUTIONS</span>
+              <span>•</span>
+            </div>
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold font-barlow text-white tracking-tight leading-none">
+              Our Capabilities
             </h1>
+            <p className="text-white/70 text-base sm:text-lg font-poppins mt-3 max-w-2xl leading-relaxed">
+              End-to-end creative digital solutions and media production crafted to help ambitious brands captivate audiences and dominate their market.
+            </p>
           </div>
-          <p className="text-white/70 text-sm md:text-base font-poppins max-w-xl leading-relaxed">
-            End-to-end creative digital solutions and media production crafted to help modern brands engage, connect, and thrive.
-          </p>
+
+          <div className="flex items-center gap-4">
+            <button
+              onClick={onOpenContact ? onOpenContact : () => navigate('/contact')}
+              className="px-8 py-3.5 bg-[#2563FF] hover:bg-[#3B82F6] text-white font-semibold rounded-full text-xs uppercase tracking-wider transition-all duration-300 hover:scale-105 shadow-[0_0_20px_rgba(37,99,255,0.4)] border border-[#60A5FA]/30 cursor-pointer"
+            >
+              Request a Proposal
+            </button>
+          </div>
         </div>
       </section>
 
       {/* Full-Width 3-Column Services Grid */}
-      <section className="max-w-[1700px] w-full mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-6">
+      <section className="w-full px-4 sm:px-6 md:px-10 lg:px-12 xl:px-16 py-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {servicesData.map((service, idx) => (
             <motion.div
@@ -131,44 +142,49 @@ export const Services: React.FC<{ onOpenContact?: () => void }> = ({ onOpenConta
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.5, delay: idx * 0.08 }}
-              className="group relative bg-[#0F1628] border border-[#141A2B] hover:border-[#2563FF]/50 rounded-3xl p-8 md:p-10 transition-all duration-500 shadow-xl flex flex-col justify-between"
+              transition={{ duration: 0.5, delay: idx * 0.06 }}
+              className="group relative bg-[#0F1628] border border-[#141A2B] hover:border-[#2563FF] rounded-3xl p-8 md:p-10 xl:p-12 transition-all duration-500 shadow-xl hover:shadow-[0_12px_35px_rgba(37,99,255,0.2)] flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between mb-8">
-                  <div className="w-14 h-14 rounded-2xl bg-[#2563FF]/10 group-hover:bg-[#2563FF]/20 flex items-center justify-center border border-[#2563FF]/20 transition-all duration-300">
+                  <div className="w-16 h-16 rounded-2xl bg-[#2563FF]/10 group-hover:bg-[#2563FF]/20 flex items-center justify-center border border-[#2563FF]/25 transition-all duration-300 group-hover:scale-105">
                     {service.icon}
                   </div>
-                  <span className="text-xs font-poppins font-bold text-white/30 tracking-widest uppercase">
+                  <span className="text-sm font-poppins font-bold text-white/30 tracking-widest uppercase">
                     0{idx + 1}
                   </span>
                 </div>
 
-                <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 font-barlow group-hover:text-[#60A5FA] transition-colors">
+                <h2 className="text-2xl md:text-3xl xl:text-4xl font-bold text-white mb-2 font-barlow group-hover:text-[#60A5FA] transition-colors">
                   {service.title}
                 </h2>
                 <p className="text-xs md:text-sm text-[#60A5FA] font-semibold uppercase tracking-wider mb-4 font-poppins">
                   {service.subtitle}
                 </p>
-                <p className="text-sm md:text-base text-white/70 mb-6 leading-relaxed font-poppins">
+                <p className="text-sm md:text-base text-white/70 mb-8 leading-relaxed font-poppins">
                   {service.description}
                 </p>
 
-                <ul className="space-y-2.5 mb-8 font-poppins border-t border-white/5 pt-5">
-                  {service.features.map((feat, fIdx) => (
-                    <li key={fIdx} className="flex items-center gap-2.5 text-xs md:text-sm text-white/75">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#2563FF]" />
-                      <span>{feat}</span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="border-t border-white/5 pt-6 mb-8">
+                  <span className="text-[11px] font-poppins font-semibold text-white/40 uppercase tracking-widest block mb-3">
+                    Deliverables & Scope
+                  </span>
+                  <ul className="space-y-2.5 font-poppins">
+                    {service.features.map((feat, fIdx) => (
+                      <li key={fIdx} className="flex items-center gap-3 text-xs md:text-sm text-white/80">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#2563FF] flex-shrink-0" />
+                        <span>{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
 
               <button
                 onClick={onOpenContact ? onOpenContact : () => navigate('/contact')}
-                className="flex items-center gap-2 text-xs md:text-sm font-poppins font-semibold uppercase tracking-wider text-[#60A5FA] group-hover:text-[#2563FF] transition-colors cursor-pointer"
+                className="flex items-center gap-2 text-xs md:text-sm font-poppins font-semibold uppercase tracking-wider text-[#60A5FA] group-hover:text-white transition-colors cursor-pointer pt-4 border-t border-white/5"
               >
-                <span>Learn More</span>
+                <span>Book This Service</span>
                 <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
               </button>
             </motion.div>
@@ -176,15 +192,68 @@ export const Services: React.FC<{ onOpenContact?: () => void }> = ({ onOpenConta
         </div>
       </section>
 
-      {/* Episodes Section from Page 2 of Brand Spec PDF */}
-      <section className="max-w-[1700px] w-full mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-16">
-        <div className="mb-8">
-          <span className="text-[#60A5FA] text-xs font-poppins font-semibold tracking-[0.3em] uppercase mb-2 block">
-            Featured Productions
-          </span>
-          <h2 className="text-3xl md:text-5xl font-bold font-barlow text-white">
-            Original Series & Case Studies
-          </h2>
+      {/* Full-Width Studio Production Workflow Strip */}
+      <section className="w-full px-4 sm:px-6 md:px-10 lg:px-12 xl:px-16 py-14">
+        <div className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-8 lg:p-14 shadow-2xl">
+          <div className="mb-10 text-center max-w-2xl mx-auto">
+            <span className="text-[#60A5FA] text-xs font-poppins font-semibold tracking-[0.3em] uppercase mb-2 block">
+              Workflow & Methodology
+            </span>
+            <h2 className="text-3xl md:text-5xl font-bold font-barlow text-white">
+              How We Bring Ideas to Life
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/5">
+              <div className="text-2xl font-black font-barlow text-[#2563FF] mb-2">PHASE 01</div>
+              <h3 className="text-lg font-bold font-barlow text-white mb-2">Strategy & Ideation</h3>
+              <p className="text-xs md:text-sm text-white/60 font-poppins leading-relaxed">
+                Brand discovery, target analysis, scriptwriting, and concept moodboards aligned with your business goals.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/5">
+              <div className="text-2xl font-black font-barlow text-[#2563FF] mb-2">PHASE 02</div>
+              <h3 className="text-lg font-bold font-barlow text-white mb-2">Cinematic Production</h3>
+              <p className="text-xs md:text-sm text-white/60 font-poppins leading-relaxed">
+                On-location or studio filming with cinema cameras, master lighting rigs, and professional direction.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/5">
+              <div className="text-2xl font-black font-barlow text-[#2563FF] mb-2">PHASE 03</div>
+              <h3 className="text-lg font-bold font-barlow text-white mb-2">Post & Color Science</h3>
+              <p className="text-xs md:text-sm text-white/60 font-poppins leading-relaxed">
+                Dynamic video editing, custom motion VFX, DaVinci Resolve color grading, and immersive sound design.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/5">
+              <div className="text-2xl font-black font-barlow text-[#2563FF] mb-2">PHASE 04</div>
+              <h3 className="text-lg font-bold font-barlow text-white mb-2">Multi-Format Rollout</h3>
+              <p className="text-xs md:text-sm text-white/60 font-poppins leading-relaxed">
+                Optimized delivery for cinema screens, 4K web streamers, and high-conversion vertical social assets.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Original Series Section */}
+      <section className="w-full px-4 sm:px-6 md:px-10 lg:px-12 xl:px-16 py-6">
+        <div className="mb-8 border-b border-white/10 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <span className="text-[#60A5FA] text-xs font-poppins font-semibold tracking-[0.3em] uppercase mb-2 block">
+              Featured Productions
+            </span>
+            <h2 className="text-3xl md:text-5xl font-bold font-barlow text-white">
+              Original Series & Case Studies
+            </h2>
+          </div>
+          <p className="text-white/60 text-sm font-poppins max-w-md">
+            Behind the scenes and episodic media highlighting our storytelling methodologies.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
@@ -195,28 +264,28 @@ export const Services: React.FC<{ onOpenContact?: () => void }> = ({ onOpenConta
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="group relative rounded-3xl overflow-hidden bg-[#0F1628] border border-[#141A2B] hover:border-[#2563FF]/50 transition-all duration-500 shadow-xl"
+              className="group relative rounded-3xl overflow-hidden bg-[#0F1628] border border-[#141A2B] hover:border-[#2563FF] transition-all duration-500 shadow-xl"
             >
-              <div className="h-56 overflow-hidden relative">
+              <div className="h-64 overflow-hidden relative">
                 <img
                   src={ep.image}
                   alt={ep.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0F1628] via-transparent to-transparent" />
               </div>
-              <div className="p-6 md:p-8">
+              <div className="p-8">
                 <span className="text-[11px] font-poppins font-bold tracking-widest text-[#2563FF] uppercase mb-2 block">
                   {ep.tag}
                 </span>
                 <h3 className="text-xl md:text-2xl font-bold font-barlow text-white mb-2 group-hover:text-[#60A5FA] transition-colors">
                   {ep.title}
                 </h3>
-                <p className="text-xs md:text-sm text-white/65 font-poppins leading-relaxed mb-4">
+                <p className="text-xs md:text-sm text-white/65 font-poppins leading-relaxed mb-6">
                   {ep.description}
                 </p>
                 <div className="flex items-center gap-2 text-xs font-poppins font-semibold uppercase tracking-wider text-white group-hover:text-[#60A5FA] transition-colors">
-                  <span>Watch Now</span>
+                  <span>Explore Case Study</span>
                   <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
@@ -225,8 +294,8 @@ export const Services: React.FC<{ onOpenContact?: () => void }> = ({ onOpenConta
         </div>
       </section>
 
-      {/* Wide Bottom CTA Box Banner */}
-      <section className="max-w-[1700px] w-full mx-auto px-6 sm:px-8 md:px-12 lg:px-16 mt-8">
+      {/* Full-Width Bottom CTA Box Banner */}
+      <section className="w-full px-4 sm:px-6 md:px-10 lg:px-12 xl:px-16 mt-12">
         <div className="rounded-3xl bg-[#0F1628] border border-[#141A2B] p-10 md:p-16 lg:p-20 text-center shadow-2xl">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#2563FF]/10 border border-[#2563FF]/20 text-[#60A5FA] text-xs font-poppins font-medium tracking-widest uppercase mb-4">
             <Sparkles className="w-3.5 h-3.5 text-[#2563FF]" />
