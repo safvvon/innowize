@@ -9,9 +9,19 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const eyeRef = useRef<HTMLDivElement>(null);
   const [eyeAngle, setEyeAngle] = useState(0);
+
+  // Dynamic scroll state
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Eyeball cursor tracking
   useEffect(() => {
@@ -50,24 +60,34 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-50 pointer-events-none">
-        <nav className="max-w-[1440px] mx-auto w-full flex items-center justify-between px-6 md:px-12 py-5 pointer-events-auto">
-          {/* Logo */}
-          <Link to="/" className="flex-shrink-0 relative z-50 group">
+      {/* Full-width Glassy Navbar (Right to Left Side) */}
+      <header
+        className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
+          scrolled
+            ? 'bg-[#2b2b2b]/80 backdrop-blur-2xl border-b border-white/15 shadow-[0_10px_35px_rgba(0,0,0,0.4)] py-3 md:py-3.5'
+            : 'bg-[#363636]/60 backdrop-blur-xl border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.2)] py-4 md:py-4.5'
+        }`}
+      >
+        {/* Subtle top edge shimmer */}
+        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-beta/50 to-transparent pointer-events-none" />
+
+        <nav className="max-w-[1440px] mx-auto w-full flex items-center justify-between px-6 md:px-12">
+          {/* Logo on Left */}
+          <Link to="/" className="flex-shrink-0 relative z-50 group flex items-center">
             <img
               src="/images/logo.png"
               alt="Noozi Productions"
-              className="h-9 md:h-10 object-contain transition-transform duration-500 group-hover:scale-105"
+              className="h-8 md:h-9 object-contain transition-transform duration-500 group-hover:scale-105"
             />
           </Link>
 
-          {/* Desktop Nav Pill */}
-          <div className="hidden lg:flex bg-white/5 backdrop-blur-xl border border-white/10 rounded-full px-8 py-3.5 shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
-            <ul className="flex items-center space-x-10 text-white/90 text-xs font-semibold tracking-[0.15em] font-poppins">
+          {/* Desktop Navigation Links in Center */}
+          <div className="hidden lg:flex items-center">
+            <ul className="flex items-center space-x-10 text-white/90 text-xs font-semibold tracking-[0.18em] font-poppins">
               <li>
                 <Link
                   to="/services"
-                  className="relative hover:text-[#c9654f] transition-colors duration-300 after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-[1px] after:bg-[#c9654f] hover:after:w-full after:transition-all after:duration-300"
+                  className="relative hover:text-beta transition-colors duration-300 after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:w-0 after:h-[1.5px] after:bg-beta hover:after:w-full after:transition-all after:duration-300"
                 >
                   SERVICES
                 </Link>
@@ -75,7 +95,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
               <li>
                 <Link
                   to="/work"
-                  className="relative hover:text-[#c9654f] transition-colors duration-300 after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-[1px] after:bg-[#c9654f] hover:after:w-full after:transition-all after:duration-300"
+                  className="relative hover:text-beta transition-colors duration-300 after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:w-0 after:h-[1.5px] after:bg-beta hover:after:w-full after:transition-all after:duration-300"
                 >
                   WORK
                 </Link>
@@ -83,7 +103,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
               <li>
                 <Link
                   to="/about"
-                  className="relative hover:text-[#c9654f] transition-colors duration-300 after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-[1px] after:bg-[#c9654f] hover:after:w-full after:transition-all after:duration-300"
+                  className="relative hover:text-beta transition-colors duration-300 after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:w-0 after:h-[1.5px] after:bg-beta hover:after:w-full after:transition-all after:duration-300"
                 >
                   ABOUT
                 </Link>
@@ -91,7 +111,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
               <li>
                 <Link
                   to="/contact"
-                  className="relative hover:text-[#c9654f] transition-colors duration-300 after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-[1px] after:bg-[#c9654f] hover:after:w-full after:transition-all after:duration-300"
+                  className="relative hover:text-beta transition-colors duration-300 after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:w-0 after:h-[1.5px] after:bg-beta hover:after:w-full after:transition-all after:duration-300"
                 >
                   CONTACT
                 </Link>
@@ -99,7 +119,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
             </ul>
           </div>
 
-          {/* Right Action: Let's Talk & Mobile Toggle */}
+          {/* Right Action: Let's Talk CTA & Mobile Hamburger */}
           <div className="flex items-center gap-4">
             {/* Interactive Eyeball CTA Button */}
             <button
@@ -124,10 +144,10 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
               </span>
             </button>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Toggle Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="flex lg:hidden w-10 h-10 items-center justify-center rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white hover:bg-white/10 transition-colors cursor-pointer"
+              className="flex lg:hidden w-10 h-10 items-center justify-center rounded-full bg-white/10 border border-white/15 backdrop-blur-md text-white hover:bg-white/20 transition-colors cursor-pointer"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -136,86 +156,118 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
         </nav>
       </header>
 
-      {/* Mobile Menu Overlay */}
+      {/* Glassy Mobile Drawer Sliding From Right to Left Side */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20, transition: { duration: 0.2 } }}
-            className="fixed inset-0 z-40 bg-[#0a0a0a]/95 backdrop-blur-2xl flex flex-col items-center justify-center lg:hidden"
-          >
-            <ul className="flex flex-col items-center gap-8 text-white font-poppins text-xl font-medium tracking-widest">
-              <motion.li
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-              >
-                <Link
-                  to="/services"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="hover:text-[#c9654f] transition-colors"
-                >
-                  SERVICES
-                </Link>
-              </motion.li>
-              <motion.li
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-              >
-                <Link
-                  to="/work"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="hover:text-[#c9654f] transition-colors"
-                >
-                  WORK
-                </Link>
-              </motion.li>
-              <motion.li
+          <div className="fixed inset-0 z-50 lg:hidden">
+            {/* Dark Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+            />
+
+            {/* Drawer Panel: Right to Left Side */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 28, stiffness: 260 }}
+              className="fixed top-0 right-0 bottom-0 w-full sm:w-80 bg-[#242424]/90 backdrop-blur-2xl border-l border-white/10 p-8 flex flex-col justify-between shadow-2xl z-50"
+            >
+              <div>
+                <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-8">
+                  <img src="/images/logo.png" alt="Noozi" className="h-8 object-contain" />
+                  <button
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-white cursor-pointer"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <ul className="flex flex-col gap-6 text-white font-poppins text-lg font-medium tracking-wider">
+                  <motion.li
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 }}
+                  >
+                    <Link
+                      to="/services"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="hover:text-beta transition-colors flex items-center justify-between"
+                    >
+                      <span>SERVICES</span>
+                      <span className="text-xs text-white/30">01</span>
+                    </Link>
+                  </motion.li>
+                  <motion.li
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.15 }}
+                  >
+                    <Link
+                      to="/work"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="hover:text-beta transition-colors flex items-center justify-between"
+                    >
+                      <span>WORK</span>
+                      <span className="text-xs text-white/30">02</span>
+                    </Link>
+                  </motion.li>
+                  <motion.li
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <Link
+                      to="/about"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="hover:text-beta transition-colors flex items-center justify-between"
+                    >
+                      <span>ABOUT</span>
+                      <span className="text-xs text-white/30">03</span>
+                    </Link>
+                  </motion.li>
+                  <motion.li
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.25 }}
+                  >
+                    <Link
+                      to="/contact"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="hover:text-beta transition-colors flex items-center justify-between"
+                    >
+                      <span>CONTACT</span>
+                      <span className="text-xs text-white/30">04</span>
+                    </Link>
+                  </motion.li>
+                </ul>
+              </div>
+
+              {/* Drawer Bottom CTA */}
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-              >
-                <Link
-                  to="/about"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="hover:text-[#c9654f] transition-colors"
-                >
-                  ABOUT
-                </Link>
-              </motion.li>
-              <motion.li
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35 }}
-              >
-                <Link
-                  to="/contact"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="hover:text-[#c9654f] transition-colors"
-                >
-                  CONTACT
-                </Link>
-              </motion.li>
-              <motion.li
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="mt-6"
+                className="pt-6 border-t border-white/10"
               >
                 <button
                   onClick={() => {
                     setIsMobileMenuOpen(false);
                     onOpenContact();
                   }}
-                  className="bg-beta text-white px-8 py-4 rounded-full font-paytone tracking-wider uppercase text-sm shadow-[0_0_30px_rgba(36,138,97,0.4)] cursor-pointer"
+                  className="w-full bg-beta hover:bg-[#1e7250] text-white py-4 rounded-xl font-paytone tracking-wider uppercase text-sm shadow-[0_0_25px_rgba(36,138,97,0.4)] cursor-pointer"
                 >
                   Let's Talk
                 </button>
-              </motion.li>
-            </ul>
-          </motion.div>
+              </motion.div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </>
