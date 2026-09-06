@@ -96,22 +96,22 @@ export const IntroTextLayer: React.FC = () => {
       className="absolute inset-0 z-30 flex flex-col justify-start mt-[8vh] md:mt-0 lg:mt-[8vh] pt-0 pointer-events-none overflow-visible w-full px-4 -ml-8 md:ml-0"
     >
       <div ref={r1} className="w-full flex justify-start pl-[59vw] will-change-transform">
-        <h1 className={textStyle}>creative</h1>
+        <h1 className={textStyle}>we</h1>
       </div>
       <div ref={r2} className="w-full flex justify-start pl-[5vw] will-change-transform">
-        <h1 className={textStyle}>agency</h1>
+        <h1 className={textStyle}>turn</h1>
       </div>
       <div ref={r3} className="w-full flex justify-start pl-[55vw] will-change-transform">
-        <h1 className={textStyle}>for</h1>
+        <h1 className={textStyle}>ideas</h1>
       </div>
       <div ref={r4} className="w-full flex justify-start pl-[2vw] will-change-transform">
-        <h1 className={textStyle}>visual</h1>
+        <h1 className={textStyle}>into</h1>
       </div>
       <div ref={r5} className="w-full flex justify-start pl-[35vw] will-change-transform">
-        <h1 className={textStyle}>brands</h1>
+        <h1 className={textStyle}>digital</h1>
       </div>
       <div ref={r6} className="w-full flex justify-start pl-[2vw] will-change-transform">
-        <h1 className={`${textStyle} whitespace-nowrap`}>& production</h1>
+        <h1 className={`${textStyle} whitespace-nowrap`}>experiences</h1>
       </div>
       <div
         ref={r7}

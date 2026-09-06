@@ -195,7 +195,7 @@ export const Hero: React.FC = () => {
   }, []);
 
   const headlineChars = 'INNOWIZE'.split('');
-  const subWords = ['WE', 'CREATE', 'STORIES', 'THAT', 'MOVE'];
+  const subWords = ['WE', 'TURN', 'IDEAS', 'INTO', 'EXPERIENCES'];
 
   return (
     <section className="relative h-screen md:h-[84vh] w-full bg-[#0B0E17] flex items-center justify-center overflow-hidden">
@@ -368,7 +368,7 @@ export const Hero: React.FC = () => {
                 ease: [0.16, 1, 0.3, 1],
               }}
               className={`text-base md:text-xl lg:text-2xl font-poppins tracking-[0.2em] uppercase ${
-                word === 'STORIES' ? 'text-[#2563FF] font-bold' : 'text-slate-300 font-light'
+                word === 'EXPERIENCES' ? 'text-[#2563FF] font-bold' : 'text-slate-300 font-light'
               }`}
             >
               {word}
@@ -405,7 +405,7 @@ export const Hero: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2.0, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          Crafting visual narratives, brand experiences & digital stories that captivate audiences and drive impact.
+          Crafting future-ready digital experiences, cinematic media & innovative technology that captivate audiences.
         </motion.p>
 
         {/* CTA Button in Electric Blue */}

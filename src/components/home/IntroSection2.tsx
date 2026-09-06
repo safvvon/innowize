@@ -56,28 +56,28 @@ export const IntroSection2: React.FC = () => {
               ref={headingRef}
               className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight text-white font-barlow"
             >
-              For Innowize Digital,{' '}
-              <span className="text-[#60A5FA]">creativity meets storytelling</span>{' '}
-              to help brands grow in the digital world.
+              We craft future-ready{' '}
+              <span className="text-[#60A5FA]">digital experiences</span>{' '}
+              that blend creativity, technology, and strategy.
             </h2>
           </div>
           <div className="flex flex-col justify-center gap-4 md:gap-5 text-xs md:text-sm lg:text-base font-poppins">
             <p ref={textRef} className="text-white/80 leading-relaxed">
-              Based in Kochi, Kerala, we specialize in crafting{' '}
+              At Innowize Digital, we{' '}
               <span className="font-semibold text-white">
-                high-impact Instagram Reel advertisements
-              </span>{' '}
-              and short-form video content that captures attention and drives engagement. We work with{' '}
+                turn ideas into experiences
+              </span>
+              . We engineer{' '}
               <span className="font-semibold text-white">
-                growing brands, local businesses, and ambitious entrepreneurs
-              </span>{' '}
-              who want to stand out in today's fast-moving digital landscape. As a creative video production partner, we collaborate with our clients to transform ideas into{' '}
+                cinematic video production, live streaming, digital marketing
+              </span>
+              , and next-generation{' '}
               <span className="font-semibold text-white">
-                scroll-stopping visuals, compelling stories, and results-driven content
+                AI & creative technology
               </span>{' '}
-              designed for Instagram and other social platforms. Our focus is simple:{' '}
+              to help ambitious brands stay ahead in the digital age. As a forward-thinking creative partner, we collaborate with visionary clients to build digital presences that inspire, engage, and drive extraordinary growth. Our focus is simple:{' '}
               <span className="font-semibold text-[#60A5FA]">
-                create content that connects, engages, and converts
+                craft experiences that captivate, connect, and convert
               </span>
               .
             </p>
