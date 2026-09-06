@@ -9,7 +9,9 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
-    "strict": false
+    "strict": false,
+    "typeRoots": ["./node_modules/@types"],
+    "types": []
   },
   "include": ["vite.config.ts"]
 }
