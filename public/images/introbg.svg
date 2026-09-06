@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="3028" height="1536" viewBox="0 0 3028 1536" fill="none">
-<g clip-path="url(#clip0_2214_2)">
-<rect x="-935" y="2474.1" width="3498.91" height="2057.93" rx="8" transform="rotate(-45 -935 2474.1)" fill="#248a61"/>
-</g>
-<defs fill="#000000">
-<clipPath id="clip0_2214_2" fill="#000000">
-<rect width="3028" height="1536" fill="white"/>
-</clipPath>
+<defs>
+<linearGradient id="introBlueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+  <stop offset="0%" stop-color="#2563FF"/>
+  <stop offset="50%" stop-color="#1D4ED8"/>
+  <stop offset="100%" stop-color="#172554"/>
+</linearGradient>
 </defs>
+<polygon points="0,1536 3028,384 3028,1536" fill="url(#introBlueGrad)"/>
 </svg>

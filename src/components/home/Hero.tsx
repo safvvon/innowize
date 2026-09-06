@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { InteractiveBackground } from '../InteractiveBackground';
 
 // Floating glow orb in electric blue hues
 const GlowOrb: React.FC<{
@@ -215,6 +216,19 @@ export const Hero: React.FC = () => {
           className="w-full h-full object-cover"
         />
       </motion.div>
+
+      {/* Interactive Vector Flow Field Background */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none z-[1] opacity-80">
+        <InteractiveBackground
+          strokeColor="#2563FF"
+          backgroundColor="transparent"
+          count={57}
+          movement={24}
+          hover={true}
+          force={4}
+          resolution={10}
+        />
+      </div>
 
       {/* Noise Texture Canvas */}
       <canvas
