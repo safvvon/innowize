@@ -42,11 +42,11 @@ const Counter: React.FC<{
       transition={{ delay: delay / 1000, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       className="text-center"
     >
-      <div className="text-4xl md:text-6xl lg:text-7xl font-bold font-barlow text-white mb-2">
+      <div className="text-4xl md:text-6xl lg:text-7xl font-bold font-barlow text-slate-900 mb-2">
         {count}
-        {suffix}
+        <span className="text-[#2563FF]">{suffix}</span>
       </div>
-      <div className="text-xs md:text-sm font-poppins font-medium text-white/60 tracking-wider uppercase">
+      <div className="text-xs md:text-sm font-poppins font-semibold text-slate-500 tracking-wider uppercase">
         {label}
       </div>
     </motion.div>
@@ -69,27 +69,27 @@ const ServiceCard: React.FC<{
       transition={{ delay: 0.1 + index * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ y: -6, transition: { duration: 0.3 } }}
       onClick={onExplore}
-      className="group relative p-8 rounded-2xl bg-[#0F1628]/80 hover:bg-[#141A2B] border border-white/10 hover:border-[#2563FF]/50 transition-all duration-300 backdrop-blur-sm cursor-pointer flex flex-col justify-between shadow-xl"
+      className="group relative p-8 rounded-2xl bg-white hover:bg-slate-50/80 border border-slate-200/90 hover:border-[#2563FF]/50 transition-all duration-300 cursor-pointer flex flex-col justify-between shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_15px_35px_rgba(37,99,255,0.08)]"
     >
       <div className="flex items-center justify-between mb-6">
-        <div className="text-sm font-poppins font-bold text-white/30 tracking-widest">
+        <div className="text-sm font-poppins font-bold text-slate-300 tracking-widest">
           0{index + 1}
         </div>
-        <div className="w-12 h-12 rounded-xl bg-[#2563FF]/10 group-hover:bg-[#2563FF]/20 flex items-center justify-center text-[#2563FF] group-hover:text-[#60A5FA] transition-colors duration-300 border border-[#2563FF]/20">
+        <div className="w-12 h-12 rounded-xl bg-blue-50 group-hover:bg-[#2563FF]/15 flex items-center justify-center text-[#2563FF] transition-colors duration-300 border border-blue-100/80">
           {icon}
         </div>
       </div>
 
       <div>
-        <h3 className="text-xl md:text-2xl font-bold font-barlow text-white mb-3 group-hover:text-[#60A5FA] transition-colors">
+        <h3 className="text-xl md:text-2xl font-bold font-barlow text-slate-900 mb-3 group-hover:text-[#2563FF] transition-colors">
           {title}
         </h3>
-        <p className="text-xs md:text-sm font-poppins text-white/70 leading-relaxed mb-6">
+        <p className="text-xs md:text-sm font-poppins text-slate-600 leading-relaxed mb-6">
           {description}
         </p>
       </div>
 
-      <div className="flex items-center gap-2 text-xs font-poppins font-semibold uppercase tracking-wider text-[#60A5FA] group-hover:text-[#2563FF] transition-colors">
+      <div className="flex items-center gap-2 text-xs font-poppins font-semibold uppercase tracking-wider text-[#2563FF] group-hover:text-[#1D4ED8] transition-colors">
         <span>Learn more</span>
         <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
       </div>
@@ -157,9 +157,9 @@ export const Clients: React.FC = () => {
   ];
 
   return (
-    <section className="relative w-full bg-[#0B0E17] flex flex-col items-center p-0 m-0 overflow-visible pt-16">
+    <section className="relative w-full bg-[#F8FAFC] flex flex-col items-center p-0 m-0 overflow-visible pt-16">
       {/* Subtle Divider Glow */}
-      <div className="w-full max-w-7xl h-px bg-gradient-to-r from-transparent via-[#2563FF]/30 to-transparent" />
+      <div className="w-full max-w-7xl h-px bg-gradient-to-r from-transparent via-[#2563FF]/20 to-transparent" />
 
       {/* Infinite Client Logos Marquee */}
       <div className="relative z-30 w-full pt-16 pb-12 overflow-hidden">
@@ -171,13 +171,13 @@ export const Clients: React.FC = () => {
           {[...clientLogos, ...clientLogos].map((c, i) => (
             <div
               key={i}
-              className="flex items-center justify-center hover:scale-105 transition-all duration-300 flex-shrink-0 bg-[#0F1628]/80 hover:bg-[#141A2B] border border-white/10 hover:border-[#2563FF]/30 rounded-xl backdrop-blur-sm p-4 shadow-lg"
+              className="flex items-center justify-center hover:scale-105 transition-all duration-300 flex-shrink-0 bg-white hover:bg-slate-50 border border-slate-200/80 hover:border-[#2563FF]/40 rounded-xl p-4 shadow-sm hover:shadow-md"
               style={{ width: '160px', height: '100px' }}
             >
               <img
                 src={c.src}
                 alt={c.alt}
-                className="max-w-[130px] max-h-[70px] w-auto h-auto object-contain brightness-110 contrast-125 transition-all duration-300"
+                className="max-w-[130px] max-h-[70px] w-auto h-auto object-contain transition-all duration-300"
               />
             </div>
           ))}
@@ -185,7 +185,7 @@ export const Clients: React.FC = () => {
       </div>
 
       {/* Stats Counter Row */}
-      <div className="relative z-30 max-w-6xl w-full px-6 py-16 my-8 border-y border-white/10">
+      <div className="relative z-30 max-w-6xl w-full px-6 py-16 my-8 border-y border-slate-200/80">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
           {stats.map((st, i) => (
             <Counter
@@ -202,13 +202,13 @@ export const Clients: React.FC = () => {
       {/* Services Section Header & Cards Grid */}
       <div className="relative z-30 max-w-7xl w-full px-6 md:px-12 py-16">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-[#60A5FA] text-xs md:text-sm font-poppins font-semibold tracking-[0.3em] uppercase mb-4 block">
+          <span className="text-[#2563FF] text-xs md:text-sm font-poppins font-semibold tracking-[0.3em] uppercase mb-4 block">
             What We Do
           </span>
-          <h2 className="text-4xl md:text-6xl font-bold font-barlow text-white leading-tight mb-4">
+          <h2 className="text-4xl md:text-6xl font-bold font-barlow text-slate-900 leading-tight mb-4">
             Crafting Impactful Visual Experiences
           </h2>
-          <p className="text-sm md:text-base font-poppins text-white/70">
+          <p className="text-sm md:text-base font-poppins text-slate-600">
             From social media hooks to full brand identities, we deliver end-to-end creative solutions tailored for modern businesses.
           </p>
         </div>

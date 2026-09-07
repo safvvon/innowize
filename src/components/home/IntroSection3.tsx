@@ -81,7 +81,7 @@ const ReelCard: React.FC<{
       onClick={() => onSelect(reel)}
       whileHover={{ y: -8, scale: 1.02 }}
       transition={{ duration: 0.35, ease: 'easeOut' }}
-      className="group flex-shrink-0 rounded-md overflow-hidden relative w-[280px] h-[320px] md:w-[420px] md:h-[480.5px] -mt-4 md:mt-0 cursor-pointer border border-white/10 hover:border-[#2563FF]/70 shadow-[0_20px_45px_rgba(0,0,0,0.6)] bg-[#0B0E17]"
+      className="group flex-shrink-0 rounded-xl overflow-hidden relative w-[280px] h-[320px] md:w-[420px] md:h-[480.5px] -mt-4 md:mt-0 cursor-pointer border border-slate-200/80 hover:border-[#2563FF]/70 shadow-[0_20px_45px_rgba(0,0,0,0.12)] hover:shadow-[0_25px_50px_rgba(37,99,255,0.2)] bg-slate-950"
       style={{
         willChange: 'transform',
         transform: 'translateZ(0)',
@@ -95,7 +95,7 @@ const ReelCard: React.FC<{
       />
 
       {/* Cinematic Dark Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E17] via-[#0B0E17]/40 to-black/30 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-black/30 pointer-events-none" />
 
       {/* Ambient Electric Blue Glow on Hover */}
       <div className="absolute inset-0 bg-gradient-to-tr from-[#2563FF]/20 via-transparent to-[#3B82F6]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
@@ -176,7 +176,7 @@ export const IntroSection3: React.FC = () => {
   const p4 = useTransform(scrollYProgress, [0, 1], ['0%', '-20%']);
 
   const bigTextStyle =
-    'text-[38vw] md:text-[15vw] leading-[0.75] font-extrabold italic text-white/[0.07] uppercase font-barlow relative';
+    'text-[38vw] md:text-[15vw] leading-[0.75] font-extrabold italic text-slate-900/[0.05] uppercase font-barlow relative';
 
   const handleSelectReel = (reel: ReelItem) => {
     // If user provided a video URL, it can open a player; otherwise navigates to work
@@ -190,13 +190,13 @@ export const IntroSection3: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[75vh] md:min-h-screen w-full bg-[#0B0E17] overflow-visible md:overflow-hidden pt-16 md:pt-24 z-10"
+      className="relative min-h-[75vh] md:min-h-screen w-full bg-[#F8FAFC] overflow-visible md:overflow-hidden pt-16 md:pt-24 z-10"
     >
       {/* Flipped Background Overlay in Electric Blue */}
       <img
         src="/images/introbg.svg"
         alt="Intro Background Flipped"
-        className="absolute top-0 right-0 w-[160%] max-w-none z-[1] pointer-events-none scale-x-[-1] scale-y-[-1]"
+        className="absolute top-0 right-0 w-[160%] max-w-none z-[1] pointer-events-none scale-x-[-1] scale-y-[-1] opacity-25"
       />
 
       {/* Angled Rotating Video Reels Row */}
@@ -226,7 +226,7 @@ export const IntroSection3: React.FC = () => {
       <div className="absolute bottom-20 md:bottom-24 left-1/2 transform -translate-x-1/2 z-50 pointer-events-auto">
         <button
           onClick={() => navigate('/work')}
-          className="group relative px-6 py-3 md:px-10 md:py-4 rounded-full text-sm md:text-lg font-semibold tracking-wider font-poppins transition-all duration-300 hover:scale-105 hover:shadow-[0_0_35px_rgba(37,99,255,0.7)] cursor-pointer bg-[#2563FF] hover:bg-[#3B82F6] text-white border border-[#60A5FA]/40 flex items-center gap-3"
+          className="group relative px-6 py-3 md:px-10 md:py-4 rounded-full text-sm md:text-lg font-semibold tracking-wider font-poppins transition-all duration-300 hover:scale-105 shadow-[0_4px_20px_rgba(37,99,255,0.35)] hover:shadow-[0_8px_30px_rgba(37,99,255,0.6)] cursor-pointer bg-[#2563FF] hover:bg-[#1D4ED8] text-white border border-[#2563FF] flex items-center gap-3"
         >
           <Sparkles className="w-5 h-5 text-white animate-pulse" />
           <span>Check out our work</span>

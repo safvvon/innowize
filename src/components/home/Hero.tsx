@@ -98,43 +98,70 @@ const GridLine: React.FC<{
   />
 );
 
-// Character with 3D animation
+// Ultra-Premium 3D Kinetic Character with Magnetic Hover & Wave Physics
 const AnimatedChar: React.FC<{ char: string; index: number }> = ({ char, index }) => {
   const [animating, setAnimating] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    // Staggered harmonic wave cycle
+    const interval = setInterval(() => {
       setAnimating(true);
-      setTimeout(() => setAnimating(false), 800);
-    }, 4000 + index * 100);
-    return () => clearInterval(timer);
+      setTimeout(() => setAnimating(false), 900);
+    }, 4800);
+
+    // Initial delay stagger for first natural breath
+    const timeout = setTimeout(() => {
+      setAnimating(true);
+      setTimeout(() => setAnimating(false), 900);
+    }, 2200 + index * 90);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
   }, [index]);
 
   return (
     <motion.span
-      className="inline-block cursor-default"
-      initial={{ opacity: 0, y: 80, rotateX: -90 }}
+      className="inline-block cursor-pointer select-none premium-title-shimmer relative transition-all duration-300"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      initial={{
+        opacity: 0,
+        y: 100,
+        rotateX: 65,
+        scale: 0.85,
+        filter: 'blur(16px)',
+      }}
       animate={{
         opacity: 1,
-        y: 0,
-        rotateX: 0,
-        ...(animating
-          ? {
-              rotateZ: [0, -8, 8, -5, 4, 0],
-              y: [0, -6, 4, -2, 0],
-              scale: [1, 1.08, 0.96, 1.03, 1],
+        y: isHovered ? -20 : animating ? -12 : 0,
+        rotateX: isHovered ? -12 : 0,
+        rotateZ: isHovered
+          ? (index % 2 === 0 ? -4 : 4)
+          : animating
+          ? (index % 2 === 0 ? -2.5 : 2.5)
+          : 0,
+        scale: isHovered ? 1.12 : animating ? 1.05 : 1,
+        filter: isHovered
+          ? 'drop-shadow(0 15px 30px rgba(37, 99, 255, 0.45)) blur(0px)'
+          : animating
+          ? 'drop-shadow(0 8px 20px rgba(37, 99, 255, 0.25)) blur(0px)'
+          : 'drop-shadow(0 2px 8px rgba(37, 99, 255, 0.08)) blur(0px)',
+      }}
+      transition={
+        isHovered
+          ? { type: 'spring', stiffness: 450, damping: 15 }
+          : {
+              delay: animating ? index * 0.08 : 0.3 + index * 0.06,
+              duration: animating ? 0.7 : 1.0,
+              ease: [0.16, 1, 0.3, 1],
             }
-          : {}),
-      }}
-      transition={{
-        delay: 0.4 + index * 0.05,
-        duration: 0.8,
-        ease: [0.16, 1, 0.3, 1],
-      }}
+      }
       style={{
         display: 'inline-block',
-        textShadow:
-          '0 0 60px rgba(37, 99, 255, 0.3), 0 0 120px rgba(37, 99, 255, 0.15)',
+        transformStyle: 'preserve-3d',
       }}
     >
       {char}
@@ -198,7 +225,7 @@ export const Hero: React.FC = () => {
   const subWords = ['WE', 'TURN', 'IDEAS', 'INTO', 'EXPERIENCES'];
 
   return (
-    <section className="relative h-screen md:h-[84vh] w-full bg-[#0B0E17] flex items-center justify-center overflow-hidden">
+    <section className="relative h-screen md:h-[84vh] w-full bg-gradient-to-b from-[#EDF4FF] via-[#F8FAFC] to-[#F8FAFC] flex items-center justify-center overflow-hidden">
       {/* 3D Interactive Vector Background */}
       <motion.div
         className="fixed inset-0 w-full h-full object-cover pointer-events-none"
@@ -207,7 +234,7 @@ export const Hero: React.FC = () => {
           rotateX,
           rotateY,
           scale: 1.08,
-          opacity: 0.05,
+          opacity: 0.04,
         }}
       >
         <img
@@ -218,7 +245,7 @@ export const Hero: React.FC = () => {
       </motion.div>
 
       {/* Interactive Vector Flow Field Background */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none z-[1] opacity-80">
+      <div className="absolute inset-0 w-full h-full pointer-events-none z-[1] opacity-45">
         <InteractiveBackground
           strokeColor="#2563FF"
           backgroundColor="transparent"
@@ -233,7 +260,7 @@ export const Hero: React.FC = () => {
       {/* Noise Texture Canvas */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full pointer-events-none z-[2] opacity-40"
+        className="absolute inset-0 w-full h-full pointer-events-none z-[2] opacity-15"
         style={{ mixBlendMode: 'overlay' }}
       />
 
@@ -247,11 +274,11 @@ export const Hero: React.FC = () => {
         <GridLine direction="vertical" position="80%" delay={1.9} />
       </div>
 
-      {/* Floating Ambient Glow Orbs in Electric Blue & Soft Blue */}
+      {/* Floating Ambient Glow Orbs in Soft Blue */}
       <div className="absolute inset-0 z-[4] pointer-events-none hidden md:block">
         <GlowOrb
           size={340}
-          color="rgba(37, 99, 255, 0.2)"
+          color="rgba(37, 99, 255, 0.08)"
           initialX="-5%"
           initialY="10%"
           duration={12}
@@ -260,7 +287,7 @@ export const Hero: React.FC = () => {
         />
         <GlowOrb
           size={240}
-          color="rgba(96, 165, 250, 0.18)"
+          color="rgba(96, 165, 250, 0.1)"
           initialX="70%"
           initialY="60%"
           duration={15}
@@ -269,7 +296,7 @@ export const Hero: React.FC = () => {
         />
         <GlowOrb
           size={280}
-          color="rgba(37, 99, 255, 0.15)"
+          color="rgba(37, 99, 255, 0.06)"
           initialX="40%"
           initialY="-10%"
           duration={18}
@@ -278,7 +305,7 @@ export const Hero: React.FC = () => {
         />
         <GlowOrb
           size={200}
-          color="rgba(59, 130, 246, 0.12)"
+          color="rgba(59, 130, 246, 0.07)"
           initialX="85%"
           initialY="20%"
           duration={14}
@@ -311,7 +338,7 @@ export const Hero: React.FC = () => {
           top: '50%',
           transform: 'translate(-50%, -50%)',
           background:
-            'radial-gradient(ellipse, rgba(37, 99, 255, 0.12) 0%, transparent 70%)',
+            'radial-gradient(ellipse, rgba(37, 99, 255, 0.07) 0%, transparent 70%)',
         }}
         animate={{ scale: [1, 1.1, 1], opacity: [0.7, 1, 0.7] }}
         transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
@@ -330,16 +357,16 @@ export const Hero: React.FC = () => {
           transition={{ delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
           <motion.span
-            className="h-px bg-gradient-to-r from-transparent via-[#3B82F6] to-transparent"
+            className="h-px bg-gradient-to-r from-transparent via-[#2563FF]/60 to-transparent"
             initial={{ width: 0 }}
             animate={{ width: 60 }}
             transition={{ delay: 0.6, duration: 1, ease: 'easeOut' }}
           />
-          <span className="text-[#60A5FA] text-[10px] md:text-xs font-poppins font-semibold tracking-[0.35em] uppercase">
+          <span className="text-[#2563FF] text-[10px] md:text-xs font-poppins font-semibold tracking-[0.35em] uppercase">
             Creative Digital Studio
           </span>
           <motion.span
-            className="h-px bg-gradient-to-r from-transparent via-[#3B82F6] to-transparent"
+            className="h-px bg-gradient-to-r from-transparent via-[#2563FF]/60 to-transparent"
             initial={{ width: 0 }}
             animate={{ width: 60 }}
             transition={{ delay: 0.6, duration: 1, ease: 'easeOut' }}
@@ -347,8 +374,18 @@ export const Hero: React.FC = () => {
         </motion.div>
 
         {/* Master Heading: INNOWIZE */}
-        <div className="overflow-hidden mb-2" style={{ perspective: '800px' }}>
-          <h1 className="flex items-center justify-center text-[15vw] md:text-[11.5vw] lg:text-[9.8vw] leading-[0.85] font-barlow font-black text-white tracking-[-0.02em]">
+        <div className="relative overflow-visible mb-2 py-2" style={{ perspective: '1000px' }}>
+          {/* Luminous Specular Aura Behind INNOWIZE */}
+          <motion.div
+            className="absolute inset-0 -z-10 pointer-events-none flex items-center justify-center"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: [0.6, 0.9, 0.6], scale: [0.95, 1.05, 0.95] }}
+            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <div className="w-[85%] h-[90%] bg-gradient-to-r from-transparent via-[#2563FF]/15 to-transparent blur-3xl rounded-full transform scale-y-75" />
+          </motion.div>
+
+          <h1 className="flex items-center justify-center text-[15vw] md:text-[11.5vw] lg:text-[9.8vw] leading-[0.85] font-barlow font-black tracking-[-0.01em] relative z-10 select-none">
             {headlineChars.map((char, index) => (
               <AnimatedChar key={index} char={char} index={index} />
             ))}
@@ -368,7 +405,7 @@ export const Hero: React.FC = () => {
                 ease: [0.16, 1, 0.3, 1],
               }}
               className={`text-base md:text-xl lg:text-2xl font-poppins tracking-[0.2em] uppercase ${
-                word === 'EXPERIENCES' ? 'text-[#2563FF] font-bold' : 'text-slate-300 font-light'
+                word === 'EXPERIENCES' ? 'text-[#2563FF] font-bold' : 'text-slate-600 font-normal'
               }`}
             >
               {word}
@@ -383,24 +420,24 @@ export const Hero: React.FC = () => {
           animate={{ opacity: 1, scaleX: 1 }}
           transition={{ delay: 1.7, duration: 1, ease: [0.16, 1, 0.3, 1] }}
         >
-          <span className="w-12 md:w-20 h-px bg-gradient-to-r from-transparent to-[#2563FF]/50" />
+          <span className="w-12 md:w-20 h-px bg-gradient-to-r from-transparent to-[#2563FF]/30" />
           <motion.span
             className="w-2 h-2 rounded-full bg-[#2563FF]"
             animate={{
               boxShadow: [
-                '0 0 8px rgba(37, 99, 255, 0.5)',
-                '0 0 24px rgba(37, 99, 255, 0.9)',
-                '0 0 8px rgba(37, 99, 255, 0.5)',
+                '0 0 8px rgba(37, 99, 255, 0.4)',
+                '0 0 20px rgba(37, 99, 255, 0.7)',
+                '0 0 8px rgba(37, 99, 255, 0.4)',
               ],
             }}
             transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
           />
-          <span className="w-12 md:w-20 h-px bg-gradient-to-l from-transparent to-[#2563FF]/50" />
+          <span className="w-12 md:w-20 h-px bg-gradient-to-l from-transparent to-[#2563FF]/30" />
         </motion.div>
 
         {/* Supporting Narrative */}
         <motion.p
-          className="text-slate-400 text-xs md:text-sm font-poppins font-light max-w-md leading-relaxed tracking-wide mb-10"
+          className="text-slate-600 text-xs md:text-sm font-poppins font-normal max-w-md leading-relaxed tracking-wide mb-10"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2.0, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -411,14 +448,13 @@ export const Hero: React.FC = () => {
         {/* CTA Button in Electric Blue */}
         <motion.button
           onClick={() => navigate('/work')}
-          className="group relative px-8 py-3.5 rounded-full border border-[#2563FF]/40 text-white text-xs md:text-sm font-poppins font-medium tracking-[0.15em] uppercase overflow-hidden transition-colors duration-500 hover:border-[#2563FF]/90 cursor-pointer"
+          className="group relative px-8 py-3.5 rounded-full bg-[#2563FF] hover:bg-[#1D4ED8] text-white text-xs md:text-sm font-poppins font-semibold tracking-[0.15em] uppercase overflow-hidden shadow-[0_4px_20px_rgba(37,99,255,0.35)] hover:shadow-[0_6px_25px_rgba(37,99,255,0.5)] transition-all duration-300 cursor-pointer"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
         >
-          <span className="absolute inset-0 bg-[#2563FF]/0 group-hover:bg-[#2563FF]/20 transition-colors duration-500 rounded-full" />
           <span className="relative z-10 flex items-center gap-2">
             Explore Our Work
             <motion.span
@@ -436,7 +472,7 @@ export const Hero: React.FC = () => {
       <div
         className="absolute bottom-0 left-0 right-0 h-40 z-[8] pointer-events-none"
         style={{
-          background: 'linear-gradient(to top, #0B0E17 0%, transparent 100%)',
+          background: 'linear-gradient(to top, #F8FAFC 0%, transparent 100%)',
         }}
       />
 
@@ -452,13 +488,13 @@ export const Hero: React.FC = () => {
       >
         <motion.span
           className="text-slate-500 text-[9px] font-poppins tracking-[0.3em] uppercase"
-          animate={{ opacity: [0.3, 0.8, 0.3] }}
+          animate={{ opacity: [0.4, 0.9, 0.4] }}
           transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
         >
           Scroll
         </motion.span>
         <motion.div
-          className="text-[#3B82F6]"
+          className="text-[#2563FF]"
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
         >
@@ -470,19 +506,19 @@ export const Hero: React.FC = () => {
       <motion.div
         className="absolute top-8 left-8 z-[6] pointer-events-none hidden sm:block"
         initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 0.3, scale: 1 }}
+        animate={{ opacity: 0.25, scale: 1 }}
         transition={{ delay: 1.5, duration: 1 }}
       >
-        <div className="w-16 h-16 border-l border-t border-[#2563FF]/50 rounded-tl-md" />
+        <div className="w-16 h-16 border-l border-t border-[#2563FF]/40 rounded-tl-md" />
       </motion.div>
 
       <motion.div
         className="absolute bottom-24 right-8 z-[6] pointer-events-none hidden sm:block"
         initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 0.3, scale: 1 }}
+        animate={{ opacity: 0.25, scale: 1 }}
         transition={{ delay: 1.7, duration: 1 }}
       >
-        <div className="w-16 h-16 border-r border-b border-[#2563FF]/50 rounded-br-md" />
+        <div className="w-16 h-16 border-r border-b border-[#2563FF]/40 rounded-br-md" />
       </motion.div>
 
       {/* Vertical Side Texts */}
@@ -490,7 +526,7 @@ export const Hero: React.FC = () => {
         className="absolute left-6 top-1/2 -translate-y-1/2 z-[6] pointer-events-none hidden lg:block"
         style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
         initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 0.35, x: 0 }}
+        animate={{ opacity: 0.4, x: 0 }}
         transition={{ delay: 2, duration: 1 }}
       >
         <span className="text-slate-400 text-[9px] font-poppins tracking-[0.4em] uppercase">
@@ -502,7 +538,7 @@ export const Hero: React.FC = () => {
         className="absolute right-6 top-1/2 -translate-y-1/2 z-[6] pointer-events-none hidden lg:block"
         style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
         initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 0.35, x: 0 }}
+        animate={{ opacity: 0.4, x: 0 }}
         transition={{ delay: 2.2, duration: 1 }}
       >
         <span className="text-slate-400 text-[9px] font-poppins tracking-[0.4em] uppercase">

@@ -67,6 +67,8 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
     { name: 'CONTACT', path: '/contact' },
   ];
 
+  const isHome = location.pathname === '/';
+
   return (
     <>
       {/* Header with Exact Original Proportions and Floating Nav Pill */}
@@ -74,22 +76,34 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
         <nav className="max-w-[1440px] mx-auto w-full flex items-center justify-between px-6 md:px-12 py-5 pointer-events-auto">
           {/* Logo on Left */}
           <Link to="/" className="flex-shrink-0 relative z-50 group flex items-center">
-            <InnowizeLogo className="h-9 md:h-10" />
+            <InnowizeLogo className="h-9 md:h-10" theme={isHome ? 'light' : 'dark'} />
           </Link>
 
-          {/* Center Floating Nav Pill with Exact Reference Sizing */}
-          <div className="hidden lg:flex bg-white/5 backdrop-blur-xl border border-white/10 rounded-full px-8 py-3.5 shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
-            <ul className="flex items-center space-x-8 xl:space-x-10 text-white/90 text-xs font-semibold tracking-[0.15em] font-poppins">
+          {/* Center Floating Nav Pill with Dynamic Theme Sizing */}
+          <div
+            className={`hidden lg:flex backdrop-blur-xl rounded-full px-8 py-3.5 transition-all duration-300 ${
+              isHome
+                ? 'bg-white/80 border border-slate-200/80 shadow-[0_8px_30px_rgba(0,0,0,0.06)]'
+                : 'bg-white/5 border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.12)]'
+            }`}
+          >
+            <ul
+              className={`flex items-center space-x-8 xl:space-x-10 text-xs font-semibold tracking-[0.15em] font-poppins transition-colors duration-300 ${
+                isHome ? 'text-slate-700' : 'text-white/90'
+              }`}
+            >
               {navLinks.map((link) => {
                 const isActive = location.pathname === link.path;
                 return (
                   <li key={link.name}>
                     <Link
                       to={link.path}
-                      className={`relative py-1 transition-colors duration-300 hover:text-[#60A5FA] after:content-[''] after:absolute after:-bottom-1 after:left-0 after:h-[1.5px] after:transition-all after:duration-300 ${
+                      className={`relative py-1 transition-colors duration-300 after:content-[''] after:absolute after:-bottom-1 after:left-0 after:h-[1.5px] after:transition-all after:duration-300 ${
                         isActive
-                          ? 'text-[#60A5FA] after:w-full after:bg-[#2563FF]'
-                          : 'text-white/90 after:w-0 hover:after:w-full after:bg-[#2563FF]'
+                          ? 'text-[#2563FF] after:w-full after:bg-[#2563FF]'
+                          : isHome
+                          ? 'text-slate-700 hover:text-[#2563FF] after:w-0 hover:after:w-full after:bg-[#2563FF]'
+                          : 'text-white/90 hover:text-[#60A5FA] after:w-0 hover:after:w-full after:bg-[#2563FF]'
                       }`}
                     >
                       {link.name}
@@ -128,7 +142,11 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
             {/* Mobile Menu Toggle Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="flex lg:hidden w-10 h-10 items-center justify-center rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white hover:bg-white/10 transition-colors cursor-pointer"
+              className={`flex lg:hidden w-10 h-10 items-center justify-center rounded-full backdrop-blur-md transition-colors cursor-pointer ${
+                isHome
+                  ? 'bg-black/5 border border-slate-300/80 text-slate-800 hover:bg-black/10'
+                  : 'bg-white/5 border border-white/10 text-white hover:bg-white/10'
+              }`}
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}

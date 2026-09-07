@@ -57,3 +57,33 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #3B82F6;
 }
+
+/* Premium Title Shimmer Effect */
+@keyframes textShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.premium-title-shimmer {
+  background: linear-gradient(
+    120deg,
+    #0F172A 0%,
+    #1E293B 20%,
+    #2563FF 45%,
+    #60A5FA 52%,
+    #2563FF 58%,
+    #1E293B 80%,
+    #0F172A 100%
+  );
+  background-size: 260% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShimmer 7s ease-in-out infinite;
+}

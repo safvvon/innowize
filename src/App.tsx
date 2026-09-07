@@ -23,6 +23,8 @@ const ScrollToTop = () => {
 
 export const AppContent: React.FC = () => {
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const { pathname } = useLocation();
+  const isHome = pathname === '/';
 
   // Initialize Lenis Smooth Scrolling
   useEffect(() => {
@@ -46,7 +48,13 @@ export const AppContent: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-alpha text-tango selection:bg-beta selection:text-white flex flex-col justify-between">
+    <div
+      className={`relative min-h-screen flex flex-col justify-between transition-colors duration-300 ${
+        isHome
+          ? 'bg-[#F8FAFC] text-slate-900 selection:bg-[#2563FF] selection:text-white'
+          : 'bg-alpha text-tango selection:bg-beta selection:text-white'
+      }`}
+    >
       <ScrollToTop />
       <Header onOpenContact={() => setIsContactOpen(true)} />
 

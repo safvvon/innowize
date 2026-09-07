@@ -88,7 +88,7 @@ export const IntroTextLayer: React.FC = () => {
   }, []);
 
   const textStyle =
-    'text-[25vw] md:text-[16vw] lg:text-[15vw] leading-[0.7] md:leading-[0.65] lg:leading-[0.75] font-extrabold italic text-white/[0.08] uppercase font-barlow relative';
+    'text-[25vw] md:text-[16vw] lg:text-[15vw] leading-[0.7] md:leading-[0.65] lg:leading-[0.75] font-extrabold italic text-slate-900/[0.05] uppercase font-barlow relative';
 
   return (
     <div
