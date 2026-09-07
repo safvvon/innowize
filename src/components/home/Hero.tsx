@@ -244,16 +244,17 @@ export const Hero: React.FC = () => {
         />
       </motion.div>
 
-      {/* Interactive Vector Flow Field Background */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none z-[1] opacity-45">
+      {/* Interactive Vector Flow Field Background (Refined Micro-Vectors) */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none z-[1] opacity-35">
         <InteractiveBackground
           strokeColor="#2563FF"
+          strokeWidth={1}
           backgroundColor="transparent"
-          count={57}
-          movement={24}
+          count={65}
+          movement={18}
           hover={true}
-          force={4}
-          resolution={10}
+          force={3}
+          resolution={3}
         />
       </div>
 
@@ -274,71 +275,71 @@ export const Hero: React.FC = () => {
         <GridLine direction="vertical" position="80%" delay={1.9} />
       </div>
 
-      {/* Floating Ambient Glow Orbs in Soft Blue */}
+      {/* Floating Ambient Glow Orbs in Soft Blue (Scaled Down) */}
       <div className="absolute inset-0 z-[4] pointer-events-none hidden md:block">
         <GlowOrb
-          size={340}
-          color="rgba(37, 99, 255, 0.08)"
+          size={180}
+          color="rgba(37, 99, 255, 0.07)"
           initialX="-5%"
           initialY="10%"
           duration={12}
           delay={0}
-          blur={65}
+          blur={45}
         />
         <GlowOrb
-          size={240}
-          color="rgba(96, 165, 250, 0.1)"
+          size={140}
+          color="rgba(96, 165, 250, 0.08)"
           initialX="70%"
           initialY="60%"
           duration={15}
           delay={2}
-          blur={50}
+          blur={40}
         />
         <GlowOrb
-          size={280}
-          color="rgba(37, 99, 255, 0.06)"
+          size={160}
+          color="rgba(37, 99, 255, 0.05)"
           initialX="40%"
           initialY="-10%"
           duration={18}
           delay={1}
-          blur={70}
+          blur={50}
         />
         <GlowOrb
-          size={200}
-          color="rgba(59, 130, 246, 0.07)"
+          size={120}
+          color="rgba(59, 130, 246, 0.06)"
           initialX="85%"
           initialY="20%"
           duration={14}
           delay={3}
-          blur={55}
+          blur={40}
         />
       </div>
 
-      {/* Rising Floating Micro-Particles */}
+      {/* Rising Floating Micro-Particles (Subtle & Small) */}
       <div className="absolute inset-0 z-[5] pointer-events-none hidden md:block">
         {Array.from({ length: 15 }).map((_, r) => (
           <Particle
             key={r}
             x={`${8 + ((r * 6.2) % 85)}%`}
             y={`${70 + ((r * 3.7) % 25)}%`}
-            size={2 + (r % 3)}
+            size={1.5 + (r % 2)}
             delay={r * 0.8}
             duration={4 + (r % 3) * 1.5}
           />
         ))}
       </div>
 
-      {/* Central Radial Bloom */}
+      {/* Central Radial Bloom (Compact) */}
       <motion.div
         className="absolute z-[4] pointer-events-none hidden md:block"
         style={{
-          width: '65vw',
-          height: '65vh',
+          width: '45vw',
+          height: '45vh',
           left: '50%',
           top: '50%',
           transform: 'translate(-50%, -50%)',
           background:
-            'radial-gradient(ellipse, rgba(37, 99, 255, 0.07) 0%, transparent 70%)',
+            'radial-gradient(ellipse, rgba(37, 99, 255, 0.06) 0%, transparent 70%)',
         }}
         animate={{ scale: [1, 1.1, 1], opacity: [0.7, 1, 0.7] }}
         transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}

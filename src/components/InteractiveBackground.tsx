@@ -87,6 +87,7 @@ interface Point {
 
 export interface InteractiveBackgroundProps {
   strokeColor?: string;
+  strokeWidth?: number;
   backgroundColor?: string;
   count?: number;
   movement?: number;
@@ -103,6 +104,7 @@ const SEED = 0.5;
 
 export default function InteractiveBackground({
   strokeColor = "#2563FF",
+  strokeWidth = 1.2,
   backgroundColor = "transparent",
   count = 57,
   movement = 24,
@@ -138,6 +140,7 @@ export default function InteractiveBackground({
 
   const cfgRef = useRef({
     strokeColor,
+    strokeWidth,
     count,
     movement,
     hover,
@@ -146,6 +149,7 @@ export default function InteractiveBackground({
   });
   cfgRef.current = {
     strokeColor,
+    strokeWidth,
     count,
     movement,
     hover,
@@ -203,7 +207,7 @@ export default function InteractiveBackground({
     const path = pathRef.current;
     path.setAttribute("fill", "none");
     path.setAttribute("stroke", currentStroke);
-    path.setAttribute("stroke-width", "1.5");
+    path.setAttribute("stroke-width", String(cfgRef.current.strokeWidth || 1));
     path.setAttribute("stroke-linecap", "round");
   };
 
@@ -282,10 +286,10 @@ export default function InteractiveBackground({
     const points = pointsRef.current;
     const path = pathRef.current;
     if (!path) return;
-    const { resolution: currentResolution } = cfgRef.current;
-    const half = (6 + (currentResolution / 10) * 20) / 2;
+    const { resolution: currentResolution, strokeWidth: currentStrokeWidth } = cfgRef.current;
+    const half = (2 + (currentResolution / 10) * 10) / 2;
     path.setAttribute("fill", "none");
-    path.setAttribute("stroke-width", "1.5");
+    path.setAttribute("stroke-width", String(currentStrokeWidth || 1));
 
     let d = "";
     for (const p of points) {
