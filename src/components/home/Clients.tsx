@@ -16,21 +16,29 @@ const Counter: React.FC<{
 
   useEffect(() => {
     if (!isInView) return;
+    let startTime: number | null = null;
+    let rafId: number | null = null;
+    const duration = 1500;
+
     const timer = setTimeout(() => {
-      let start = 0;
-      const step = end / 60;
-      const interval = setInterval(() => {
-        start += step;
-        if (start >= end) {
-          setCount(end);
-          clearInterval(interval);
+      const step = (timestamp: number) => {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        setCount(Math.floor(easeOut * end));
+        if (progress < 1) {
+          rafId = requestAnimationFrame(step);
         } else {
-          setCount(Math.floor(start));
+          setCount(end);
         }
-      }, 16);
-      return () => clearInterval(interval);
+      };
+      rafId = requestAnimationFrame(step);
     }, delay);
-    return () => clearTimeout(timer);
+
+    return () => {
+      clearTimeout(timer);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, [isInView, end, delay]);
 
   return (
@@ -177,6 +185,10 @@ export const Clients: React.FC = () => {
               <img
                 src={c.src}
                 alt={c.alt}
+                width="130"
+                height="70"
+                loading="lazy"
+                decoding="async"
                 className="max-w-[130px] max-h-[70px] w-auto h-auto object-contain transition-all duration-300"
               />
             </div>

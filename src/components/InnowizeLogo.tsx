@@ -17,6 +17,9 @@ export const InnowizeLogo: React.FC<LogoProps> = ({
       <img
         src="/images/iw-mark.png"
         alt="Innowize Logo"
+        width="36"
+        height="36"
+        decoding="async"
         className="h-full w-auto object-contain flex-shrink-0 drop-shadow-[0_0_12px_rgba(37,99,255,0.65)] hover:drop-shadow-[0_0_20px_rgba(37,99,255,0.9)] transition-all duration-300"
       />
 

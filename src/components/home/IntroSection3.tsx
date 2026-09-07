@@ -91,6 +91,10 @@ const ReelCard: React.FC<{
       <img
         src={reel.poster}
         alt={reel.title}
+        width="420"
+        height="480"
+        loading="lazy"
+        decoding="async"
         className="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-108 transition-transform duration-700 ease-out"
       />
 
@@ -196,6 +200,8 @@ export const IntroSection3: React.FC = () => {
       <img
         src="/images/introbg.svg"
         alt="Intro Background Flipped"
+        loading="lazy"
+        decoding="async"
         className="absolute top-0 right-0 w-[160%] max-w-none z-[1] pointer-events-none scale-x-[-1] scale-y-[-1] opacity-25"
       />
 

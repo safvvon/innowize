@@ -11,5 +11,20 @@ export default defineConfig({
   server: {
     port: 5173,
     host: true
+  },
+  build: {
+    target: 'esnext',
+    cssCodeSplit: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'framer-motion': ['framer-motion'],
+          'animation-vendor': ['gsap', 'lenis'],
+          'icons': ['lucide-react'],
+        }
+      }
+    },
+    chunkSizeWarningLimit: 600,
   }
 });

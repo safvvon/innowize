@@ -346,34 +346,24 @@ export default function InteractiveBackground({
   }, []);
 
   useEffect(() => {
-    if (!containerRef.current || !zoomProbeRef.current) return;
-    let rafId = 0;
-    const EPSILON = 1;
-    const checkSize = () => {
-      const container = containerRef.current;
-      const probe = zoomProbeRef.current;
-      if (!container || !probe) return;
-      const width = container.clientWidth || container.offsetWidth || 1;
-      const height = container.clientHeight || container.offsetHeight || 1;
-      const zoom = probe.getBoundingClientRect().width / 20;
-      const last = lastSizeRef.current;
-      const changed =
-        Math.abs(width - last.width) > EPSILON ||
-        Math.abs(height - last.height) > EPSILON ||
-        Math.abs(zoom - last.zoom) > 0.01;
-      if (changed) {
-        lastSizeRef.current = { width, height, zoom };
+    const container = containerRef.current;
+    if (!container) return;
+
+    let resizeTimer: number | null = null;
+    const ro = new ResizeObserver(() => {
+      if (resizeTimer) cancelAnimationFrame(resizeTimer);
+      resizeTimer = requestAnimationFrame(() => {
         setSize();
         setLines();
-      }
-      rafId = requestAnimationFrame(checkSize);
-    };
-    rafId = requestAnimationFrame(checkSize);
+      });
+    });
+
+    ro.observe(container);
     return () => {
-      if (rafId) cancelAnimationFrame(rafId);
+      if (resizeTimer) cancelAnimationFrame(resizeTimer);
+      ro.disconnect();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [strokeColor, count, resolution]);
+  }, [strokeColor, count, resolution, strokeWidth]);
 
   useEffect(() => {
     setLines();

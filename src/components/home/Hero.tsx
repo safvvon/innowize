@@ -170,27 +170,49 @@ const AnimatedChar: React.FC<{ char: string; index: number }> = ({ char, index }
 };
 
 export const Hero: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const isInViewRef = useRef(true);
+  const rafIdRef = useRef<number | null>(null);
   const navigate = useNavigate();
 
   // Mouse move perspective physics
   const mouseX = useSpring(0, { damping: 25, stiffness: 120 });
   const mouseY = useSpring(0, { damping: 25, stiffness: 120 });
 
+  // Only track mouse when Hero is in viewport
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isInViewRef.current = entry.isIntersecting;
+      },
+      { threshold: 0.05 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
-      const { innerWidth, innerHeight } = window;
-      const u = (e.clientX - innerWidth / 2) / (innerWidth / 2);
-      const h = (e.clientY - innerHeight / 2) / (innerHeight / 2);
-      mouseX.set(u);
-      mouseY.set(h);
+      if (!isInViewRef.current || rafIdRef.current) return;
+      rafIdRef.current = requestAnimationFrame(() => {
+        rafIdRef.current = null;
+        const { innerWidth, innerHeight } = window;
+        const u = (e.clientX - innerWidth / 2) / (innerWidth / 2);
+        const h = (e.clientY - innerHeight / 2) / (innerHeight / 2);
+        mouseX.set(u);
+        mouseY.set(h);
+      });
     },
     [mouseX, mouseY]
   );
 
   useEffect(() => {
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
+    };
   }, [handleMouseMove]);
 
   const rotateX = useTransform(mouseY, [-1, 1], [4, -4]);
@@ -225,10 +247,13 @@ export const Hero: React.FC = () => {
   const subWords = ['WE', 'TURN', 'IDEAS', 'INTO', 'EXPERIENCES'];
 
   return (
-    <section className="relative h-screen md:h-[84vh] w-full bg-gradient-to-b from-[#EDF4FF] via-[#F8FAFC] to-[#F8FAFC] flex items-center justify-center overflow-hidden">
+    <section
+      ref={sectionRef}
+      className="relative h-screen md:h-[84vh] w-full bg-gradient-to-b from-[#EDF4FF] via-[#F8FAFC] to-[#F8FAFC] flex items-center justify-center overflow-hidden"
+    >
       {/* 3D Interactive Vector Background */}
       <motion.div
-        className="fixed inset-0 w-full h-full object-cover pointer-events-none"
+        className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         style={{
           perspective: '1000px',
           rotateX,
@@ -240,6 +265,9 @@ export const Hero: React.FC = () => {
         <img
           src="/images/herobg.svg"
           alt="Hero Background"
+          width="1920"
+          height="1080"
+          decoding="async"
           className="w-full h-full object-cover"
         />
       </motion.div>

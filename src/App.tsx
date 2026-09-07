@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Lenis from 'lenis';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
-import { ContactModal } from './components/ContactModal';
 import { Home } from './pages/Home';
-import { About } from './pages/About';
-import { Services } from './pages/Services';
-import { Work } from './pages/Work';
-import { Contact } from './pages/Contact';
+
+// Lazy-loaded routes for optimal initial chunk size & fast initial rendering
+const About = React.lazy(() => import('./pages/About').then((m) => ({ default: m.About })));
+const Services = React.lazy(() => import('./pages/Services').then((m) => ({ default: m.Services })));
+const Work = React.lazy(() => import('./pages/Work').then((m) => ({ default: m.Work })));
+const Contact = React.lazy(() => import('./pages/Contact').then((m) => ({ default: m.Contact })));
+const ContactModal = React.lazy(() => import('./components/ContactModal').then((m) => ({ default: m.ContactModal })));
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Scroll to top helper on route navigation
 const ScrollToTop = () => {
@@ -26,23 +32,25 @@ export const AppContent: React.FC = () => {
   const { pathname } = useLocation();
   const isHome = pathname === '/';
 
-  // Initialize Lenis Smooth Scrolling
+  // Synchronize Lenis Smooth Scrolling with GSAP ScrollTrigger for 60fps jitter-free scrolling
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.0,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       smoothWheel: true,
     });
 
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
+    lenis.on('scroll', ScrollTrigger.update);
 
-    requestAnimationFrame(raf);
+    const updateTicker = (time: number) => {
+      lenis.raf(time * 1000);
+    };
+    gsap.ticker.add(updateTicker);
+    gsap.ticker.lagSmoothing(0);
 
     return () => {
+      gsap.ticker.remove(updateTicker);
       lenis.destroy();
     };
   }, []);
@@ -59,17 +67,21 @@ export const AppContent: React.FC = () => {
       <Header onOpenContact={() => setIsContactOpen(true)} />
 
       <main className="flex-grow">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About onOpenContact={() => setIsContactOpen(true)} />} />
-          <Route path="/services" element={<Services onOpenContact={() => setIsContactOpen(true)} />} />
-          <Route path="/work" element={<Work onOpenContact={() => setIsContactOpen(true)} />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
+        <Suspense fallback={null}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About onOpenContact={() => setIsContactOpen(true)} />} />
+            <Route path="/services" element={<Services onOpenContact={() => setIsContactOpen(true)} />} />
+            <Route path="/work" element={<Work onOpenContact={() => setIsContactOpen(true)} />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+        </Suspense>
       </main>
 
       <Footer onOpenContact={() => setIsContactOpen(true)} />
-      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+      <Suspense fallback={null}>
+        {isContactOpen && <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />}
+      </Suspense>
     </div>
   );
 };

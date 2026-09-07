@@ -13,33 +13,58 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const eyeRef = useRef<HTMLDivElement>(null);
-  const [eyeAngle, setEyeAngle] = useState(0);
+  const eyeImgRef = useRef<HTMLImageElement>(null);
+  const eyeCenterRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const eyeRafRef = useRef<number | null>(null);
 
   // Dynamic scroll state
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Eyeball cursor tracking
+  // Cache eyeball position on scroll & resize to avoid forced reflows on mousemove
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
+    const updateCenter = () => {
       if (!eyeRef.current) return;
       const rect = eyeRef.current.getBoundingClientRect();
-      const eyeX = rect.left + rect.width / 2;
-      const eyeY = rect.top + rect.height / 2;
-      const deltaX = e.clientX - eyeX;
-      const deltaY = e.clientY - eyeY;
-      const angleRad = Math.atan2(deltaY, deltaX);
-      const angleDeg = (angleRad * 180) / Math.PI;
-      setEyeAngle(angleDeg);
+      eyeCenterRef.current = {
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+      };
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    updateCenter();
+    window.addEventListener('resize', updateCenter, { passive: true });
+    window.addEventListener('scroll', updateCenter, { passive: true });
+    return () => {
+      window.removeEventListener('resize', updateCenter);
+      window.removeEventListener('scroll', updateCenter);
+    };
+  }, []);
+
+  // Eyeball cursor tracking using direct GPU transform (Zero React re-renders)
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (eyeRafRef.current) return;
+      eyeRafRef.current = requestAnimationFrame(() => {
+        eyeRafRef.current = null;
+        if (!eyeImgRef.current) return;
+        const deltaX = e.clientX - eyeCenterRef.current.x;
+        const deltaY = e.clientY - eyeCenterRef.current.y;
+        const angleDeg = (Math.atan2(deltaY, deltaX) * 180) / Math.PI;
+        eyeImgRef.current.style.transform = `rotate(${angleDeg}deg)`;
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      if (eyeRafRef.current) cancelAnimationFrame(eyeRafRef.current);
+    };
   }, []);
 
   // Prevent background scroll when mobile menu is open
@@ -126,12 +151,13 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
                 ref={eyeRef}
                 className="relative w-7 h-7 rounded-full bg-black/20 flex items-center justify-center overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)] backdrop-blur-sm"
               >
-                <motion.img
+                <img
+                  ref={eyeImgRef}
                   src="/images/eyeball.png"
                   alt=""
-                  className="w-full h-full object-cover"
-                  style={{ rotate: eyeAngle }}
-                  transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+                  width="28"
+                  height="28"
+                  className="w-full h-full object-cover transition-transform duration-75 ease-out will-change-transform"
                 />
               </div>
               <span className="relative text-white font-bold text-xs uppercase tracking-[0.1em] font-paytone mt-[2px] drop-shadow-md">
