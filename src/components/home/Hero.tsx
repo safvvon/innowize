@@ -1,579 +1,218 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { ArrowDown } from 'lucide-react';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Play, Hexagon, MapPin, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { InteractiveBackground } from '../InteractiveBackground';
-
-// Floating glow orb in electric blue hues
-const GlowOrb: React.FC<{
-  size: number;
-  color: string;
-  initialX: string;
-  initialY: string;
-  duration: number;
-  delay: number;
-  blur: number;
-}> = ({ size, color, initialX, initialY, duration, delay, blur }) => (
-  <motion.div
-    className="absolute rounded-full pointer-events-none"
-    style={{
-      width: size,
-      height: size,
-      left: initialX,
-      top: initialY,
-      background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
-      filter: `blur(${blur}px)`,
-    }}
-    animate={{
-      x: [0, 30, -20, 15, 0],
-      y: [0, -25, 15, -10, 0],
-      scale: [1, 1.15, 0.9, 1.05, 1],
-      opacity: [0.4, 0.75, 0.5, 0.7, 0.4],
-    }}
-    transition={{
-      duration,
-      delay,
-      repeat: Infinity,
-      ease: 'easeInOut',
-    }}
-  />
-);
-
-// Floating luminous particle
-const Particle: React.FC<{
-  x: string;
-  y: string;
-  size: number;
-  delay: number;
-  duration: number;
-}> = ({ x, y, size, delay, duration }) => (
-  <motion.div
-    className="absolute rounded-full pointer-events-none"
-    style={{
-      width: size,
-      height: size,
-      left: x,
-      top: y,
-      background: 'rgba(96, 165, 250, 0.7)',
-      boxShadow: '0 0 10px rgba(37, 99, 255, 0.8)',
-    }}
-    animate={{
-      y: [0, -60, -120],
-      opacity: [0, 0.9, 0],
-      scale: [0.5, 1, 0.3],
-    }}
-    transition={{
-      duration,
-      delay,
-      repeat: Infinity,
-      ease: 'easeOut',
-    }}
-  />
-);
-
-// Architectural Grid line
-const GridLine: React.FC<{
-  direction: 'horizontal' | 'vertical';
-  position: string;
-  delay: number;
-}> = ({ direction, position, delay }) => (
-  <motion.div
-    className="absolute pointer-events-none"
-    style={{
-      ...(direction === 'horizontal'
-        ? { left: 0, right: 0, top: position, height: '1px' }
-        : { top: 0, bottom: 0, left: position, width: '1px' }),
-      background:
-        direction === 'horizontal'
-          ? 'linear-gradient(90deg, transparent, rgba(37, 99, 255, 0.15), rgba(96, 165, 250, 0.25), rgba(37, 99, 255, 0.15), transparent)'
-          : 'linear-gradient(180deg, transparent, rgba(37, 99, 255, 0.15), rgba(96, 165, 250, 0.25), rgba(37, 99, 255, 0.15), transparent)',
-    }}
-    initial={{
-      opacity: 0,
-      scaleX: direction === 'horizontal' ? 0 : 1,
-      scaleY: direction === 'vertical' ? 0 : 1,
-    }}
-    animate={{ opacity: 1, scaleX: 1, scaleY: 1 }}
-    transition={{ duration: 1.8, delay, ease: 'easeOut' }}
-  />
-);
-
-// Ultra-Premium 3D Kinetic Character with Magnetic Hover & Wave Physics
-const AnimatedChar: React.FC<{ char: string; index: number }> = ({ char, index }) => {
-  const [animating, setAnimating] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-
-  useEffect(() => {
-    // Staggered harmonic wave cycle
-    const interval = setInterval(() => {
-      setAnimating(true);
-      setTimeout(() => setAnimating(false), 900);
-    }, 4800);
-
-    // Initial delay stagger for first natural breath
-    const timeout = setTimeout(() => {
-      setAnimating(true);
-      setTimeout(() => setAnimating(false), 900);
-    }, 2200 + index * 90);
-
-    return () => {
-      clearInterval(interval);
-      clearTimeout(timeout);
-    };
-  }, [index]);
-
-  return (
-    <motion.span
-      className="inline-block cursor-pointer select-none premium-title-shimmer relative transition-all duration-300"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      initial={{
-        opacity: 0,
-        y: 100,
-        rotateX: 65,
-        scale: 0.85,
-        filter: 'blur(16px)',
-      }}
-      animate={{
-        opacity: 1,
-        y: isHovered ? -20 : animating ? -12 : 0,
-        rotateX: isHovered ? -12 : 0,
-        rotateZ: isHovered
-          ? (index % 2 === 0 ? -4 : 4)
-          : animating
-          ? (index % 2 === 0 ? -2.5 : 2.5)
-          : 0,
-        scale: isHovered ? 1.12 : animating ? 1.05 : 1,
-        filter: isHovered
-          ? 'drop-shadow(0 15px 30px rgba(37, 99, 255, 0.45)) blur(0px)'
-          : animating
-          ? 'drop-shadow(0 8px 20px rgba(37, 99, 255, 0.25)) blur(0px)'
-          : 'drop-shadow(0 2px 8px rgba(37, 99, 255, 0.08)) blur(0px)',
-      }}
-      transition={
-        isHovered
-          ? { type: 'spring', stiffness: 450, damping: 15 }
-          : {
-              delay: animating ? index * 0.08 : 0.3 + index * 0.06,
-              duration: animating ? 0.7 : 1.0,
-              ease: [0.16, 1, 0.3, 1],
-            }
-      }
-      style={{
-        display: 'inline-block',
-        transformStyle: 'preserve-3d',
-      }}
-    >
-      {char}
-    </motion.span>
-  );
-};
 
 export const Hero: React.FC = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const isInViewRef = useRef(true);
-  const rafIdRef = useRef<number | null>(null);
   const navigate = useNavigate();
 
-  // Mouse move perspective physics
-  const mouseX = useSpring(0, { damping: 25, stiffness: 120 });
-  const mouseY = useSpring(0, { damping: 25, stiffness: 120 });
-
-  // Only track mouse when Hero is in viewport
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        isInViewRef.current = entry.isIntersecting;
-      },
-      { threshold: 0.05 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  const handleMouseMove = useCallback(
-    (e: MouseEvent) => {
-      if (!isInViewRef.current || rafIdRef.current) return;
-      rafIdRef.current = requestAnimationFrame(() => {
-        rafIdRef.current = null;
-        const { innerWidth, innerHeight } = window;
-        const u = (e.clientX - innerWidth / 2) / (innerWidth / 2);
-        const h = (e.clientY - innerHeight / 2) / (innerHeight / 2);
-        mouseX.set(u);
-        mouseY.set(h);
-      });
-    },
-    [mouseX, mouseY]
-  );
-
-  useEffect(() => {
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
-    };
-  }, [handleMouseMove]);
-
-  const rotateX = useTransform(mouseY, [-1, 1], [4, -4]);
-  const rotateY = useTransform(mouseX, [-1, 1], [-4, 4]);
-
-  const { scrollY } = useScroll();
-  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
-  const heroY = useTransform(scrollY, [0, 500], [0, 100]);
-
-  // Noise Canvas generator
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    canvas.width = 256;
-    canvas.height = 256;
-    const imgData = ctx.createImageData(256, 256);
-    const d = imgData.data;
-    for (let i = 0; i < d.length; i += 4) {
-      const val = Math.random() * 255;
-      d[i] = val;
-      d[i + 1] = val;
-      d[i + 2] = val;
-      d[i + 3] = 16;
-    }
-    ctx.putImageData(imgData, 0, 0);
-  }, []);
-
-  const headlineChars = 'INNOWIZE'.split('');
-  const subWords = ['WE', 'TURN', 'IDEAS', 'INTO', 'EXPERIENCES'];
+  const clientAvatars = [
+    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80',
+  ];
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative h-screen md:h-[84vh] w-full bg-gradient-to-b from-[#EDF4FF] via-[#F8FAFC] to-[#F8FAFC] flex items-center justify-center overflow-hidden"
-    >
-      {/* 3D Interactive Vector Background */}
-      <motion.div
-        className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-        style={{
-          perspective: '1000px',
-          rotateX,
-          rotateY,
-          scale: 1.08,
-          opacity: 0.04,
-        }}
-      >
-        <img
-          src="/images/herobg.svg"
-          alt="Hero Background"
-          width="1920"
-          height="1080"
-          decoding="async"
-          className="w-full h-full object-cover"
-        />
-      </motion.div>
-
-      {/* Interactive Vector Flow Field Background (Refined Micro-Vectors) */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none z-[1] opacity-35">
-        <InteractiveBackground
-          strokeColor="#2563FF"
-          strokeWidth={1}
-          backgroundColor="transparent"
-          count={65}
-          movement={18}
-          hover={true}
-          force={3}
-          resolution={3}
-        />
-      </div>
-
-      {/* Noise Texture Canvas */}
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full pointer-events-none z-[2] opacity-15"
-        style={{ mixBlendMode: 'overlay' }}
-      />
-
-      {/* Architectural Grid Lines */}
-      <div className="absolute inset-0 z-[3] pointer-events-none">
-        <GridLine direction="horizontal" position="25%" delay={1.2} />
-        <GridLine direction="horizontal" position="50%" delay={1.5} />
-        <GridLine direction="horizontal" position="75%" delay={1.8} />
-        <GridLine direction="vertical" position="20%" delay={1.4} />
-        <GridLine direction="vertical" position="50%" delay={1.6} />
-        <GridLine direction="vertical" position="80%" delay={1.9} />
-      </div>
-
-      {/* Floating Ambient Glow Orbs in Soft Blue (Scaled Down) */}
-      <div className="absolute inset-0 z-[4] pointer-events-none hidden md:block">
-        <GlowOrb
-          size={180}
-          color="rgba(37, 99, 255, 0.07)"
-          initialX="-5%"
-          initialY="10%"
-          duration={12}
-          delay={0}
-          blur={45}
-        />
-        <GlowOrb
-          size={140}
-          color="rgba(96, 165, 250, 0.08)"
-          initialX="70%"
-          initialY="60%"
-          duration={15}
-          delay={2}
-          blur={40}
-        />
-        <GlowOrb
-          size={160}
-          color="rgba(37, 99, 255, 0.05)"
-          initialX="40%"
-          initialY="-10%"
-          duration={18}
-          delay={1}
-          blur={50}
-        />
-        <GlowOrb
-          size={120}
-          color="rgba(59, 130, 246, 0.06)"
-          initialX="85%"
-          initialY="20%"
-          duration={14}
-          delay={3}
-          blur={40}
-        />
-      </div>
-
-      {/* Rising Floating Micro-Particles (Subtle & Small) */}
-      <div className="absolute inset-0 z-[5] pointer-events-none hidden md:block">
-        {Array.from({ length: 15 }).map((_, r) => (
-          <Particle
-            key={r}
-            x={`${8 + ((r * 6.2) % 85)}%`}
-            y={`${70 + ((r * 3.7) % 25)}%`}
-            size={1.5 + (r % 2)}
-            delay={r * 0.8}
-            duration={4 + (r % 3) * 1.5}
-          />
-        ))}
-      </div>
-
-      {/* Central Radial Bloom (Compact) */}
-      <motion.div
-        className="absolute z-[4] pointer-events-none hidden md:block"
-        style={{
-          width: '45vw',
-          height: '45vh',
-          left: '50%',
-          top: '50%',
-          transform: 'translate(-50%, -50%)',
-          background:
-            'radial-gradient(ellipse, rgba(37, 99, 255, 0.06) 0%, transparent 70%)',
-        }}
-        animate={{ scale: [1, 1.1, 1], opacity: [0.7, 1, 0.7] }}
-        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-      />
-
-      {/* Main Content Container */}
-      <motion.div
-        className="relative z-10 flex flex-col items-center text-center px-6"
-        style={{ y: heroY, opacity: heroOpacity }}
-      >
-        {/* Top studio badge */}
-        <motion.div
-          className="mb-6 flex items-center gap-3"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <motion.span
-            className="h-px bg-gradient-to-r from-transparent via-[#2563FF]/60 to-transparent"
-            initial={{ width: 0 }}
-            animate={{ width: 60 }}
-            transition={{ delay: 0.6, duration: 1, ease: 'easeOut' }}
-          />
-          <span className="text-[#2563FF] text-[10px] md:text-xs font-poppins font-semibold tracking-[0.35em] uppercase">
-            Creative Digital Studio
-          </span>
-          <motion.span
-            className="h-px bg-gradient-to-r from-transparent via-[#2563FF]/60 to-transparent"
-            initial={{ width: 0 }}
-            animate={{ width: 60 }}
-            transition={{ delay: 0.6, duration: 1, ease: 'easeOut' }}
-          />
-        </motion.div>
-
-        {/* Master Heading: INNOWIZE */}
-        <div className="relative overflow-visible mb-2 py-2" style={{ perspective: '1000px' }}>
-          {/* Luminous Specular Aura Behind INNOWIZE */}
-          <motion.div
-            className="absolute inset-0 -z-10 pointer-events-none flex items-center justify-center"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: [0.6, 0.9, 0.6], scale: [0.95, 1.05, 0.95] }}
-            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <div className="w-[85%] h-[90%] bg-gradient-to-r from-transparent via-[#2563FF]/15 to-transparent blur-3xl rounded-full transform scale-y-75" />
-          </motion.div>
-
-          <h1 className="flex items-center justify-center text-[15vw] md:text-[11.5vw] lg:text-[9.8vw] leading-[0.85] font-barlow font-black tracking-[-0.01em] relative z-10 select-none">
-            {headlineChars.map((char, index) => (
-              <AnimatedChar key={index} char={char} index={index} />
-            ))}
-          </h1>
-        </div>
-
-        {/* Subtitle Words Reveal */}
-        <div className="flex flex-wrap items-center justify-center gap-x-3 md:gap-x-4 mb-8 overflow-hidden">
-          {subWords.map((word, r) => (
-            <motion.span
-              key={r}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                delay: 1.1 + r * 0.1,
-                duration: 0.7,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              className={`text-base md:text-xl lg:text-2xl font-poppins tracking-[0.2em] uppercase ${
-                word === 'EXPERIENCES' ? 'text-[#2563FF] font-bold' : 'text-slate-600 font-normal'
-              }`}
-            >
-              {word}
-            </motion.span>
-          ))}
-        </div>
-
-        {/* Glowing Divider Line with Electric Blue Pulse Dot */}
-        <motion.div
-          className="flex items-center gap-3 mb-8"
-          initial={{ opacity: 0, scaleX: 0 }}
-          animate={{ opacity: 1, scaleX: 1 }}
-          transition={{ delay: 1.7, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <span className="w-12 md:w-20 h-px bg-gradient-to-r from-transparent to-[#2563FF]/30" />
-          <motion.span
-            className="w-2 h-2 rounded-full bg-[#2563FF]"
-            animate={{
-              boxShadow: [
-                '0 0 8px rgba(37, 99, 255, 0.4)',
-                '0 0 20px rgba(37, 99, 255, 0.7)',
-                '0 0 8px rgba(37, 99, 255, 0.4)',
-              ],
-            }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          />
-          <span className="w-12 md:w-20 h-px bg-gradient-to-l from-transparent to-[#2563FF]/30" />
-        </motion.div>
-
-        {/* Supporting Narrative */}
-        <motion.p
-          className="text-slate-600 text-xs md:text-sm font-poppins font-normal max-w-md leading-relaxed tracking-wide mb-10"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2.0, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        >
-          Crafting future-ready digital experiences, cinematic media & innovative technology that captivate audiences.
-        </motion.p>
-
-        {/* CTA Button in Electric Blue */}
-        <motion.button
-          onClick={() => navigate('/work')}
-          className="group relative px-8 py-3.5 rounded-full bg-[#2563FF] hover:bg-[#1D4ED8] text-white text-xs md:text-sm font-poppins font-semibold tracking-[0.15em] uppercase overflow-hidden shadow-[0_4px_20px_rgba(37,99,255,0.35)] hover:shadow-[0_6px_25px_rgba(37,99,255,0.5)] transition-all duration-300 cursor-pointer"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
-        >
-          <span className="relative z-10 flex items-center gap-2">
-            Explore Our Work
-            <motion.span
-              className="inline-block"
-              animate={{ x: [0, 4, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-            >
-              →
-            </motion.span>
-          </span>
-        </motion.button>
-      </motion.div>
-
-      {/* Bottom Gradient Fade */}
+    <section className="relative w-full min-h-[96vh] lg:min-h-screen bg-[#FFFFFF] flex flex-col justify-between overflow-hidden pt-24 sm:pt-28 lg:pt-32 select-none">
+      {/* Background Soft Electric-Blue Ambient Backlight Aura */}
       <div
-        className="absolute bottom-0 left-0 right-0 h-40 z-[8] pointer-events-none"
+        className="absolute right-0 top-12 sm:top-20 w-[60vw] h-[75vh] max-w-[900px] pointer-events-none rounded-full blur-3xl opacity-60 z-[1]"
         style={{
-          background: 'linear-gradient(to top, #F8FAFC 0%, transparent 100%)',
+          background:
+            'radial-gradient(circle at 65% 45%, rgba(37, 99, 255, 0.28) 0%, rgba(56, 189, 248, 0.16) 35%, transparent 70%)',
         }}
       />
 
-      {/* Scroll Indicator */}
-      <motion.div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 cursor-pointer"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2.5, duration: 1 }}
-        onClick={() => {
-          window.scrollTo({ top: window.innerHeight * 0.9, behavior: 'smooth' });
-        }}
-      >
-        <motion.span
-          className="text-slate-500 text-[9px] font-poppins tracking-[0.3em] uppercase"
-          animate={{ opacity: [0.4, 0.9, 0.4] }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+      {/* Futuristic Geometric Tech Line - Stepping up behind model */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none z-[6] hidden md:block overflow-hidden">
+        <svg
+          className="w-full h-full"
+          viewBox="0 0 1440 850"
+          preserveAspectRatio="none"
+          fill="none"
         >
-          Scroll
-        </motion.span>
+          <motion.path
+            d="M 0,455 L 480,455 L 610,295 L 1440,295"
+            stroke="#2563FF"
+            strokeWidth="1.75"
+            className="opacity-75"
+            style={{
+              filter: 'drop-shadow(0 0 8px rgba(37, 99, 255, 0.55))',
+            }}
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 0.75 }}
+            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+          />
+        </svg>
+      </div>
+
+      {/* Prominent Big VR Model Visual on Right (Anchored to touch the bottom, 100% True Transparent PNG) */}
+      <div className="absolute right-0 top-0 bottom-0 w-[75%] sm:w-[62%] md:w-[55%] lg:w-[50%] xl:w-[48%] max-w-[950px] pointer-events-none z-[8] flex items-end justify-end">
         <motion.div
-          className="text-[#2563FF]"
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+          initial={{ opacity: 0, x: 35, scale: 0.98 }}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
+          className="relative w-full h-full flex items-end justify-end"
         >
-          <ArrowDown className="w-5 h-5 stroke-[1.5]" />
+          {/* Cyan/Blue Ambient Glow behind head */}
+          <div className="absolute right-4 top-1/4 w-72 h-80 bg-[#2563FF]/25 blur-3xl rounded-full pointer-events-none" />
+
+          {/* 100% Transparent Cutout VR Model - Big, Full-Height, Touching Bottom */}
+          <img
+            src="/images/vr_hero_model_transparent.png"
+            alt="Futuristic Digital Universe VR Model"
+            width="896"
+            height="1200"
+            className="h-full w-auto max-h-[96vh] object-contain object-bottom drop-shadow-[0_20px_50px_rgba(37,99,255,0.2)]"
+          />
         </motion.div>
-      </motion.div>
+      </div>
 
-      {/* Frame Corners in Electric Blue */}
-      <motion.div
-        className="absolute top-8 left-8 z-[6] pointer-events-none hidden sm:block"
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 0.25, scale: 1 }}
-        transition={{ delay: 1.5, duration: 1 }}
-      >
-        <div className="w-16 h-16 border-l border-t border-[#2563FF]/40 rounded-tl-md" />
-      </motion.div>
+      {/* Main Content Area */}
+      <div className="max-w-[1440px] mx-auto w-full px-6 sm:px-10 lg:px-16 relative z-20 flex-1 flex flex-col justify-center py-4 sm:py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+          {/* Left Column: Headlines, Actions, Metric, Clients (7 Cols) */}
+          <div className="lg:col-span-7 xl:col-span-7 flex flex-col justify-center z-20 max-w-2xl xl:max-w-3xl">
+            {/* Top Tag: A NEW ERA */}
+            <motion.span
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-[#2563FF] text-xs sm:text-sm font-poppins font-bold tracking-[0.25em] uppercase block mb-3 sm:mb-4"
+            >
+              A NEW ERA
+            </motion.span>
 
-      <motion.div
-        className="absolute bottom-24 right-8 z-[6] pointer-events-none hidden sm:block"
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 0.25, scale: 1 }}
-        transition={{ delay: 1.7, duration: 1 }}
-      >
-        <div className="w-16 h-16 border-r border-b border-[#2563FF]/40 rounded-br-md" />
-      </motion.div>
+            {/* Master Headline: NEW DIGITAL UNIVERSE */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="text-5xl sm:text-6xl md:text-7xl xl:text-[5.4rem] font-barlow font-black tracking-tight leading-[0.92] text-slate-950 uppercase mb-8 sm:mb-9"
+            >
+              NEW DIGITAL <br />
+              <span className="text-[#2563FF]">UNIVERSE</span>
+            </motion.h1>
 
-      {/* Vertical Side Texts */}
-      <motion.span
-        className="absolute left-6 top-1/2 -translate-y-1/2 z-[6] pointer-events-none hidden lg:block"
-        style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 0.4, x: 0 }}
-        transition={{ delay: 2, duration: 1 }}
-      >
-        <span className="text-slate-400 text-[9px] font-poppins tracking-[0.4em] uppercase">
-          Est. 2020 — Innowize Digital
-        </span>
-      </motion.span>
+            {/* Actions Row & Metric: Get Started, Watch Showreel & 87.2K Projects */}
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="relative flex flex-wrap items-end gap-5 sm:gap-8 mb-10 sm:mb-14"
+            >
+              <button
+                onClick={() => navigate('/work')}
+                className="px-8 py-3.5 rounded-lg bg-[#2563FF] hover:bg-[#1D4ED8] text-white font-poppins font-semibold text-xs sm:text-sm tracking-wide shadow-[0_8px_25px_rgba(37,99,255,0.35)] hover:shadow-[0_12px_32px_rgba(37,99,255,0.55)] transition-all duration-300 hover:scale-105 cursor-pointer"
+              >
+                Get Started
+              </button>
 
-      <motion.span
-        className="absolute right-6 top-1/2 -translate-y-1/2 z-[6] pointer-events-none hidden lg:block"
-        style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 0.4, x: 0 }}
-        transition={{ delay: 2.2, duration: 1 }}
-      >
-        <span className="text-slate-400 text-[9px] font-poppins tracking-[0.4em] uppercase">
-          Digital • Branding • Experiences
-        </span>
-      </motion.span>
+              <button
+                onClick={() => {
+                  const workTarget = document.getElementById('work') || document.querySelector('.home-page');
+                  if (workTarget) {
+                    window.scrollTo({ top: window.innerHeight * 0.95, behavior: 'smooth' });
+                  }
+                }}
+                className="group flex items-center gap-3 text-slate-900 hover:text-[#2563FF] font-poppins font-semibold text-xs sm:text-sm tracking-wide transition-colors cursor-pointer"
+              >
+                <span>Watch Showreel</span>
+                <div className="w-9 h-9 rounded-full border border-[#2563FF] text-[#2563FF] flex items-center justify-center group-hover:bg-[#2563FF] group-hover:text-white transition-all duration-300 shadow-sm">
+                  <Play className="w-3.5 h-3.5 fill-current translate-x-0.5" />
+                </div>
+              </button>
+
+              {/* Metric: 87.2K Projects - Aligned directly above the step line */}
+              <div className="flex flex-col sm:ml-auto lg:ml-6 pb-0.5">
+                <span className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-barlow text-[#2563FF] leading-none tracking-tight">
+                  87.2K
+                </span>
+                <span className="text-xs sm:text-sm font-poppins font-medium text-slate-600 mt-1">
+                  Projects
+                </span>
+              </div>
+            </motion.div>
+
+            {/* Bottom Row: Happy Clients & Strategic Description */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.35 }}
+              className="grid grid-cols-1 sm:grid-cols-12 gap-6 sm:gap-8 items-center max-w-xl"
+            >
+              {/* Happy Clients */}
+              <div className="sm:col-span-5 flex flex-col">
+                <span className="text-xs font-poppins font-semibold text-slate-600 block mb-2">
+                  Happy Clients
+                </span>
+                <div className="flex items-center gap-3">
+                  <div className="flex -space-x-2.5 overflow-hidden">
+                    {clientAvatars.map((src, i) => (
+                      <img
+                        key={i}
+                        src={src}
+                        alt="Client avatar"
+                        width="36"
+                        height="36"
+                        className="w-9 h-9 rounded-full object-cover border-2 border-white shadow-sm flex-shrink-0"
+                      />
+                    ))}
+                  </div>
+                  <div className="flex flex-col leading-tight">
+                    <span className="text-lg sm:text-xl font-bold font-barlow text-slate-950">28+</span>
+                    <span className="text-[10px] font-poppins font-semibold text-slate-500 uppercase tracking-wider">
+                      Worldwide
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Description Paragraph */}
+              <div className="sm:col-span-7 flex items-center">
+                <p className="text-xs sm:text-sm font-poppins text-slate-600 leading-relaxed font-normal">
+                  Join 28,000+ global brands who trust us to craft immersive digital experiences that drive results.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Right Column Spacer to preserve grid balance on wide screens */}
+          <div className="hidden lg:block lg:col-span-5 xl:col-span-5 pointer-events-none" />
+        </div>
+      </div>
+
+      {/* Futuristic Chamfered Dark Bottom Shelf */}
+      <div className="relative w-full z-30 mt-auto">
+        <div
+          className="w-full bg-[#0B0E17] text-white pt-4 pb-4 px-6 md:px-12 flex items-center justify-between border-t border-white/5"
+          style={{
+            clipPath: 'polygon(0 0, 52% 0, 56% 100%, 100% 100%, 100% 100%, 0 100%)',
+          }}
+        >
+          <div className="flex items-center gap-6 sm:gap-10 md:gap-14 text-xs font-poppins font-semibold tracking-[0.16em] uppercase text-white/90">
+            <div className="flex items-center gap-2 text-white/80 hover:text-[#60A5FA] transition-colors cursor-default">
+              <Hexagon className="w-4 h-4 text-[#2563FF]" />
+              <span>EXPERIENCE</span>
+            </div>
+            <div className="flex items-center gap-2 text-white/80 hover:text-[#60A5FA] transition-colors cursor-default">
+              <MapPin className="w-4 h-4 text-[#2563FF]" />
+              <span>INNOVATION</span>
+            </div>
+            <div className="flex items-center gap-2 text-white/80 hover:text-[#60A5FA] transition-colors cursor-default">
+              <Sparkles className="w-4 h-4 text-[#2563FF]" />
+              <span>EXCELLENCE</span>
+            </div>
+          </div>
+
+          <div className="hidden lg:flex items-center gap-3 pr-8">
+            <span className="text-[10px] font-poppins font-semibold text-white/40 tracking-[0.25em] uppercase">
+              ABOUT US
+            </span>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };

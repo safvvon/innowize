@@ -44,39 +44,39 @@ export const IntroSection2: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen w-full bg-[#F8FAFC] flex items-center justify-center overflow-visible z-10 px-4 md:px-8 lg:px-16 py-12 md:py-20 pb-24 md:pb-32"
+      className="relative min-h-screen w-full bg-[#0B0E17] flex items-center justify-center overflow-visible z-10 px-4 md:px-8 lg:px-16 py-12 md:py-20 pb-24 md:pb-32"
     >
       {/* Subtle top/bottom gradient glow */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#F8FAFC] via-[#F1F5F9]/70 to-[#F8FAFC] pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0B0E17] via-[#0F1628] to-[#0B0E17] pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl w-full flex flex-col gap-4 md:gap-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 lg:gap-16">
           <div className="flex items-start">
             <h2
               ref={headingRef}
-              className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight text-slate-900 font-barlow"
+              className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight text-white font-barlow"
             >
               We craft future-ready{' '}
-              <span className="text-[#2563FF]">digital experiences</span>{' '}
+              <span className="text-[#60A5FA]">digital experiences</span>{' '}
               that blend creativity, technology, and strategy.
             </h2>
           </div>
           <div className="flex flex-col justify-center gap-4 md:gap-5 text-xs md:text-sm lg:text-base font-poppins">
-            <p ref={textRef} className="text-slate-600 leading-relaxed">
+            <p ref={textRef} className="text-white/80 leading-relaxed">
               At Innowize Digital, we{' '}
-              <span className="font-semibold text-slate-900">
+              <span className="font-semibold text-white">
                 turn ideas into experiences
               </span>
               . We engineer{' '}
-              <span className="font-semibold text-slate-900">
+              <span className="font-semibold text-white">
                 cinematic video production, live streaming, digital marketing
               </span>
               , and next-generation{' '}
-              <span className="font-semibold text-slate-900">
+              <span className="font-semibold text-white">
                 AI & creative technology
               </span>{' '}
               to help ambitious brands stay ahead in the digital age. As a forward-thinking creative partner, we collaborate with visionary clients to build digital presences that inspire, engage, and drive extraordinary growth. Our focus is simple:{' '}
-              <span className="font-semibold text-[#2563FF]">
+              <span className="font-semibold text-[#60A5FA]">
                 craft experiences that captivate, connect, and convert
               </span>
               .

@@ -29,8 +29,6 @@ const ScrollToTop = () => {
 
 export const AppContent: React.FC = () => {
   const [isContactOpen, setIsContactOpen] = useState(false);
-  const { pathname } = useLocation();
-  const isHome = pathname === '/';
 
   // Synchronize Lenis Smooth Scrolling with GSAP ScrollTrigger for 60fps jitter-free scrolling
   useEffect(() => {
@@ -56,13 +54,7 @@ export const AppContent: React.FC = () => {
   }, []);
 
   return (
-    <div
-      className={`relative min-h-screen flex flex-col justify-between transition-colors duration-300 ${
-        isHome
-          ? 'bg-[#F8FAFC] text-slate-900 selection:bg-[#2563FF] selection:text-white'
-          : 'bg-alpha text-tango selection:bg-beta selection:text-white'
-      }`}
-    >
+    <div className="relative min-h-screen bg-alpha text-tango selection:bg-beta selection:text-white flex flex-col justify-between">
       <ScrollToTop />
       <Header onOpenContact={() => setIsContactOpen(true)} />
 
