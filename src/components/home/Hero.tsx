@@ -1,10 +1,91 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Play, Hexagon, MapPin, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const Hero: React.FC = () => {
   const navigate = useNavigate();
+  const headRef = useRef<HTMLImageElement>(null);
+  const headCenterRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const rafRef = useRef<number | null>(null);
+
+  // Update pivot position of the head on scroll and resize
+  useEffect(() => {
+    const updatePivot = () => {
+      if (!headRef.current) return;
+      const rect = headRef.current.getBoundingClientRect();
+      // Anatomical cervical pivot (56.36% X, 45.0% Y inside the 896x1200 frame)
+      headCenterRef.current = {
+        x: rect.left + rect.width * 0.5636,
+        y: rect.top + rect.height * 0.45,
+      };
+    };
+
+    updatePivot();
+    // Re-check after layout settles
+    const timeout = setTimeout(updatePivot, 300);
+    window.addEventListener('resize', updatePivot, { passive: true });
+    window.addEventListener('scroll', updatePivot, { passive: true });
+
+    return () => {
+      clearTimeout(timeout);
+      window.removeEventListener('resize', updatePivot);
+      window.removeEventListener('scroll', updatePivot);
+    };
+  }, []);
+
+  // Track mouse and rotate head according to mouse angle between 90 and 270 degrees
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (rafRef.current) return;
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = null;
+        if (!headRef.current) return;
+
+        const pivot = headCenterRef.current;
+        const deltaX = e.clientX - pivot.x;
+        const deltaY = e.clientY - pivot.y;
+
+        // Calculate angle in degrees
+        let angleDeg = (Math.atan2(deltaY, deltaX) * 180) / Math.PI;
+        if (angleDeg < 0) {
+          angleDeg += 360;
+        }
+
+        // Clamp the angle strictly between 90 deg (down) and 270 deg (up) as requested
+        const clampedAngle = Math.max(90, Math.min(270, angleDeg));
+
+        // Normalized progress: 0 at 90 deg, 0.5 at 180 deg (neutral forward), 1 at 270 deg
+        const t = (clampedAngle - 90) / 180;
+        // Centered: -1 (down) to 0 (level) to +1 (up)
+        const centered = (t - 0.5) * 2;
+        // Smooth easing so it smoothly decelerates near the ends
+        const eased = Math.sign(centered) * Math.pow(Math.abs(centered), 0.9);
+
+        // Maximum rotation angles at the ends (natural ergonomic limits that keep neck locked in collar)
+        const maxDown = 15; // max downward tilt
+        const maxUp = 13;   // max upward tilt
+        const rotationDeg = eased < 0 ? eased * maxDown : eased * maxUp;
+
+        headRef.current.style.transform = `rotate(${rotationDeg}deg)`;
+      });
+    };
+
+    const handleMouseLeave = () => {
+      if (headRef.current) {
+        headRef.current.style.transform = 'rotate(0deg)';
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    document.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseleave', handleMouseLeave);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
 
   const clientAvatars = [
     'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
@@ -58,14 +139,32 @@ export const Hero: React.FC = () => {
           {/* Cyan/Blue Ambient Glow behind head */}
           <div className="absolute right-4 top-1/4 w-72 h-80 bg-[#2563FF]/25 blur-3xl rounded-full pointer-events-none" />
 
-          {/* 100% Transparent Cutout VR Model - Big, Full-Height, Touching Bottom */}
-          <img
-            src="/images/vr_hero_model_transparent.png"
-            alt="Futuristic Digital Universe VR Model"
-            width="896"
-            height="1200"
-            className="h-full w-auto max-h-[96vh] object-contain object-bottom drop-shadow-[0_20px_50px_rgba(37,99,255,0.2)]"
-          />
+          {/* Dual-Layer Interactive VR Model: Separated Head & Body */}
+          <div className="relative h-full w-auto max-h-[96vh] flex items-end justify-end" style={{ aspectRatio: '896 / 1200' }}>
+            {/* Interactive Rotating Head Layer */}
+            <img
+              ref={headRef}
+              src="/images/vr_hero_head.png"
+              alt="Futuristic Digital Universe VR Head"
+              width="896"
+              height="1200"
+              className="absolute inset-0 w-full h-full object-contain object-bottom pointer-events-none z-[8]"
+              style={{
+                transformOrigin: '56.36% 45.0%',
+                willChange: 'transform',
+                transition: 'transform 0.1s cubic-bezier(0.2, 0, 0, 1)',
+              }}
+            />
+
+            {/* Stable Body Layer (Overlaying Collar & Suit) */}
+            <img
+              src="/images/vr_hero_body.png"
+              alt="Futuristic Digital Universe VR Model Body"
+              width="896"
+              height="1200"
+              className="relative w-full h-full object-contain object-bottom pointer-events-none z-[9] drop-shadow-[0_20px_50px_rgba(37,99,255,0.2)]"
+            />
+          </div>
         </motion.div>
       </div>
 
