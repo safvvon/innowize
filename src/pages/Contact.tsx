@@ -272,27 +272,6 @@ export const Contact: React.FC = () => {
                 </a>
               </div>
             </div>
-
-            {/* Business Hours Card */}
-            <div className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-8 md:p-10 shadow-xl">
-              <h3 className="text-xl md:text-2xl font-bold text-white mb-4 font-barlow">
-                Business Hours
-              </h3>
-              <div className="space-y-3 text-sm font-poppins">
-                <div className="flex justify-between items-center pb-2 border-b border-white/5">
-                  <span className="text-white/60">Monday - Friday</span>
-                  <span className="text-white font-medium">10:00 AM - 6:00 PM</span>
-                </div>
-                <div className="flex justify-between items-center pb-2 border-b border-white/5">
-                  <span className="text-white/60">Saturday</span>
-                  <span className="text-white font-medium">10:00 AM - 3:00 PM</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-white/60">Sunday</span>
-                  <span className="text-white/50">Closed</span>
-                </div>
-              </div>
-            </div>
           </motion.div>
         </div>
       </section>
