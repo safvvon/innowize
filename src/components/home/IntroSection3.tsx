@@ -1,166 +1,109 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Play, Sparkles, Film, Volume2 } from 'lucide-react';
-
-export interface ReelItem {
-  id: string;
-  title: string;
-  category: string;
-  client: string;
-  duration: string;
-  poster: string;
-  videoUrl?: string; // Empty until user supplies their video
-}
-
-// Curated Innowize Cinematic Reel Placeholders
-const reelsData: ReelItem[] = [
-  {
-    id: 'reel-1',
-    title: 'Elysian — Haute Couture Symphony',
-    category: 'Fashion Film',
-    client: 'Maison de Haute Couture',
-    duration: '0:30',
-    poster: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=85',
-    videoUrl: '', // Ready for user video
-  },
-  {
-    id: 'reel-2',
-    title: 'Aureon — Pure Electric Performance',
-    category: 'Automotive Commercial',
-    client: 'Aureon EV Systems',
-    duration: '0:45',
-    poster: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=85',
-    videoUrl: '',
-  },
-  {
-    id: 'reel-3',
-    title: 'Chronox — Precision Horology',
-    category: 'Product Macro',
-    client: 'Swiss Horology Geneva',
-    duration: '0:20',
-    poster: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=85',
-    videoUrl: '',
-  },
-  {
-    id: 'reel-4',
-    title: 'Horizon — Monolithic Spaces',
-    category: 'Architecture Film',
-    client: 'Modern Spaces Studio',
-    duration: '0:35',
-    poster: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=85',
-    videoUrl: '',
-  },
-  {
-    id: 'reel-5',
-    title: 'Nexora — Synthetic Biology AI',
-    category: 'Brand Experience',
-    client: 'Nexora Labs Zurich',
-    duration: '0:40',
-    poster: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=85',
-    videoUrl: '',
-  },
-  {
-    id: 'reel-6',
-    title: 'Everest — Beyond the Death Zone',
-    category: 'Expedition Doc',
-    client: 'Alpine Summit Trust',
-    duration: '0:50',
-    poster: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=85',
-    videoUrl: '',
-  },
-];
+import { Play, Sparkles, Film, Volume2, X, ExternalLink, ArrowRight, Maximize2 } from 'lucide-react';
+import { videoProjects, VideoProject } from '../../data/portfolioData';
 
 const ReelCard: React.FC<{
-  reel: ReelItem;
+  project: VideoProject;
   index: number;
-  onSelect: (reel: ReelItem) => void;
-}> = React.memo(({ reel, index, onSelect }) => {
+  onSelect: (project: VideoProject) => void;
+}> = React.memo(({ project, index, onSelect }) => {
+  const [imgSrc, setImgSrc] = useState(project.thumbnail);
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const [retried, setRetried] = useState(false);
+
+  useEffect(() => {
+    setImgSrc(project.thumbnail);
+    setImgLoaded(false);
+    setRetried(false);
+  }, [project.thumbnail]);
+
   return (
-    <motion.div
-      onClick={() => onSelect(reel)}
-      whileHover={{ y: -8, scale: 1.02 }}
-      transition={{ duration: 0.35, ease: 'easeOut' }}
-      className="group flex-shrink-0 rounded-md overflow-hidden relative w-[280px] h-[320px] md:w-[420px] md:h-[480.5px] -mt-4 md:mt-0 cursor-pointer border border-white/10 hover:border-[#2563FF]/70 shadow-[0_20px_45px_rgba(0,0,0,0.6)] bg-[#0B0E17]"
+    <div
+      onClick={() => onSelect(project)}
+      className="group flex-shrink-0 rounded-2xl overflow-hidden relative w-[290px] h-[290px] sm:w-[330px] sm:h-[330px] md:w-[350px] md:h-[350px] cursor-pointer border border-white/15 hover:border-[#2563FF] shadow-[0_25px_60px_rgba(0,0,0,0.65)] hover:shadow-[0_30px_70px_rgba(37,99,255,0.4)] bg-[#0A0D16] transition-all duration-500 hover:-translate-y-2 hover:scale-[1.03]"
       style={{
         willChange: 'transform',
         transform: 'translateZ(0)',
       }}
     >
-      {/* Background Poster Image */}
+      {/* Background Poster / Thumbnail Image */}
+      {!imgLoaded && (
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#0B0E17] via-[#141A2B] to-[#1E293B] animate-pulse" />
+      )}
+
       <img
-        src={reel.poster}
-        alt={reel.title}
-        width="420"
-        height="480"
+        src={imgSrc}
+        alt={project.title}
+        width="350"
+        height="350"
         loading="lazy"
         decoding="async"
-        className="absolute inset-0 w-full h-full object-cover brightness-90 group-hover:scale-108 transition-transform duration-700 ease-out"
+        referrerPolicy="no-referrer"
+        onLoad={() => setImgLoaded(true)}
+        onError={() => {
+          if (!retried && project.driveId) {
+            setRetried(true);
+            setImgSrc(`https://drive.google.com/thumbnail?id=${project.driveId}&sz=w2400`);
+          }
+        }}
+        style={{ imageRendering: '-webkit-optimize-contrast' }}
+        className={`absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-700 ease-out contrast-[1.04] saturate-[1.07] brightness-[1.01] ${
+          imgLoaded ? 'opacity-100' : 'opacity-0'
+        }`}
       />
 
-      {/* Cinematic Dark Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E17] via-[#0B0E17]/40 to-black/30 pointer-events-none" />
+      {/* Subtle Top Vignette for Badges */}
+      <div className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-black/70 via-black/30 to-transparent pointer-events-none" />
+
+      {/* Subtle Bottom Gradient for Text Legibility */}
+      <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-[#0B0E17]/95 via-[#0B0E17]/60 to-transparent pointer-events-none" />
 
       {/* Ambient Electric Blue Glow on Hover */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-[#2563FF]/20 via-transparent to-[#3B82F6]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-tr from-[#2563FF]/30 via-transparent to-[#3B82F6]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
       {/* Top Meta Bar */}
-      <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-[10px] md:text-xs font-poppins font-semibold text-[#60A5FA] uppercase tracking-wider">
-          <Film className="w-3 h-3 text-[#2563FF]" />
-          <span>{reel.category}</span>
+      <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10">
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-black/65 backdrop-blur-md border border-white/20 text-[9px] sm:text-[10px] font-poppins font-medium text-[#93C5FD] uppercase tracking-wider shadow-sm">
+          <Film className="w-2.5 h-2.5 text-[#3B82F6]" />
+          <span>{project.category}</span>
         </span>
 
-        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-[10px] font-poppins font-medium text-white/80">
-          <Volume2 className="w-3 h-3 text-white/60" />
-          <span>{reel.duration}</span>
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/55 backdrop-blur-md border border-white/15 text-[9px] font-poppins text-white/80">
+          <Volume2 className="w-2.5 h-2.5 text-white/60" />
+          <span>0:30</span>
         </span>
       </div>
 
-      {/* Center Glowing Play Button */}
+      {/* Center Subtle Glowing Play Button */}
       <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-        <div className="relative">
-          {/* Animated radar rings */}
-          <div className="absolute -inset-3 rounded-full bg-[#2563FF]/30 group-hover:scale-150 group-hover:opacity-0 transition-all duration-700 pointer-events-none" />
-          
-          <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-tr from-[#2563FF] to-[#3B82F6] flex items-center justify-center shadow-[0_0_30px_rgba(37,99,255,0.7)] group-hover:shadow-[0_0_45px_rgba(37,99,255,0.95)] group-hover:scale-110 transition-all duration-300 border border-white/30 text-white">
-            <Play className="w-7 h-7 md:w-8 md:h-8 fill-white translate-x-0.5" />
-          </div>
+        <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#2563FF]/90 hover:bg-[#2563FF] backdrop-blur-sm flex items-center justify-center shadow-[0_0_25px_rgba(37,99,255,0.8)] border border-white/30 group-hover:scale-110 transition-transform duration-300 text-white">
+          <Play className="w-5 h-5 fill-white translate-x-0.5" />
         </div>
       </div>
 
-      {/* Bottom Content Info */}
-      <div className="absolute bottom-0 inset-x-0 p-5 md:p-6 z-10">
-        <div className="flex items-center gap-2 mb-1.5">
-          <span className="text-[10px] md:text-xs font-poppins font-bold tracking-[0.2em] text-[#60A5FA] uppercase">
-            0{index + 1} • Innowize Reel
+      {/* Subtle Bottom Gradient for Text Legibility without hiding thumbnail */}
+      <div className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-black/90 via-black/45 to-transparent pointer-events-none" />
+
+      {/* Bottom Content Info - Small, Standard & Unobtrusive */}
+      <div className="absolute bottom-0 inset-x-0 p-3.5 sm:p-4 z-10">
+        <div className="flex items-center justify-between gap-2 mb-1">
+          <span className="text-[9px] sm:text-[10px] font-poppins font-semibold tracking-wider text-[#60A5FA] uppercase truncate">
+            {index < 9 ? `0${index + 1}` : index + 1} • {project.client}
           </span>
-          <span className="w-1.5 h-1.5 rounded-full bg-[#2563FF] animate-pulse" />
+          <div className="flex items-end gap-0.5 h-2.5 shrink-0 opacity-75">
+            <span className="w-0.5 h-1.5 bg-[#60A5FA] rounded-full" />
+            <span className="w-0.5 h-2.5 bg-[#2563FF] rounded-full" />
+            <span className="w-0.5 h-2 bg-white/70 rounded-full" />
+          </div>
         </div>
 
-        <h3 className="text-xl md:text-2xl font-bold font-barlow text-white leading-tight group-hover:text-[#60A5FA] transition-colors mb-1.5">
-          {reel.title}
+        <h3 className="text-xs sm:text-sm md:text-[15px] font-bold font-barlow text-white leading-snug group-hover:text-[#60A5FA] transition-colors truncate">
+          {project.title}
         </h3>
-
-        <p className="text-[11px] md:text-xs font-poppins text-white/60 line-clamp-1">
-          {reel.client}
-        </p>
-
-        {/* Dynamic soundwave preview indicator */}
-        <div className="mt-3 pt-3 border-t border-white/10 flex items-center justify-between">
-          <div className="flex items-end gap-1 h-3.5">
-            <span className="w-0.5 h-2 bg-[#2563FF] rounded-full animate-[pulse_1s_ease-in-out_infinite]" />
-            <span className="w-0.5 h-3.5 bg-[#60A5FA] rounded-full animate-[pulse_0.7s_ease-in-out_infinite]" />
-            <span className="w-0.5 h-1.5 bg-[#3B82F6] rounded-full animate-[pulse_1.2s_ease-in-out_infinite]" />
-            <span className="w-0.5 h-3 bg-white/70 rounded-full animate-[pulse_0.9s_ease-in-out_infinite]" />
-            <span className="w-0.5 h-2 bg-[#2563FF] rounded-full animate-[pulse_1.1s_ease-in-out_infinite]" />
-          </div>
-          <span className="text-[10px] font-poppins font-medium text-white/50 tracking-wider uppercase">
-            Custom Video Placeholder
-          </span>
-        </div>
       </div>
-    </motion.div>
+    </div>
   );
 });
 
@@ -169,116 +112,216 @@ ReelCard.displayName = 'ReelCard';
 export const IntroSection3: React.FC = () => {
   const navigate = useNavigate();
   const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'end start'],
-  });
+  const [activeVideo, setActiveVideo] = useState<VideoProject | null>(null);
 
-  const p1 = useTransform(scrollYProgress, [0, 1], ['0%', '25%']);
-  const p2 = useTransform(scrollYProgress, [0, 1], ['0%', '-30%']);
-  const p3 = useTransform(scrollYProgress, [0, 1], ['0%', '35%']);
-  const p4 = useTransform(scrollYProgress, [0, 1], ['0%', '-20%']);
-
-  const bigTextStyle =
-    'text-[38vw] md:text-[15vw] leading-[0.75] font-extrabold italic text-white/[0.07] uppercase font-barlow relative';
-
-  const handleSelectReel = (reel: ReelItem) => {
-    // If user provided a video URL, it can open a player; otherwise navigates to work
-    if (reel.videoUrl) {
-      window.open(reel.videoUrl, '_blank');
-    } else {
-      navigate('/work');
-    }
+  const handleSelectProject = (project: VideoProject) => {
+    setActiveVideo(project);
   };
+
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      setActiveVideo(null);
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
 
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[75vh] md:min-h-screen w-full bg-[#0B0E17] overflow-visible md:overflow-hidden pt-16 md:pt-24 z-10"
+      className="relative min-h-[80vh] md:min-h-screen w-full bg-gradient-to-br from-[#1242CE] via-[#1D5BF6] to-[#1242CE] overflow-hidden pt-12 md:pt-16 pb-20 md:pb-28 z-10 select-none"
     >
-      {/* Flipped Background Overlay in Electric Blue */}
-      <img
-        src="/images/introbg.svg"
-        alt="Intro Background Flipped"
-        loading="lazy"
-        decoding="async"
-        className="absolute top-0 right-0 w-[160%] max-w-none z-[1] pointer-events-none scale-x-[-1] scale-y-[-1]"
-      />
-
-      {/* Angled Rotating Video Reels Row */}
-      <div
-        className="h-full w-[120%] md:w-full flex items-start justify-center relative z-50 overflow-visible -mb-56 md:pb-0 -mt-24 md:-mt-12 -ml-[10%] md:ml-0 pt-0 md:pt-16"
-        style={{ transform: 'rotate(5deg) translateZ(0)' }}
-      >
-        <motion.div
-          className="flex gap-6 md:gap-10"
-          animate={{ x: ['0%', '-50%'] }}
-          transition={{ duration: 45, repeat: Infinity, ease: 'linear' }}
-          style={{ willChange: 'transform', transform: 'translateZ(0)' }}
-        >
-          {/* Double list for seamless infinite loop */}
-          {[...reelsData, ...reelsData].map((reel, idx) => (
-            <ReelCard
-              key={`${reel.id}-${idx}`}
-              reel={reel}
-              index={idx % reelsData.length}
-              onSelect={handleSelectReel}
-            />
-          ))}
-        </motion.div>
+      {/* Deep Vibrant Geometric Backdrop & Giant Translucent WORK Watermarks */}
+      <div className="absolute inset-0 z-[1] flex flex-col items-center justify-center pointer-events-none select-none overflow-hidden">
+        <span className="text-[26vw] font-black italic text-[#081B4E]/25 sm:text-[#081B4E]/20 uppercase font-barlow tracking-widest leading-[0.7] translate-y-4">
+          WORK
+        </span>
+        <span className="text-[26vw] font-black italic text-[#081B4E]/25 sm:text-[#081B4E]/20 uppercase font-barlow tracking-widest leading-[0.7]">
+          WORK
+        </span>
       </div>
 
-      {/* Button: Check out our work */}
-      <div className="absolute bottom-20 md:bottom-24 left-1/2 transform -translate-x-1/2 z-50 pointer-events-auto">
+      {/* Top Section Header - Standard, Small & Clean */}
+      <div className="relative z-40 text-center max-w-2xl mx-auto px-6 mb-8 md:mb-10">
+        <div className="inline-flex items-center gap-2 text-white/90 text-[10px] sm:text-xs font-semibold tracking-[0.25em] uppercase mb-2.5 bg-black/30 backdrop-blur-md px-3.5 py-1 rounded-full border border-white/20">
+          <Sparkles className="w-3 h-3 text-[#60A5FA]" />
+          <span>FEATURED WORK</span>
+          <span>•</span>
+          <span>CLIENT REELS</span>
+        </div>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-barlow text-white uppercase tracking-tight drop-shadow-md">
+          Stories That Command Attention
+        </h2>
+        <p className="text-white/80 text-xs sm:text-sm font-poppins max-w-md mx-auto mt-2 leading-relaxed drop-shadow-sm">
+          Commercial video productions, brand films, and visual experiences crafted for ambitious brands.
+        </p>
+      </div>
+
+      {/* Angled Rotating Video Reels Row with Infinite Seamless Marquee (-4deg tilt matching model) */}
+      <div
+        className="w-[125%] md:w-[110%] flex items-start justify-center relative z-40 overflow-visible -ml-[12%] md:-ml-[5%] py-6"
+        style={{ transform: 'rotate(-4deg) translateZ(0)' }}
+      >
+        <div className="flex w-max marquee-hover-pause select-none">
+          {/* Track 1: All Innowize Client Video Projects */}
+          <div className="flex shrink-0 gap-6 md:gap-8 pr-6 md:pr-8 animate-innowize-marquee">
+            {videoProjects.map((project, idx) => (
+              <ReelCard
+                key={`track1-${project.id}`}
+                project={project}
+                index={idx}
+                onSelect={handleSelectProject}
+              />
+            ))}
+          </div>
+
+          {/* Track 2: Duplicate for 100% Mathematically Seamless Infinite Loop */}
+          <div
+            className="flex shrink-0 gap-6 md:gap-8 pr-6 md:pr-8 animate-innowize-marquee"
+            aria-hidden="true"
+          >
+            {videoProjects.map((project, idx) => (
+              <ReelCard
+                key={`track2-${project.id}`}
+                project={project}
+                index={idx}
+                onSelect={handleSelectProject}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Button: Explore Full Portfolio Archive */}
+      <div className="relative z-50 flex justify-center mt-12 md:mt-16 pointer-events-auto">
         <button
           onClick={() => navigate('/work')}
-          className="group relative px-6 py-3 md:px-10 md:py-4 rounded-full text-sm md:text-lg font-semibold tracking-wider font-poppins transition-all duration-300 hover:scale-105 hover:shadow-[0_0_35px_rgba(37,99,255,0.7)] cursor-pointer bg-[#2563FF] hover:bg-[#3B82F6] text-white border border-[#60A5FA]/40 flex items-center gap-3"
+          className="group relative px-7 py-3.5 md:px-10 md:py-4 rounded-full text-sm md:text-base font-semibold tracking-wider font-poppins transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(0,0,0,0.5)] cursor-pointer bg-[#0B0E17] hover:bg-[#141A2B] text-white border border-white/20 flex items-center gap-3 shadow-2xl"
         >
-          <Sparkles className="w-5 h-5 text-white animate-pulse" />
-          <span>Check out our work</span>
+          <Sparkles className="w-4 h-4 text-[#60A5FA] animate-pulse" />
+          <span>Explore Full Portfolio Archive</span>
+          <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" />
         </button>
       </div>
 
-      {/* Parallax Background Letters "WORK" and Cloud */}
-      <div className="absolute inset-0 z-30 flex flex-col justify-start items-start pointer-events-none overflow-visible w-full px-4 -mt-40 -ml-24 md:pt-12 md:ml-0 md:mt-0">
-        {/* Floating Cloud */}
-        <motion.div
-          className="absolute top-0 left-[10vw] w-[4vw] min-w-[50px] opacity-80"
-          animate={{
-            x: [0, 30, -20, 40, 0],
-            y: [0, -15, 10, -5, 0],
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-          style={{ willChange: 'transform' }}
-        >
-          <img src="/images/cloud1.svg" alt="" className="w-full" />
-        </motion.div>
+      {/* Active Video Cinema Lightbox Modal (True Full Screen Cinema Mode) */}
+      <AnimatePresence>
+        {activeVideo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-[999999] w-screen h-screen bg-black flex flex-col overflow-hidden select-none"
+          >
+            {/* Top Floating Glass Navigation Bar */}
+            <div className="relative z-30 w-full px-4 sm:px-8 py-3 sm:py-3.5 bg-[#0B0E17]/90 backdrop-blur-xl border-b border-white/10 flex items-center justify-between gap-4 shrink-0 shadow-2xl">
+              <div className="flex items-center gap-3 overflow-hidden pr-4">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#2563FF]/20 border border-[#2563FF]/40 flex items-center justify-center text-[#60A5FA] shrink-0">
+                  <Film className="w-4 h-4 sm:w-5 sm:h-5" />
+                </div>
+                <div className="truncate">
+                  <div className="flex items-center gap-2">
+                    <span className="px-2.5 py-0.5 rounded-full bg-[#2563FF]/20 text-[#60A5FA] text-[10px] sm:text-xs font-poppins font-semibold uppercase tracking-wider">
+                      {activeVideo.category}
+                    </span>
+                    <span className="text-[11px] text-white/50 font-poppins">• {activeVideo.year}</span>
+                  </div>
+                  <h3 className="text-sm sm:text-lg md:text-xl font-bold font-barlow text-white truncate leading-tight mt-0.5">
+                    {activeVideo.title}
+                  </h3>
+                </div>
+              </div>
 
-        <motion.div
-          style={{ x: p1, willChange: 'transform' }}
-          className="w-full flex justify-start pl-[25vw]"
-        >
-          <h1 className={bigTextStyle}>WORK</h1>
-        </motion.div>
-        <motion.div
-          style={{ x: p2, willChange: 'transform' }}
-          className="w-full flex justify-start pl-[60vw]"
-        >
-          <h1 className={bigTextStyle}>WORK</h1>
-        </motion.div>
-        <motion.div
-          style={{ x: p3, willChange: 'transform' }}
-          className="w-full flex justify-start pl-[16vw]"
-        >
-          <h1 className={bigTextStyle}>WORK</h1>
-        </motion.div>
-        <motion.div
-          style={{ x: p4, willChange: 'transform' }}
-          className="w-full flex justify-start pl-[30vw]"
-        >
-          <h1 className={bigTextStyle}>WORK</h1>
-        </motion.div>
-      </div>
+              <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[11px] font-poppins font-semibold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  Full HD 1080p Stream
+                </span>
+
+                <a
+                  href={`https://drive.google.com/file/d/${activeVideo.driveId}/view?usp=sharing`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-full bg-white/10 hover:bg-[#2563FF] text-white text-xs font-poppins font-medium transition-all border border-white/10"
+                  title="Open in Google Drive in original 4K / master resolution"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Original 4K Quality</span>
+                </a>
+
+                <button
+                  onClick={() => {
+                    if (!document.fullscreenElement) {
+                      document.documentElement.requestFullscreen().catch(() => {});
+                    } else if (document.exitFullscreen) {
+                      document.exitFullscreen().catch(() => {});
+                    }
+                  }}
+                  className="p-2 sm:p-2.5 rounded-full bg-white/10 hover:bg-[#2563FF] text-white transition-colors cursor-pointer border border-white/10"
+                  title="Toggle Browser Fullscreen"
+                >
+                  <Maximize2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                </button>
+
+                <button
+                  onClick={() => {
+                    if (document.fullscreenElement && document.exitFullscreen) {
+                      document.exitFullscreen().catch(() => {});
+                    }
+                    setActiveVideo(null);
+                  }}
+                  className="flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-full bg-[#2563FF] hover:bg-[#3B82F6] text-white text-xs sm:text-sm font-poppins font-semibold transition-all shadow-[0_0_20px_rgba(37,99,255,0.5)] cursor-pointer"
+                  title="Close (Esc)"
+                >
+                  <X className="w-4 h-4" />
+                  <span className="hidden sm:inline">Close</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Video Player Container - Expands to 100% of Screen */}
+            <div className="relative flex-1 w-full h-full bg-black flex items-center justify-center overflow-hidden">
+              <iframe
+                src={`https://drive.google.com/file/d/${activeVideo.driveId}/preview?autoplay=1&vq=hd1080`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                allowFullScreen
+                className="w-full h-full border-0"
+                title={activeVideo.title}
+              />
+            </div>
+
+            {/* Subtle Bottom Bar with Client info, resolution tip and tagline */}
+            <div className="px-6 py-2.5 bg-[#0B0E17]/95 backdrop-blur-md border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shrink-0 text-xs font-poppins text-white/70">
+              <div className="flex items-center gap-2 truncate pr-4">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+                <span className="text-white font-medium">{activeVideo.client}</span>
+                <span className="text-white/40 hidden sm:inline">—</span>
+                <span className="truncate hidden sm:inline">{activeVideo.tagline}</span>
+              </div>
+              <div className="flex items-center gap-4 shrink-0 text-[11px] text-white/50">
+                <span className="hidden md:inline">Tip: Click ⚙️ in player for 1080p, or click <strong>Original 4K Quality</strong></span>
+                <button
+                  onClick={() => {
+                    setActiveVideo(null);
+                    navigate('/work');
+                  }}
+                  className="hover:text-[#60A5FA] text-white/70 transition-colors flex items-center gap-1.5"
+                >
+                  <span>Explore All Works</span>
+                  <ArrowRight className="w-3 h-3" />
+                </button>
+                <span className="hidden sm:inline text-white/40">
+                  ESC to exit
+                </span>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

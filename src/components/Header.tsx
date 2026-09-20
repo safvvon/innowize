@@ -12,10 +12,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-  const eyeRef = useRef<HTMLDivElement>(null);
-  const eyeImgRef = useRef<HTMLImageElement>(null);
-  const eyeCenterRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
-  const eyeRafRef = useRef<number | null>(null);
 
   // Dynamic scroll state
   useEffect(() => {
@@ -24,47 +20,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Cache eyeball position on scroll & resize to avoid forced reflows on mousemove
-  useEffect(() => {
-    const updateCenter = () => {
-      if (!eyeRef.current) return;
-      const rect = eyeRef.current.getBoundingClientRect();
-      eyeCenterRef.current = {
-        x: rect.left + rect.width / 2,
-        y: rect.top + rect.height / 2,
-      };
-    };
-
-    updateCenter();
-    window.addEventListener('resize', updateCenter, { passive: true });
-    window.addEventListener('scroll', updateCenter, { passive: true });
-    return () => {
-      window.removeEventListener('resize', updateCenter);
-      window.removeEventListener('scroll', updateCenter);
-    };
-  }, []);
-
-  // Eyeball cursor tracking using direct GPU transform (Zero React re-renders)
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (eyeRafRef.current) return;
-      eyeRafRef.current = requestAnimationFrame(() => {
-        eyeRafRef.current = null;
-        if (!eyeImgRef.current) return;
-        const deltaX = e.clientX - eyeCenterRef.current.x;
-        const deltaY = e.clientY - eyeCenterRef.current.y;
-        const angleDeg = (Math.atan2(deltaY, deltaX) * 180) / Math.PI;
-        eyeImgRef.current.style.transform = `rotate(${angleDeg}deg)`;
-      });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      if (eyeRafRef.current) cancelAnimationFrame(eyeRafRef.current);
-    };
   }, []);
 
   // Prevent background scroll when mobile menu is open
@@ -152,26 +107,13 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
 
           {/* Right Action: Let's Talk CTA & Mobile Hamburger */}
           <div className="flex items-center gap-4">
-            {/* Interactive Eyeball CTA Button */}
+            {/* Standard Professional Let's Talk CTA Button */}
             <button
               onClick={onOpenContact}
-              className="relative flex items-center gap-3 bg-gradient-to-r from-[#2563FF] to-[#1D4ED8] hover:from-[#1D4ED8] hover:to-[#2563FF] shadow-[0_4px_20px_rgba(37,99,255,0.4)] hover:shadow-[0_6px_25px_rgba(37,99,255,0.6)] transition-all duration-300 ease-out rounded-full pl-2 pr-6 py-2 group overflow-hidden border border-white/10 cursor-pointer"
+              className="relative flex items-center px-6 py-2.5 bg-gradient-to-r from-[#2563FF] to-[#1D4ED8] hover:from-[#1D4ED8] hover:to-[#2563FF] shadow-[0_4px_20px_rgba(37,99,255,0.4)] hover:shadow-[0_6px_25px_rgba(37,99,255,0.6)] transition-all duration-300 ease-out rounded-full group overflow-hidden border border-white/15 cursor-pointer hover:scale-105"
             >
               <div className="absolute inset-x-0 top-0 h-[40%] bg-gradient-to-b from-white/30 to-transparent pointer-events-none rounded-t-full" />
-              <div
-                ref={eyeRef}
-                className="relative w-7 h-7 rounded-full bg-black/20 flex items-center justify-center overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)] backdrop-blur-sm"
-              >
-                <img
-                  ref={eyeImgRef}
-                  src="/images/eyeball.png"
-                  alt=""
-                  width="28"
-                  height="28"
-                  className="w-full h-full object-cover transition-transform duration-75 ease-out will-change-transform"
-                />
-              </div>
-              <span className="relative text-white font-bold text-xs uppercase tracking-[0.1em] font-paytone mt-[2px] drop-shadow-md">
+              <span className="relative text-white font-bold text-xs uppercase tracking-[0.12em] font-poppins drop-shadow-md">
                 Let's Talk
               </span>
             </button>

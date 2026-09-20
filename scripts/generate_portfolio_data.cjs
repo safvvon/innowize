@@ -305,38 +305,6 @@ async function main() {
     },
     {
       id: 'vid-15',
-      title: 'Monsignor Lau — 60th Sacerdotal Diamond Jubilee',
-      category: 'Interviews & Docs',
-      categorySlug: 'interviews-docs',
-      client: 'Catholic Archdiocese Memorial',
-      year: '2024',
-      driveId: '1CL2VHj3NtUHgFaqbDJWgqVJ5FH4OLb4T',
-      folderId: '1L5zi0atRrsCdr_8LQTJtzBfY3uSKCTTN',
-      thumbnail: 'https://lh3.googleusercontent.com/d/1CL2VHj3NtUHgFaqbDJWgqVJ5FH4OLb4T=w1200',
-      tagline: 'A timeless retrospective documentary chronicling six decades of devotion, spiritual service, and heartfelt tributes.',
-      gridSpan: 'col-span-1 md:col-span-2',
-      minHeight: 'min-h-[380px]',
-      aspectClass: 'aspect-[16/9]',
-      masonryHeight: 'h-[400px]'
-    },
-    {
-      id: 'vid-16',
-      title: 'We Can Carry Our Cross Well — Resilience Documentary',
-      category: 'Interviews & Docs',
-      categorySlug: 'interviews-docs',
-      client: 'Faith & Courage Feature Series',
-      year: '2023',
-      driveId: '1e_UR3Qyl1Rky7xE_dx23lfbVPl7CCiFP',
-      folderId: '1L5zi0atRrsCdr_8LQTJtzBfY3uSKCTTN',
-      thumbnail: 'https://lh3.googleusercontent.com/d/1e_UR3Qyl1Rky7xE_dx23lfbVPl7CCiFP=w1200',
-      tagline: 'An inspirational long-form documentary exploring human resilience, personal triumph over hardship, and inner strength.',
-      gridSpan: 'col-span-1',
-      minHeight: 'min-h-[440px] lg:min-h-[480px]',
-      aspectClass: 'aspect-[3/4]',
-      masonryHeight: 'h-[460px]'
-    },
-    {
-      id: 'vid-17',
       title: 'CG Property — Client Success & Wealth Story',
       category: 'Testimonials',
       categorySlug: 'testimonials',
@@ -352,7 +320,7 @@ async function main() {
       masonryHeight: 'h-[360px]'
     },
     {
-      id: 'vid-18',
+      id: 'vid-16',
       title: 'Svenson — Trichology Q&A with Kristina',
       category: 'Testimonials',
       categorySlug: 'testimonials',

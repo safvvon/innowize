@@ -74,3 +74,28 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Seamless Marquee for Infinite Looping Video Carousel */
+@keyframes innowize-marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+.animate-innowize-marquee {
+  animation: innowize-marquee 95s linear infinite;
+  will-change: transform;
+}
+
+@media (max-width: 768px) {
+  .animate-innowize-marquee {
+    animation-duration: 70s;
+  }
+}
+
+.marquee-hover-pause:hover .animate-innowize-marquee {
+  animation-play-state: paused;
+}

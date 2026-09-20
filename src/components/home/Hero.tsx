@@ -87,13 +87,6 @@ export const Hero: React.FC = () => {
     };
   }, []);
 
-  const clientAvatars = [
-    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80',
-  ];
-
   return (
     <section className="relative w-full min-h-[96vh] lg:min-h-screen bg-[#FFFFFF] flex flex-col justify-between overflow-hidden pt-24 sm:pt-28 lg:pt-32 select-none">
       {/* Background Soft Electric-Blue Ambient Backlight Aura */}
@@ -173,39 +166,50 @@ export const Hero: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
           {/* Left Column: Headlines, Actions, Metric, Clients (7 Cols) */}
           <div className="lg:col-span-7 xl:col-span-7 flex flex-col justify-center z-20 max-w-2xl xl:max-w-3xl">
-            {/* Top Tag: A NEW ERA */}
-            <motion.span
+            {/* Top Tag: CREATIVE VIDEO & AI PRODUCTION */}
+            <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-[#2563FF] text-xs sm:text-sm font-poppins font-bold tracking-[0.25em] uppercase block mb-3 sm:mb-4"
+              className="inline-flex items-center gap-2 text-[#2563FF] text-[11px] sm:text-xs font-poppins font-bold tracking-[0.22em] uppercase mb-3"
             >
-              A NEW ERA
-            </motion.span>
+              <Sparkles className="w-3.5 h-3.5 text-[#2563FF]" />
+              <span>CREATIVE VIDEO & AI STUDIO</span>
+            </motion.div>
 
             {/* Master Headline: NEW DIGITAL UNIVERSE */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="text-5xl sm:text-6xl md:text-7xl xl:text-[5.4rem] font-barlow font-black tracking-tight leading-[0.92] text-slate-950 uppercase mb-8 sm:mb-9"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.6rem] font-barlow font-black tracking-tight leading-[0.95] text-slate-950 uppercase mb-4"
             >
               NEW DIGITAL <br />
               <span className="text-[#2563FF]">UNIVERSE</span>
             </motion.h1>
 
-            {/* Actions Row & Metric: Get Started, Watch Showreel & 87.2K Projects */}
+            {/* Clear, Concise Standard Subtitle */}
+            <motion.p
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.15 }}
+              className="text-xs sm:text-sm md:text-base text-slate-600 font-poppins max-w-lg leading-relaxed mb-6"
+            >
+              Crafting high-impact commercial video productions, cinematic brand films, and next-generation AI visuals for ambitious brands worldwide.
+            </motion.p>
+
+            {/* Standard Professional Action Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}
-              className="relative flex flex-wrap items-end gap-5 sm:gap-8 mb-10 sm:mb-14"
+              className="flex flex-wrap items-center gap-3.5 mb-8"
             >
               <button
                 onClick={() => navigate('/work')}
-                className="px-8 py-3.5 rounded-lg bg-[#2563FF] hover:bg-[#1D4ED8] text-white font-poppins font-semibold text-xs sm:text-sm tracking-wide shadow-[0_8px_25px_rgba(37,99,255,0.35)] hover:shadow-[0_12px_32px_rgba(37,99,255,0.55)] transition-all duration-300 hover:scale-105 cursor-pointer"
+                className="px-8 py-3.5 rounded-full bg-[#2563FF] hover:bg-[#1D4ED8] text-white font-poppins font-semibold text-sm tracking-wide shadow-[0_8px_25px_rgba(37,99,255,0.35)] hover:shadow-[0_12px_32px_rgba(37,99,255,0.55)] transition-all duration-300 hover:scale-105 cursor-pointer"
               >
-                Get Started
+                Explore Work
               </button>
 
               <button
@@ -215,64 +219,51 @@ export const Hero: React.FC = () => {
                     window.scrollTo({ top: window.innerHeight * 0.95, behavior: 'smooth' });
                   }
                 }}
-                className="group flex items-center gap-3 text-slate-900 hover:text-[#2563FF] font-poppins font-semibold text-xs sm:text-sm tracking-wide transition-colors cursor-pointer"
+                className="group flex items-center gap-2.5 px-6 py-3.5 rounded-full border border-slate-300/80 hover:border-[#2563FF] text-slate-800 hover:text-[#2563FF] font-poppins font-semibold text-sm transition-all duration-300 bg-white/80 backdrop-blur-sm cursor-pointer shadow-sm hover:shadow"
               >
-                <span>Watch Showreel</span>
-                <div className="w-9 h-9 rounded-full border border-[#2563FF] text-[#2563FF] flex items-center justify-center group-hover:bg-[#2563FF] group-hover:text-white transition-all duration-300 shadow-sm">
-                  <Play className="w-3.5 h-3.5 fill-current translate-x-0.5" />
+                <div className="w-6 h-6 rounded-full bg-[#2563FF]/10 text-[#2563FF] flex items-center justify-center group-hover:bg-[#2563FF] group-hover:text-white transition-colors">
+                  <Play className="w-3 h-3 fill-current translate-x-0.5" />
                 </div>
+                <span>Watch Showreel</span>
               </button>
-
-              {/* Metric: 87.2K Projects - Aligned directly above the step line */}
-              <div className="flex flex-col sm:ml-auto lg:ml-6 pb-0.5">
-                <span className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-barlow text-[#2563FF] leading-none tracking-tight">
-                  87.2K
-                </span>
-                <span className="text-xs sm:text-sm font-poppins font-medium text-slate-600 mt-1">
-                  Projects
-                </span>
-              </div>
             </motion.div>
 
-            {/* Bottom Row: Happy Clients & Strategic Description */}
+            {/* Standard Professional Stats Strip */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.35 }}
-              className="grid grid-cols-1 sm:grid-cols-12 gap-6 sm:gap-8 items-center max-w-xl"
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="flex items-center gap-6 sm:gap-8 pt-6 border-t border-slate-200/80 max-w-lg select-none"
             >
-              {/* Happy Clients */}
-              <div className="sm:col-span-5 flex flex-col">
-                <span className="text-xs font-poppins font-semibold text-slate-600 block mb-2">
-                  Happy Clients
-                </span>
-                <div className="flex items-center gap-3">
-                  <div className="flex -space-x-2.5 overflow-hidden">
-                    {clientAvatars.map((src, i) => (
-                      <img
-                        key={i}
-                        src={src}
-                        alt="Client avatar"
-                        width="36"
-                        height="36"
-                        className="w-9 h-9 rounded-full object-cover border-2 border-white shadow-sm flex-shrink-0"
-                      />
-                    ))}
-                  </div>
-                  <div className="flex flex-col leading-tight">
-                    <span className="text-lg sm:text-xl font-bold font-barlow text-slate-950">28+</span>
-                    <span className="text-[10px] font-poppins font-semibold text-slate-500 uppercase tracking-wider">
-                      Worldwide
-                    </span>
-                  </div>
+              <div>
+                <div className="text-2xl sm:text-3xl font-extrabold font-barlow text-slate-950 leading-none">
+                  100+
+                </div>
+                <div className="text-[11px] sm:text-xs font-poppins font-medium text-slate-500 mt-1 uppercase tracking-wider">
+                  Commercial Works
                 </div>
               </div>
 
-              {/* Description Paragraph */}
-              <div className="sm:col-span-7 flex items-center">
-                <p className="text-xs sm:text-sm font-poppins text-slate-600 leading-relaxed font-normal">
-                  Join 28,000+ global brands who trust us to craft immersive digital experiences that drive results.
-                </p>
+              <div className="w-px h-8 bg-slate-200" />
+
+              <div>
+                <div className="text-2xl sm:text-3xl font-extrabold font-barlow text-[#2563FF] leading-none">
+                  4K / HD
+                </div>
+                <div className="text-[11px] sm:text-xs font-poppins font-medium text-slate-500 mt-1 uppercase tracking-wider">
+                  Master Quality
+                </div>
+              </div>
+
+              <div className="w-px h-8 bg-slate-200" />
+
+              <div>
+                <div className="text-2xl sm:text-3xl font-extrabold font-barlow text-slate-950 leading-none">
+                  Global
+                </div>
+                <div className="text-[11px] sm:text-xs font-poppins font-medium text-slate-500 mt-1 uppercase tracking-wider">
+                  Singapore Base
+                </div>
               </div>
             </motion.div>
           </div>

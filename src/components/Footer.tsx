@@ -142,15 +142,19 @@ export const Footer: React.FC<FooterProps> = () => {
             <div className="space-y-3 text-sm font-poppins text-white/70">
               <div className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-[#3B82F6] flex-shrink-0 mt-1" />
-                <span>Kochi / Calicut, Kerala, India</span>
+                <span>Singapore</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-[#3B82F6] flex-shrink-0" />
-                <span>hello@innowize.digital</span>
+                <a href="mailto:abinsiby@innowizedigital.com" className="hover:text-white transition-colors">
+                  abinsiby@innowizedigital.com
+                </a>
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-[#3B82F6] flex-shrink-0" />
-                <span>+91 94958 85632</span>
+                <a href="tel:+6580808824" className="hover:text-white transition-colors">
+                  +65 8080 8824
+                </a>
               </div>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Sparkles, Compass, Hexagon, Diamond, CheckCircle, ArrowRight } from 'lucide-react';
 
@@ -38,6 +38,9 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
         'Bridging human emotion with cutting-edge production technology',
         'Delivering authentic, memorable narratives that inspire action',
       ],
+      image: '/images/about/mission.jpg',
+      badge: 'MISSION IN MOTION',
+      label: 'Cinema Studio Production',
     },
     vision: {
       title: 'Leading The Next Era of Digital Media',
@@ -48,6 +51,9 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
         'Creating future-proof digital assets tailored for multi-platform reach',
         'Setting new benchmarks for visual storytelling and viewer engagement',
       ],
+      image: '/images/about/vision.jpg',
+      badge: 'FUTURE HORIZON',
+      label: 'Virtual Production & AI Soundstage',
     },
     values: {
       title: 'Principles That Guide Every Frame',
@@ -58,6 +64,9 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
         'Transparency, integrity, and genuine client collaboration',
         'Constant curiosity and fearlessness in trying new mediums',
       ],
+      image: '/images/about/values.jpg',
+      badge: 'CRAFT & INTEGRITY',
+      label: 'Master Color & Post-Production Suite',
     },
   };
 
@@ -85,19 +94,29 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
         <div className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-8 sm:p-12 lg:p-16 shadow-2xl w-full">
           {/* Tab Buttons */}
           <div className="flex items-center gap-3 mb-10 pb-6 border-b border-white/10">
-            {(['mission', 'vision', 'values'] as const).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-6 py-2.5 rounded-full text-xs sm:text-sm font-poppins font-semibold tracking-wider uppercase transition-all duration-300 cursor-pointer ${
-                  activeTab === tab
-                    ? 'bg-[#2563FF] text-white shadow-[0_0_15px_rgba(37,99,255,0.4)]'
-                    : 'bg-white/5 text-white/60 hover:text-white hover:bg-white/10'
-                }`}
-              >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
-              </button>
-            ))}
+            {(['mission', 'vision', 'values'] as const).map((tab) => {
+              const isActive = activeTab === tab;
+              return (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`relative px-6 py-2.5 rounded-full text-xs sm:text-sm font-poppins font-semibold tracking-wider uppercase transition-all duration-300 cursor-pointer ${
+                    isActive
+                      ? 'text-white'
+                      : 'text-white/60 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeAboutTab"
+                      transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                      className="absolute inset-0 bg-gradient-to-r from-[#2563FF] to-[#3B82F6] rounded-full shadow-[0_0_20px_rgba(37,99,255,0.45)] border border-[#60A5FA]/30 -z-10"
+                    />
+                  )}
+                  <span>{tab}</span>
+                </button>
+              );
+            })}
           </div>
 
           {/* Active Tab Content */}
@@ -120,19 +139,29 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
             </div>
 
             <div className="lg:col-span-5 flex justify-center w-full">
-              <div className="relative w-full h-80 sm:h-96 lg:h-[480px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
-                <img
-                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80"
-                  alt="Innowize Studio Team"
-                  className="w-full h-full object-cover brightness-95 contrast-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0F1628] via-transparent to-transparent opacity-80" />
-                <div className="absolute bottom-6 left-6 right-6">
+              <div className="relative w-full h-80 sm:h-96 lg:h-[480px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-[#0A0D16] group">
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={activeTab}
+                    src={tabContent[activeTab].image}
+                    alt={tabContent[activeTab].title}
+                    initial={{ opacity: 0, scale: 1.05 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.98 }}
+                    transition={{ duration: 0.4 }}
+                    style={{ imageRendering: '-webkit-optimize-contrast' }}
+                    className="w-full h-full object-cover contrast-[1.04] saturate-[1.06]"
+                  />
+                </AnimatePresence>
+
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E17]/95 via-transparent to-transparent pointer-events-none" />
+
+                <div className="absolute bottom-6 left-6 right-6 pointer-events-none">
                   <span className="text-[11px] font-poppins font-bold tracking-widest text-[#60A5FA] uppercase block mb-1">
-                    Est. 2020 • Kochi, Kerala
+                    {tabContent[activeTab].badge}
                   </span>
-                  <p className="text-white font-barlow font-bold text-xl">
-                    Innowize Digital Studio
+                  <p className="text-white font-barlow font-bold text-lg sm:text-xl">
+                    {tabContent[activeTab].label}
                   </p>
                 </div>
               </div>

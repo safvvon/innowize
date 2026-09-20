@@ -205,7 +205,7 @@ export const Contact: React.FC = () => {
                 Contact Information
               </h3>
               <div className="space-y-6 font-poppins">
-                <a href="mailto:hello@innowize.digital" className="flex items-start gap-4 group">
+                <a href="mailto:abinsiby@innowizedigital.com" className="flex items-start gap-4 group">
                   <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-[#2563FF]/10 border border-[#2563FF]/20 flex items-center justify-center group-hover:bg-[#2563FF]/20 transition-all duration-300">
                     <Mail className="w-5 h-5 text-[#2563FF]" />
                   </div>
@@ -214,12 +214,12 @@ export const Contact: React.FC = () => {
                       Email
                     </p>
                     <p className="text-white group-hover:text-[#60A5FA] transition-colors text-sm md:text-base font-medium">
-                      hello@innowize.digital
+                      abinsiby@innowizedigital.com
                     </p>
                   </div>
                 </a>
 
-                <a href="tel:+919061717000" className="flex items-start gap-4 group">
+                <a href="tel:+6580808824" className="flex items-start gap-4 group">
                   <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-[#2563FF]/10 border border-[#2563FF]/20 flex items-center justify-center group-hover:bg-[#2563FF]/20 transition-all duration-300">
                     <Phone className="w-5 h-5 text-[#2563FF]" />
                   </div>
@@ -228,7 +228,7 @@ export const Contact: React.FC = () => {
                       Phone
                     </p>
                     <p className="text-white group-hover:text-[#60A5FA] transition-colors text-sm md:text-base font-medium">
-                      +91 90617 17000
+                      +65 8080 8824
                     </p>
                   </div>
                 </a>
@@ -242,7 +242,7 @@ export const Contact: React.FC = () => {
                       Location
                     </p>
                     <p className="text-white text-sm md:text-base font-medium">
-                      Kochi, Kerala, India 682030
+                      Singapore
                     </p>
                   </div>
                 </div>
@@ -256,7 +256,7 @@ export const Contact: React.FC = () => {
               </h3>
               <div className="space-y-4">
                 <a
-                  href="https://wa.me/919061717000?text=Hello!%20I%20would%20like%20to%20discuss%20a%20project."
+                  href="https://wa.me/6580808824?text=Hello!%20I%20would%20like%20to%20discuss%20a%20project."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-3 w-full px-6 py-4 bg-[#2563FF] hover:bg-[#3B82F6] text-white font-bold rounded-full text-sm uppercase tracking-wider transition-all duration-300 hover:scale-105 shadow-[0_0_25px_rgba(37,99,255,0.4)] border border-[#60A5FA]/30"
@@ -264,7 +264,7 @@ export const Contact: React.FC = () => {
                   <span>Chat on WhatsApp</span>
                 </a>
                 <a
-                  href="tel:+919061717000"
+                  href="tel:+6580808824"
                   className="flex items-center justify-center gap-3 w-full px-6 py-4 bg-transparent border border-[#2563FF] text-[#60A5FA] hover:bg-[#2563FF] hover:text-white rounded-full font-semibold text-sm uppercase tracking-wider transition-all duration-300 hover:scale-105"
                 >
                   <Phone className="w-5 h-5" />

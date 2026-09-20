@@ -1,232 +1,94 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import {
-  Video,
-  Radio,
-  TrendingUp,
-  Cpu,
-  Glasses,
-  Calendar,
-  ArrowRight,
-  Sparkles,
-  Phone,
-} from 'lucide-react';
+import { ArrowRight, Sparkles, Phone } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-
-interface ServiceItem {
-  id: string;
-  icon: React.ReactNode;
-  title: string;
-  subtitle: string;
-  description: string;
-  features: string[];
-}
-
-const servicesData: ServiceItem[] = [
-  {
-    id: 'video',
-    icon: <Video className="w-8 h-8 text-[#2563FF]" />,
-    title: 'Video Production',
-    subtitle: 'Cinematic Storytelling',
-    description:
-      'Cinematic films, brand videos and commercials that captivate your audience from the first frame to the final call to action.',
-    features: ['Commercials & Brand Films', 'Documentary Storytelling', 'Cinematography & Color Grading'],
-  },
-  {
-    id: 'streaming',
-    icon: <Radio className="w-8 h-8 text-[#2563FF]" />,
-    title: 'Live Streaming',
-    subtitle: 'Real-Time Broadcasts',
-    description:
-      'Professional multi-camera productions, live events, and virtual & hybrid experiences engineered for zero latency and broadcast fidelity.',
-    features: ['Multi-Camera Live Setup', 'Virtual & Hybrid Events', 'Real-Time Audience Interaction'],
-  },
-  {
-    id: 'marketing',
-    icon: <TrendingUp className="w-8 h-8 text-[#2563FF]" />,
-    title: 'Digital Marketing',
-    subtitle: 'Performance & Growth',
-    description:
-      'Data-driven marketing & campaigns that amplify your digital presence, turning impressions into dedicated brand advocates.',
-    features: ['Social Media Campaigns', 'Growth Strategy & Analytics', 'Content Distribution'],
-  },
-  {
-    id: 'ai-tech',
-    icon: <Cpu className="w-8 h-8 text-[#2563FF]" />,
-    title: 'AI & Creative Technology',
-    subtitle: 'Next-Gen Visuals',
-    description:
-      'AI-powered content automation and immersive visual experiences pushing the frontier of modern commercial media.',
-    features: ['Generative Visual Art', 'Automated Post-Production', 'Interactive Experiences'],
-  },
-  {
-    id: 'ar-vr',
-    icon: <Glasses className="w-8 h-8 text-[#2563FF]" />,
-    title: 'AR/VR Content Production',
-    subtitle: 'Immersive Spatial 3D',
-    description:
-      'Immersive 360° content, VR/AR experiences, training simulations & interactive storytelling built for spatial computing.',
-    features: ['360° Spatial Video', 'Augmented Reality Filters', 'Virtual Showrooms'],
-  },
-  {
-    id: 'events',
-    icon: <Calendar className="w-8 h-8 text-[#2563FF]" />,
-    title: 'Event Production',
-    subtitle: 'On-Ground & Virtual',
-    description:
-      'End-to-end event production from concept to execution online & on-ground with custom stage design and broadcast lighting.',
-    features: ['Stage & Lighting Design', 'Live AV Engineering', 'Post-Event Content Packages'],
-  },
-];
-
-const episodes = [
-  {
-    tag: 'EPISODE 01',
-    title: 'VISION BEYOND LIMITS',
-    description: 'Pushing the boundaries of visual fidelity with cutting-edge cinema equipment.',
-    image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    tag: 'EPISODE 02',
-    title: 'TECHNOLOGY THAT CONNECTS',
-    description: 'Bridging human emotion and digital engineering to build meaningful brands.',
-    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    tag: 'EPISODE 03',
-    title: 'CREATING WORLDS OF TOMORROW',
-    description: 'Immersive environments and spatial experiences for next-generation platforms.',
-    image: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80',
-  },
-];
+import { servicesData, ServiceItem } from '../data/servicesData';
 
 export const Services: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-[#0B0E17] text-white overflow-hidden pt-28 pb-20">
+    <div className="min-h-screen bg-[#070A12] text-white overflow-hidden pt-28 pb-20">
       {/* Top Header Row */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 pt-4 pb-12">
+      <section className="max-w-7xl mx-auto px-6 md:px-12 pt-6 pb-12">
         <div className="border-b border-white/10 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <span className="text-[#60A5FA] text-xs font-poppins font-semibold tracking-[0.3em] uppercase mb-2 block">
-              Capabilities
-            </span>
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold font-barlow text-white tracking-tight">
+            <div className="inline-flex items-center gap-2 text-[#60A5FA] text-xs font-poppins font-semibold tracking-[0.3em] uppercase mb-3">
+              <Sparkles className="w-3.5 h-3.5 text-[#2563FF]" />
+              <span>CAPABILITIES & EXPERTISE</span>
+            </div>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-barlow text-white tracking-tight uppercase">
               Our Services
             </h1>
           </div>
-          <p className="text-white/70 text-sm md:text-base font-poppins max-w-2xl leading-relaxed">
-            End-to-end creative digital solutions and media production crafted to help modern brands engage, connect, and thrive.
+          <p className="text-white/70 text-xs sm:text-sm md:text-base font-poppins max-w-xl leading-relaxed">
+            End-to-end creative digital solutions, cinema-grade video production, and next-generation brand experiences tailored for visionary companies.
           </p>
         </div>
       </section>
 
-      {/* 3-Column Services Grid */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 py-6">
+      {/* 3-Column Standardized Uniform Services Grid (Matching Screenshot Model Exactly) */}
+      <section className="max-w-7xl mx-auto px-6 md:px-12 py-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 w-full">
-          {servicesData.map((service, idx) => (
-            <motion.div
-              key={service.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.5, delay: idx * 0.08 }}
-              className="group relative bg-[#0F1628] border border-[#141A2B] hover:border-[#2563FF]/50 rounded-3xl p-8 md:p-10 lg:p-12 transition-all duration-500 shadow-xl flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-center justify-between mb-8">
-                  <div className="w-14 h-14 rounded-2xl bg-[#2563FF]/10 group-hover:bg-[#2563FF]/20 flex items-center justify-center border border-[#2563FF]/20 transition-all duration-300">
-                    {service.icon}
+          {servicesData.map((service: ServiceItem, idx: number) => {
+            const Icon = service.icon;
+            return (
+              <motion.div
+                key={service.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.5, delay: idx * 0.06 }}
+                onClick={onOpenContact ? onOpenContact : () => navigate('/contact')}
+                className="group relative rounded-2xl bg-[#090E1B] border border-[#141C30] hover:border-[#2563FF]/70 p-7 sm:p-8 flex flex-col justify-between h-full min-h-[300px] sm:min-h-[320px] transition-all duration-300 hover:-translate-y-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_40px_rgba(37,99,255,0.2)] cursor-pointer"
+              >
+                {/* Top Row: Number on left, Blue squircle icon on right */}
+                <div>
+                  <div className="flex items-center justify-between mb-6">
+                    <span className="text-xs sm:text-sm font-mono font-bold text-slate-400 tracking-wider">
+                      {service.number}
+                    </span>
+                    <div className="w-11 h-11 rounded-xl bg-[#0F182E] border border-[#2563FF]/40 flex items-center justify-center text-[#2563FF] group-hover:bg-[#2563FF] group-hover:text-white transition-all duration-300 shadow-sm">
+                      <Icon className="w-5 h-5 stroke-[1.8]" />
+                    </div>
                   </div>
-                  <span className="text-xs font-poppins font-bold text-white/30 tracking-widest uppercase">
-                    0{idx + 1}
+
+                  {/* Title */}
+                  <h2 className="text-xl sm:text-2xl font-bold font-barlow text-white tracking-wide uppercase mb-3 group-hover:text-[#60A5FA] transition-colors leading-tight">
+                    {service.title}
+                  </h2>
+
+                  {/* Description */}
+                  <p className="text-xs sm:text-[13px] font-poppins text-slate-400 leading-relaxed mb-6">
+                    {service.desc}
+                  </p>
+
+                  {/* Feature bullet tags */}
+                  <ul className="space-y-2 border-t border-white/[0.06] pt-4 font-poppins">
+                    {service.features.map((feat, fIdx) => (
+                      <li key={fIdx} className="flex items-center gap-2 text-xs text-white/70">
+                        <span className="w-1 h-1 rounded-full bg-[#2563FF]" />
+                        <span>{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Bottom Action: LEARN MORE -> */}
+                <div className="pt-6 mt-6 border-t border-white/[0.06]">
+                  <span className="inline-flex items-center gap-2 text-xs font-poppins font-bold tracking-[0.16em] text-[#2563FF] group-hover:text-[#60A5FA] uppercase transition-colors">
+                    <span>LEARN MORE</span>
+                    <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1.5 transition-transform" />
                   </span>
                 </div>
-
-                <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 font-barlow group-hover:text-[#60A5FA] transition-colors">
-                  {service.title}
-                </h2>
-                <p className="text-xs md:text-sm text-[#60A5FA] font-semibold uppercase tracking-wider mb-4 font-poppins">
-                  {service.subtitle}
-                </p>
-                <p className="text-sm md:text-base text-white/70 mb-6 leading-relaxed font-poppins">
-                  {service.description}
-                </p>
-
-                <ul className="space-y-2.5 mb-8 font-poppins border-t border-white/5 pt-5">
-                  {service.features.map((feat, fIdx) => (
-                    <li key={fIdx} className="flex items-center gap-2.5 text-xs md:text-sm text-white/75">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#2563FF]" />
-                      <span>{feat}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <button
-                onClick={onOpenContact ? onOpenContact : () => navigate('/contact')}
-                className="flex items-center gap-2 text-xs md:text-sm font-poppins font-semibold uppercase tracking-wider text-[#60A5FA] group-hover:text-[#2563FF] transition-colors cursor-pointer"
-              >
-                <span>Learn More</span>
-                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-              </button>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* Episodes Section */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 py-16">
-        <div className="mb-8">
-          <span className="text-[#60A5FA] text-xs font-poppins font-semibold tracking-[0.3em] uppercase mb-2 block">
-            Featured Productions
-          </span>
-          <h2 className="text-3xl md:text-5xl font-bold font-barlow text-white">
-            Original Series & Case Studies
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 w-full">
-          {episodes.map((ep, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="group relative rounded-3xl overflow-hidden bg-[#0F1628] border border-[#141A2B] hover:border-[#2563FF]/50 transition-all duration-500 shadow-xl"
-            >
-              <div className="h-64 sm:h-72 overflow-hidden relative">
-                <img
-                  src={ep.image}
-                  alt={ep.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0F1628] via-transparent to-transparent" />
-              </div>
-              <div className="p-6 md:p-8">
-                <span className="text-[11px] font-poppins font-bold tracking-widest text-[#2563FF] uppercase mb-2 block">
-                  {ep.tag}
-                </span>
-                <h3 className="text-xl md:text-2xl font-bold font-barlow text-white mb-2 group-hover:text-[#60A5FA] transition-colors">
-                  {ep.title}
-                </h3>
-                <p className="text-xs md:text-sm text-white/65 font-poppins leading-relaxed mb-4">
-                  {ep.description}
-                </p>
-                <div className="flex items-center gap-2 text-xs font-poppins font-semibold uppercase tracking-wider text-white group-hover:text-[#60A5FA] transition-colors">
-                  <span>Watch Now</span>
-                  <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" />
-                </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
       </section>
 
       {/* Bottom CTA Box Banner */}
-      <section className="max-w-5xl mx-auto px-6 mt-8 mb-16">
+      <section className="max-w-5xl mx-auto px-6 mt-16 mb-16">
         <div className="rounded-3xl bg-[#0F1628] border border-[#141A2B] p-10 md:p-16 lg:p-20 text-center shadow-2xl">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#2563FF]/10 border border-[#2563FF]/20 text-[#60A5FA] text-xs font-poppins font-medium tracking-widest uppercase mb-4">
             <Sparkles className="w-3.5 h-3.5 text-[#2563FF]" />
@@ -236,8 +98,8 @@ export const Services: React.FC<{ onOpenContact?: () => void }> = ({ onOpenConta
             WE TURN IDEAS INTO <br />
             <span className="text-[#2563FF]">EXPERIENCES</span>
           </h2>
-          <p className="text-white/70 text-base md:text-lg font-poppins max-w-3xl mx-auto leading-relaxed mb-8">
-            Ready to craft content that commands attention? Let's discuss your next breakthrough project.
+          <p className="text-white/70 text-sm md:text-base font-poppins max-w-2xl mx-auto leading-relaxed mb-8">
+            Ready to craft content that commands attention? Let's discuss your next breakthrough project with Innowize.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button
@@ -247,7 +109,7 @@ export const Services: React.FC<{ onOpenContact?: () => void }> = ({ onOpenConta
               Start a Project
             </button>
             <a
-              href="tel:+919061717000"
+              href="tel:+6580808824"
               className="px-10 py-4 bg-transparent border border-[#2563FF] text-[#60A5FA] hover:bg-[#2563FF] hover:text-white rounded-full font-semibold text-sm uppercase tracking-wider transition-all duration-300 hover:scale-105 flex items-center gap-2"
             >
               <Phone className="w-4 h-4" />
