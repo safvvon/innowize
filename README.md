@@ -2,6 +2,12 @@
 
 A high-performance, cinematic web experience for Innowize Digital, engineered with React 19, Vite, Tailwind CSS, Framer Motion, and GSAP.
 
+## 🎬 Studio Showreel
+
+[▶️ **Click here to Watch / Stream Full Showreel (1080p HD MP4)**](https://github.com/safvvon/innowize/raw/refs/heads/main/public/showreel.mp4)
+
+<video src="https://github.com/safvvon/innowize/raw/refs/heads/main/public/showreel.mp4" controls width="100%" poster="https://raw.githubusercontent.com/safvvon/innowize/main/public/images/hero_3d_cinematographer.jpg"></video>
+
 ## ✨ Key Features & Capabilities
 
 - **Interactive 3D Universe Hero**: Cursor-tracking 3D visual, dynamic badge typography, and animated CTA.
