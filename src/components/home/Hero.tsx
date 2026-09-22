@@ -67,14 +67,28 @@ export const Hero: React.FC = () => {
     };
   }, []);
 
+  // Force initial play with explicit muted property to guarantee browser autoplay compliance
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      video.muted = true;
+      video.defaultMuted = true;
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => setIsPlaying(true))
+          .catch(() => setIsPlaying(false));
+      }
+    }
+  }, []);
+
   const togglePlay = () => {
     if (!videoRef.current) return;
     if (isPlaying) {
       videoRef.current.pause();
       setIsPlaying(false);
     } else {
-      videoRef.current.play();
-      setIsPlaying(true);
+      videoRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
     }
   };
 
@@ -105,11 +119,12 @@ export const Hero: React.FC = () => {
         <video
           ref={videoRef}
           src="/showreel.mp4"
+          poster="/images/hero_3d_cinematographer.jpg"
           autoPlay
           loop
           muted
           playsInline
-          preload="metadata"
+          preload="auto"
           className="w-full h-full object-cover object-center"
         />
 
