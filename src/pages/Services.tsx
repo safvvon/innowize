@@ -1,11 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Sparkles, Phone } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { ArrowRight, Sparkles, Phone, CheckCircle } from 'lucide-react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { servicesData, ServiceItem } from '../data/servicesData';
 
-export const Services: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }) => {
+export const Services: React.FC<{ onOpenContact?: (subject?: string) => void }> = ({ onOpenContact }) => {
   const navigate = useNavigate();
+  const { serviceId } = useParams<{ serviceId?: string }>();
+  const location = useLocation();
+
+  const activeId = serviceId || (location.hash ? location.hash.replace('#', '') : '');
+
+  // Smoothly scroll to targeted service anchor on mount or route update
+  useEffect(() => {
+    if (activeId) {
+      const timer = setTimeout(() => {
+        const el = document.getElementById(activeId);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 200);
+      return () => clearTimeout(timer);
+    }
+  }, [activeId]);
+
+  const handleSelectService = (service: ServiceItem) => {
+    if (onOpenContact) {
+      onOpenContact(`Inquiry: ${service.title}`);
+    } else {
+      navigate('/contact', { state: { subject: service.title } });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#070A12] text-white overflow-hidden pt-28 pb-20">
@@ -27,27 +52,42 @@ export const Services: React.FC<{ onOpenContact?: () => void }> = ({ onOpenConta
         </div>
       </section>
 
-      {/* 3-Column Standardized Uniform Services Grid (Matching Screenshot Model Exactly) */}
+      {/* 3-Column Standardized Uniform Services Grid */}
       <section className="max-w-7xl mx-auto px-6 md:px-12 py-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 w-full">
           {servicesData.map((service: ServiceItem, idx: number) => {
             const Icon = service.icon;
+            const isActive = service.id === activeId;
+
             return (
               <motion.div
                 key={service.id}
+                id={service.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.5, delay: idx * 0.06 }}
-                onClick={onOpenContact ? onOpenContact : () => navigate('/contact')}
-                className="group relative rounded-2xl bg-[#090E1B] border border-[#141C30] hover:border-[#2563FF]/70 p-7 sm:p-8 flex flex-col justify-between h-full min-h-[300px] sm:min-h-[320px] transition-all duration-300 hover:-translate-y-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_40px_rgba(37,99,255,0.2)] cursor-pointer"
+                onClick={() => handleSelectService(service)}
+                className={`group relative rounded-2xl bg-[#090E1B] border p-7 sm:p-8 flex flex-col justify-between h-full min-h-[300px] sm:min-h-[320px] transition-all duration-300 hover:-translate-y-1.5 cursor-pointer scroll-mt-32 ${
+                  isActive
+                    ? 'border-[#2563FF] ring-2 ring-[#2563FF]/60 shadow-[0_0_40px_rgba(37,99,255,0.35)] -translate-y-1'
+                    : 'border-[#141C30] hover:border-[#2563FF]/70 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_40px_rgba(37,99,255,0.2)]'
+                }`}
               >
                 {/* Top Row: Number on left, Blue squircle icon on right */}
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <span className="text-xs sm:text-sm font-mono font-bold text-slate-400 tracking-wider">
-                      {service.number}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs sm:text-sm font-mono font-bold text-slate-400 tracking-wider">
+                        {service.number}
+                      </span>
+                      {isActive && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#2563FF]/20 border border-[#2563FF]/50 text-[#60A5FA] text-[10px] font-semibold uppercase tracking-wider">
+                          <CheckCircle className="w-2.5 h-2.5" />
+                          <span>Selected</span>
+                        </span>
+                      )}
+                    </div>
                     <div className="w-11 h-11 rounded-xl bg-[#0F182E] border border-[#2563FF]/40 flex items-center justify-center text-[#2563FF] group-hover:bg-[#2563FF] group-hover:text-white transition-all duration-300 shadow-sm">
                       <Icon className="w-5 h-5 stroke-[1.8]" />
                     </div>
@@ -74,10 +114,10 @@ export const Services: React.FC<{ onOpenContact?: () => void }> = ({ onOpenConta
                   </ul>
                 </div>
 
-                {/* Bottom Action: LEARN MORE -> */}
+                {/* Bottom Action: LEARN MORE / INQUIRE -> */}
                 <div className="pt-6 mt-6 border-t border-white/[0.06]">
                   <span className="inline-flex items-center gap-2 text-xs font-poppins font-bold tracking-[0.16em] text-[#2563FF] group-hover:text-[#60A5FA] uppercase transition-colors">
-                    <span>LEARN MORE</span>
+                    <span>INQUIRE ABOUT THIS SERVICE</span>
                     <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1.5 transition-transform" />
                   </span>
                 </div>
@@ -103,7 +143,7 @@ export const Services: React.FC<{ onOpenContact?: () => void }> = ({ onOpenConta
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button
-              onClick={onOpenContact ? onOpenContact : () => navigate('/contact')}
+              onClick={() => (onOpenContact ? onOpenContact('General Project Inquiry') : navigate('/contact'))}
               className="px-10 py-4 bg-[#2563FF] hover:bg-[#3B82F6] text-white font-bold rounded-full text-sm uppercase tracking-wider transition-all duration-300 hover:scale-105 shadow-[0_0_25px_rgba(37,99,255,0.5)] border border-[#60A5FA]/30 cursor-pointer"
             >
               Start a Project

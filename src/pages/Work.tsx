@@ -16,15 +16,29 @@ import {
   Maximize2,
   LayoutGrid,
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   videoProjects,
-  photoCollections,
   VideoProject,
-  PhotoCollection,
 } from '../data/portfolioData';
+import {
+  photoCollections,
+  PhotoCollection,
+} from '../data/photoData';
 
-// Image loader with high-definition fallback cascade (4K -> 2.4K -> 1.2K)
+const prefetchVideo = (driveId?: string) => {
+  if (!driveId) return;
+  const href = `https://drive.google.com/file/d/${driveId}/preview`;
+  if (!document.querySelector(`link[rel="prefetch"][href="${href}"]`)) {
+    const link = document.createElement('link');
+    link.rel = 'prefetch';
+    link.as = 'document';
+    link.href = href;
+    document.head.appendChild(link);
+  }
+};
+
+// Image loader with high-definition fallback cascade and cache-safe rendering
 const ImageWithFallback: React.FC<{
   src: string;
   alt: string;
@@ -33,18 +47,29 @@ const ImageWithFallback: React.FC<{
 }> = ({ src, alt, className = '', fallbackSrc }) => {
   const [imgSrc, setImgSrc] = useState(src);
   const [loaded, setLoaded] = useState(false);
+  const [retryStep, setRetryStep] = useState(0);
+  const imgRef = React.useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     setImgSrc(src);
     setLoaded(false);
+    setRetryStep(0);
   }, [src]);
+
+  // Synchronously detect if the image was already cached/completed by the browser
+  useEffect(() => {
+    if (imgRef.current && imgRef.current.complete && imgRef.current.naturalWidth > 0) {
+      setLoaded(true);
+    }
+  }, [imgSrc]);
 
   return (
     <div className="relative w-full h-full bg-[#0F1628] overflow-hidden">
       {!loaded && (
-        <div className="absolute inset-0 bg-gradient-to-tr from-[#0F1628] via-[#141A2B] to-[#1E293B] animate-pulse" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#0F1628] via-[#141A2B] to-[#1E293B] animate-pulse pointer-events-none" />
       )}
       <img
+        ref={imgRef}
         src={imgSrc}
         alt={alt}
         loading="lazy"
@@ -52,16 +77,25 @@ const ImageWithFallback: React.FC<{
         referrerPolicy="no-referrer"
         onLoad={() => setLoaded(true)}
         onError={() => {
-          if (imgSrc.includes('=w3840')) {
-            setImgSrc(imgSrc.replace('=w3840', '=w2400'));
-          } else if (imgSrc.includes('=w2400')) {
-            setImgSrc(imgSrc.replace('=w2400', '=w1200'));
-          } else if (fallbackSrc && imgSrc !== fallbackSrc) {
+          if (retryStep === 0 && fallbackSrc && imgSrc !== fallbackSrc) {
+            setRetryStep(1);
             setImgSrc(fallbackSrc);
+          } else if (retryStep <= 1 && imgSrc.includes('lh3.googleusercontent.com/d/')) {
+            const driveId = imgSrc.split('lh3.googleusercontent.com/d/')[1]?.split('=')[0];
+            if (driveId) {
+              setRetryStep(2);
+              setImgSrc(`https://drive.google.com/thumbnail?id=${driveId}&sz=w1200`);
+            }
+          } else if (retryStep <= 2) {
+            const idMatch = imgSrc.match(/id=([^&]+)/) || imgSrc.match(/\/d\/([^=]+)/);
+            if (idMatch && idMatch[1]) {
+              setRetryStep(3);
+              setImgSrc(`https://lh3.googleusercontent.com/d/${idMatch[1]}=w3840`);
+            }
           }
         }}
         style={{ imageRendering: '-webkit-optimize-contrast' }}
-        className={`${className} transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+        className={`${className} transition-opacity duration-300`}
       />
     </div>
   );
@@ -176,15 +210,77 @@ const getPhotoBentoLayout = (index: number): CardBentoLayout => {
 export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }) => {
   const [activeTab, setActiveTab] = useState<string>('all');
   
-  // Active Video Modal
   const [activeVideo, setActiveVideo] = useState<VideoProject | null>(null);
+  const [videoLoading, setVideoLoading] = useState(true);
+  const [isTabActive, setIsTabActive] = useState(true);
+
+  // Automatically stop video playback when user leaves the website, minimizes, or switches tabs
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        setIsTabActive(false);
+      } else {
+        setIsTabActive(true);
+      }
+    };
+
+    const handlePageHide = () => {
+      setIsTabActive(false);
+      setActiveVideo(null);
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('pagehide', handlePageHide);
+    window.addEventListener('beforeunload', handlePageHide);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('pagehide', handlePageHide);
+      window.removeEventListener('beforeunload', handlePageHide);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (activeVideo) {
+      setVideoLoading(true);
+      const timer = setTimeout(() => setVideoLoading(false), 1800);
+      return () => clearTimeout(timer);
+    }
+  }, [activeVideo]);
   
   // Active Photo Gallery Modal
   const [activeGallery, setActiveGallery] = useState<PhotoCollection | null>(null);
   const [activePhotoIndex, setActivePhotoIndex] = useState(0);
+  const [photoLoading, setPhotoLoading] = useState(true);
   const [galleryViewMode, setGalleryViewMode] = useState<'collage' | 'single'>('collage');
 
+  useEffect(() => {
+    setPhotoLoading(true);
+  }, [activePhotoIndex, activeGallery]);
+
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Handle URL deep linking (e.g. /work?video=vid-1 or /work#vid-1) from Home page
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const videoParam = searchParams.get('video') || (location.hash ? location.hash.replace('#', '') : '');
+
+    if (videoParam) {
+      const match = videoProjects.find((v) => v.id === videoParam || v.driveId === videoParam);
+      if (match) {
+        setActiveTab('all');
+        setActiveVideo(match);
+        const timer = setTimeout(() => {
+          const el = document.getElementById(match.id);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 250);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [location.search, location.hash]);
 
   // Distinct categories dynamically from data
   const categories = useMemo(() => {
@@ -331,12 +427,15 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                     <motion.div
                       layout
                       key={project.id}
+                      id={project.id}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.96 }}
                       transition={{ duration: 0.35, delay: (idx % 6) * 0.04 }}
                       onClick={() => setActiveVideo(project)}
-                      className={`group relative rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer bg-[#0A0D16] border transition-all duration-500 shadow-[0_15px_35px_rgba(0,0,0,0.5)] flex flex-col justify-between hover:-translate-y-1.5 ${
+                      onMouseEnter={() => prefetchVideo(project.driveId)}
+                      onTouchStart={() => prefetchVideo(project.driveId)}
+                      className={`group relative rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer bg-[#0A0D16] border transition-all duration-500 shadow-[0_15px_35px_rgba(0,0,0,0.5)] flex flex-col justify-between hover:-translate-y-1.5 scroll-mt-28 ${
                         layout.spanClass
                       } ${layout.heightClass} ${
                         isFull
@@ -351,7 +450,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                         <ImageWithFallback
                           src={project.thumbnail}
                           alt={project.title}
-                          fallbackSrc={project.driveId ? `https://drive.google.com/thumbnail?id=${project.driveId}&sz=w2400` : undefined}
+                          fallbackSrc={project.driveId ? `https://drive.google.com/thumbnail?id=${project.driveId}&sz=w1200` : undefined}
                           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 contrast-[1.04] saturate-[1.07] brightness-[1.02]"
                         />
                       </div>
@@ -551,13 +650,46 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                     : 'max-w-7xl max-h-[85vh] aspect-video'
                 } rounded-2xl overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.95)] border border-white/15 bg-black`}
               >
-                <iframe
-                  src={`https://drive.google.com/file/d/${activeVideo.driveId}/preview?autoplay=1&vq=hd1080&high_res=1`}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-                  allowFullScreen
-                  className="w-full h-full border-0"
-                  title={activeVideo.title}
-                />
+                {/* Instant High-Res Poster Backdrop While Video Connects */}
+                <div
+                  className={`absolute inset-0 z-0 transition-opacity duration-500 flex items-center justify-center ${
+                    videoLoading ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                  }`}
+                >
+                  <img
+                    src={activeVideo.thumbnail.replace('=w3840', '=w1200')}
+                    alt={activeVideo.title}
+                    className="absolute inset-0 w-full h-full object-cover filter blur-2xl scale-110 opacity-40"
+                  />
+                  <div className="relative w-full h-full flex flex-col items-center justify-center gap-4 bg-black/60 p-6 text-center z-10">
+                    <div className="relative flex items-center justify-center">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-[#2563FF]/30 border-t-[#3B82F6] animate-spin" />
+                      <div className="absolute inset-0 rounded-full bg-[#2563FF]/20 blur-xl animate-pulse" />
+                      <Play className="w-6 h-6 sm:w-8 sm:h-8 text-white fill-white translate-x-0.5 absolute" />
+                    </div>
+                    <div>
+                      <p className="text-white font-barlow text-base sm:text-xl font-bold tracking-wide uppercase">
+                        Loading Cinema Stream...
+                      </p>
+                      <p className="text-white/60 font-poppins text-xs mt-1">
+                        Connecting to 1080p high-fidelity master
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {isTabActive && (
+                  <iframe
+                    src={`https://drive.google.com/file/d/${activeVideo.driveId}/preview?autoplay=1`}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                    allowFullScreen
+                    className={`w-full h-full border-0 relative z-10 transition-opacity duration-500 ${
+                      videoLoading ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                    }`}
+                    title={activeVideo.title}
+                    onLoad={() => setVideoLoading(false)}
+                  />
+                )}
               </div>
             </div>
 
@@ -679,7 +811,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                         className="group relative break-inside-avoid rounded-2xl overflow-hidden cursor-pointer bg-[#0A0D16] border border-white/10 hover:border-[#2563FF] shadow-lg hover:shadow-[0_12px_35px_rgba(37,99,255,0.35)] transition-all duration-300 hover:-translate-y-1"
                       >
                         <img
-                          src={photo.thumbUrl}
+                          src={photo.thumbUrl.replace('=w2400', '=w800')}
                           alt={photo.title}
                           loading="lazy"
                           decoding="async"
@@ -722,12 +854,31 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                   </button>
 
                   <div className="relative max-w-full max-h-full flex items-center justify-center">
+                    {/* Instant Low-Res Preview / Blur-up while full image loads */}
+                    {photoLoading && (
+                      <img
+                        src={activeGallery.photos[activePhotoIndex].thumbUrl.replace('=w2400', '=w800')}
+                        alt={activeGallery.photos[activePhotoIndex].title}
+                        className="max-h-[78vh] max-w-full object-contain rounded-2xl filter blur-sm scale-95 opacity-70"
+                      />
+                    )}
+
+                    {/* Sleek Spinner */}
+                    {photoLoading && (
+                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <div className="w-12 h-12 rounded-full border-2 border-[#2563FF]/30 border-t-[#3B82F6] animate-spin" />
+                      </div>
+                    )}
+
                     <img
                       key={activeGallery.photos[activePhotoIndex].id}
-                      src={activeGallery.photos[activePhotoIndex].fullUrl}
+                      src={activeGallery.photos[activePhotoIndex].fullUrl.replace('=s0', '=w2048')}
                       alt={activeGallery.photos[activePhotoIndex].title}
+                      onLoad={() => setPhotoLoading(false)}
                       style={{ imageRendering: '-webkit-optimize-contrast' }}
-                      className="max-h-[78vh] max-w-full object-contain rounded-2xl shadow-2xl transition-all duration-300 contrast-[1.03] saturate-[1.05]"
+                      className={`max-h-[78vh] max-w-full object-contain rounded-2xl shadow-2xl transition-opacity duration-300 contrast-[1.03] saturate-[1.05] ${
+                        photoLoading ? 'opacity-0 absolute' : 'opacity-100'
+                      }`}
                     />
                   </div>
 

@@ -58,7 +58,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const isLightNav = isHome && !isScrolled;
+  const isLightNav = false;
 
   return (
     <>
@@ -84,7 +84,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
               }`}
             >
               {navLinks.map((link) => {
-                const isActive = location.pathname === link.path;
+                const isActive = link.path === '/' ? location.pathname === '/' : location.pathname.startsWith(link.path);
                 return (
                   <li key={link.name}>
                     <Link

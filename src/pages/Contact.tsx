@@ -1,14 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle2, AlertCircle, Instagram, Linkedin, Youtube } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 
 export const Contact: React.FC = () => {
+  const location = useLocation();
+  const passedSubject = (location.state as { subject?: string } | null)?.subject;
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    subject: '',
+    subject: passedSubject ? `Inquiry: ${passedSubject}` : '',
     message: '',
   });
+
+  useEffect(() => {
+    if (passedSubject) {
+      setFormData((prev) => ({
+        ...prev,
+        subject: `Inquiry: ${passedSubject}`,
+      }));
+    }
+  }, [passedSubject]);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -64,184 +77,198 @@ export const Contact: React.FC = () => {
         </motion.div>
       </section>
 
-      {/* Main Content: Two-Column Container */}
+      {/* Main Content: Two-Column Symmetrical Container */}
       <section className="max-w-6xl mx-auto px-6 md:px-12 mb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-start w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch w-full">
           {/* Left: Message Form Column */}
           <motion.div
             initial={{ opacity: 0, x: -25 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="lg:col-span-7 bg-[#0F1628] border border-[#141A2B] rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 shadow-2xl backdrop-blur-sm w-full"
+            className="lg:col-span-7 bg-[#0F1628] border border-[#141A2B] rounded-3xl p-6 sm:p-8 md:p-10 shadow-2xl backdrop-blur-sm flex flex-col justify-between w-full h-full"
           >
-            <div className="mb-8">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 font-barlow">
-                Send us a Message
-              </h2>
-              <p className="text-white/60 text-sm md:text-base font-poppins">
-                Fill out the form below and we'll get back to you within 24 hours.
-              </p>
-            </div>
-
-            {submitStatus === 'success' && (
-              <div className="mb-6 p-4 rounded-xl bg-[#2563FF]/20 border border-[#2563FF]/40 text-[#60A5FA] text-sm flex items-center gap-3">
-                <CheckCircle2 className="w-5 h-5 text-[#2563FF] flex-shrink-0" />
-                <span>Message sent successfully! We'll get back to you soon.</span>
+            <div>
+              <div className="mb-6">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 font-barlow">
+                  Send us a Message
+                </h2>
+                <p className="text-white/60 text-xs sm:text-sm md:text-base font-poppins">
+                  Fill out the form below and we'll get back to you within 24 hours.
+                </p>
               </div>
-            )}
 
-            {submitStatus === 'error' && (
-              <div className="mb-6 p-4 rounded-xl bg-red-500/20 border border-red-500/40 text-red-200 text-sm flex items-center gap-3">
-                <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
-                <span>Failed to send message. Please try again or contact us directly.</span>
-              </div>
-            )}
+              {submitStatus === 'success' && (
+                <div className="mb-6 p-4 rounded-xl bg-[#2563FF]/20 border border-[#2563FF]/40 text-[#60A5FA] text-sm flex items-center gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-[#2563FF] flex-shrink-0" />
+                  <span>Message sent successfully! We'll get back to you soon.</span>
+                </div>
+              )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Responsive Row for Name & Email (Side-by-Side) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
+              {submitStatus === 'error' && (
+                <div className="mb-6 p-4 rounded-xl bg-red-500/20 border border-red-500/40 text-red-200 text-sm flex items-center gap-3">
+                  <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
+                  <span>Failed to send message. Please try again or contact us directly.</span>
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+                {/* Responsive Row for Name & Email */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="text-xs font-poppins text-white/70 uppercase tracking-wider">
+                        Your Name
+                      </label>
+                      <span className="text-[11px] text-white/40 font-poppins">
+                        {formData.name.length}/50
+                      </span>
+                    </div>
+                    <input
+                      type="text"
+                      maxLength={50}
+                      placeholder="John Doe"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#2563FF] focus:ring-1 focus:ring-[#2563FF] transition-all"
+                    />
+                    {errors.name && <p className="text-red-400 text-xs mt-1.5">{errors.name}</p>}
+                  </div>
+
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="text-xs font-poppins text-white/70 uppercase tracking-wider">
+                        Email Address
+                      </label>
+                      <span className="text-[11px] text-white/40 font-poppins">
+                        {formData.email.length}/254
+                      </span>
+                    </div>
+                    <input
+                      type="email"
+                      maxLength={254}
+                      placeholder="john@example.com"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#2563FF] focus:ring-1 focus:ring-[#2563FF] transition-all"
+                    />
+                    {errors.email && <p className="text-red-400 text-xs mt-1.5">{errors.email}</p>}
+                  </div>
+                </div>
+
                 <div>
-                  <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center justify-between mb-1.5">
                     <label className="text-xs font-poppins text-white/70 uppercase tracking-wider">
-                      Your Name
+                      Subject
                     </label>
                     <span className="text-[11px] text-white/40 font-poppins">
-                      {formData.name.length}/50
+                      {formData.subject.length}/100
                     </span>
                   </div>
                   <input
                     type="text"
-                    maxLength={50}
-                    placeholder="John Doe"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#2563FF] focus:ring-1 focus:ring-[#2563FF] transition-all"
+                    maxLength={100}
+                    placeholder="Instagram Reels, Video Production, Brand Experience..."
+                    value={formData.subject}
+                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#2563FF] focus:ring-1 focus:ring-[#2563FF] transition-all"
                   />
-                  {errors.name && <p className="text-red-400 text-xs mt-1.5">{errors.name}</p>}
+                  {errors.subject && <p className="text-red-400 text-xs mt-1.5">{errors.subject}</p>}
                 </div>
 
                 <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <label className="text-xs font-poppins text-white/70 uppercase tracking-wider">
-                      Email Address
-                    </label>
-                    <span className="text-[11px] text-white/40 font-poppins">
-                      {formData.email.length}/254
-                    </span>
-                  </div>
-                  <input
-                    type="email"
-                    maxLength={254}
-                    placeholder="john@example.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#2563FF] focus:ring-1 focus:ring-[#2563FF] transition-all"
-                  />
-                  {errors.email && <p className="text-red-400 text-xs mt-1.5">{errors.email}</p>}
-                </div>
-              </div>
-
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-poppins text-white/70 uppercase tracking-wider">
-                    Subject
+                  <label className="block text-xs font-poppins text-white/70 uppercase tracking-wider mb-1.5">
+                    Tell us about your project...
                   </label>
-                  <span className="text-[11px] text-white/40 font-poppins">
-                    {formData.subject.length}/100
-                  </span>
+                  <textarea
+                    rows={4}
+                    placeholder="Tell us about your project goals, vision, and timeline..."
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#2563FF] focus:ring-1 focus:ring-[#2563FF] transition-all resize-none"
+                  />
+                  {errors.message && <p className="text-red-400 text-xs mt-1.5">{errors.message}</p>}
                 </div>
-                <input
-                  type="text"
-                  maxLength={100}
-                  placeholder="Instagram Reels, Video Production, Brand Experience..."
-                  value={formData.subject}
-                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#2563FF] focus:ring-1 focus:ring-[#2563FF] transition-all"
-                />
-                {errors.subject && <p className="text-red-400 text-xs mt-1.5">{errors.subject}</p>}
-              </div>
 
-              <div>
-                <label className="block text-xs font-poppins text-white/70 uppercase tracking-wider mb-2">
-                  Tell us about your project...
-                </label>
-                <textarea
-                  rows={5}
-                  placeholder="Tell us about your project goals, vision, and timeline..."
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#2563FF] focus:ring-1 focus:ring-[#2563FF] transition-all resize-none"
-                />
-                {errors.message && <p className="text-red-400 text-xs mt-1.5">{errors.message}</p>}
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full py-4 px-8 rounded-xl bg-[#2563FF] hover:bg-[#3B82F6] text-white font-semibold text-sm uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(37,99,255,0.4)] cursor-pointer disabled:opacity-50 border border-[#60A5FA]/30"
-              >
-                {isSubmitting ? (
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    <span>Send Message</span>
-                  </>
-                )}
-              </button>
-            </form>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full py-3.5 sm:py-4 rounded-xl bg-[#2563FF] hover:bg-[#3B82F6] text-white font-semibold font-poppins text-sm uppercase tracking-wider transition-all duration-300 shadow-[0_0_25px_rgba(37,99,255,0.4)] hover:shadow-[0_0_35px_rgba(37,99,255,0.6)] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed border border-white/15 hover:scale-[1.01]"
+                >
+                  {isSubmitting ? (
+                    <span>Sending Message...</span>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      <span>Send Message</span>
+                    </>
+                  )}
+                </button>
+              </form>
+            </div>
           </motion.div>
 
-          {/* Right: Info & Contact Cards Column */}
+          {/* Right: Unified Contact Hub Column */}
           <motion.div
             initial={{ opacity: 0, x: 25 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="lg:col-span-5 space-y-6"
+            className="lg:col-span-5 bg-[#0F1628] border border-[#141A2B] rounded-3xl p-6 sm:p-8 md:p-10 shadow-2xl backdrop-blur-sm flex flex-col justify-between w-full h-full"
           >
-            {/* Contact Information Card */}
-            <div className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-8 md:p-10 shadow-xl">
-              <h3 className="text-xl md:text-2xl font-bold text-white mb-6 font-barlow">
-                Contact Information
-              </h3>
-              <div className="space-y-6 font-poppins">
-                <a href="mailto:abinsiby@innowizedigital.com" className="flex items-start gap-4 group">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-[#2563FF]/10 border border-[#2563FF]/20 flex items-center justify-center group-hover:bg-[#2563FF]/20 transition-all duration-300">
-                    <Mail className="w-5 h-5 text-[#2563FF]" />
+            {/* Top: Header & Direct Details */}
+            <div>
+              <div className="mb-6">
+                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2 font-barlow">
+                  Contact Information
+                </h3>
+                <p className="text-white/60 text-xs sm:text-sm font-poppins">
+                  Reach out directly or connect with our team through any channel.
+                </p>
+              </div>
+
+              <div className="space-y-3.5 font-poppins">
+                <a
+                  href="mailto:abinsiby@innowizedigital.com"
+                  className="flex items-center gap-3.5 p-3 rounded-2xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/5 hover:border-[#2563FF]/50 transition-all duration-300 group"
+                >
+                  <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-[#2563FF]/15 border border-[#2563FF]/30 flex items-center justify-center group-hover:bg-[#2563FF] group-hover:text-white text-[#2563FF] transition-all duration-300">
+                    <Mail className="w-4 h-4 stroke-[2]" />
                   </div>
-                  <div>
-                    <p className="text-xs text-white/50 uppercase tracking-wider mb-1">
+                  <div className="min-w-0">
+                    <p className="text-[10px] text-white/50 uppercase tracking-wider font-semibold">
                       Email
                     </p>
-                    <p className="text-white group-hover:text-[#60A5FA] transition-colors text-sm md:text-base font-medium">
+                    <p className="text-white group-hover:text-[#60A5FA] transition-colors text-xs sm:text-sm font-medium truncate">
                       abinsiby@innowizedigital.com
                     </p>
                   </div>
                 </a>
 
-                <a href="tel:+6580808824" className="flex items-start gap-4 group">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-[#2563FF]/10 border border-[#2563FF]/20 flex items-center justify-center group-hover:bg-[#2563FF]/20 transition-all duration-300">
-                    <Phone className="w-5 h-5 text-[#2563FF]" />
+                <a
+                  href="tel:+6580808824"
+                  className="flex items-center gap-3.5 p-3 rounded-2xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/5 hover:border-[#2563FF]/50 transition-all duration-300 group"
+                >
+                  <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-[#2563FF]/15 border border-[#2563FF]/30 flex items-center justify-center group-hover:bg-[#2563FF] group-hover:text-white text-[#2563FF] transition-all duration-300">
+                    <Phone className="w-4 h-4 stroke-[2]" />
                   </div>
-                  <div>
-                    <p className="text-xs text-white/50 uppercase tracking-wider mb-1">
+                  <div className="min-w-0">
+                    <p className="text-[10px] text-white/50 uppercase tracking-wider font-semibold">
                       Phone
                     </p>
-                    <p className="text-white group-hover:text-[#60A5FA] transition-colors text-sm md:text-base font-medium">
+                    <p className="text-white group-hover:text-[#60A5FA] transition-colors text-xs sm:text-sm font-medium">
                       +65 8080 8824
                     </p>
                   </div>
                 </a>
 
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-[#2563FF]/10 border border-[#2563FF]/20 flex items-center justify-center">
-                    <MapPin className="w-5 h-5 text-[#2563FF]" />
+                <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-white/[0.03] border border-white/5">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-[#2563FF]/15 border border-[#2563FF]/30 flex items-center justify-center text-[#2563FF]">
+                    <MapPin className="w-4 h-4 stroke-[2]" />
                   </div>
-                  <div>
-                    <p className="text-xs text-white/50 uppercase tracking-wider mb-1">
+                  <div className="min-w-0">
+                    <p className="text-[10px] text-white/50 uppercase tracking-wider font-semibold">
                       Location
                     </p>
-                    <p className="text-white text-sm md:text-base font-medium">
+                    <p className="text-white text-xs sm:text-sm font-medium">
                       Singapore
                     </p>
                   </div>
@@ -249,26 +276,65 @@ export const Contact: React.FC = () => {
               </div>
             </div>
 
-            {/* Quick Connect Actions Card */}
-            <div className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-8 md:p-10 shadow-xl font-poppins">
-              <h3 className="text-xl md:text-2xl font-bold text-white mb-6 font-barlow">
+            {/* Middle: Quick Connect Buttons */}
+            <div className="my-5 pt-5 border-t border-white/10 font-poppins">
+              <span className="text-xs font-semibold text-white/70 uppercase tracking-wider block mb-3 font-poppins">
                 Quick Connect
-              </h3>
-              <div className="space-y-4">
+              </span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <a
                   href="https://wa.me/6580808824?text=Hello!%20I%20would%20like%20to%20discuss%20a%20project."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full px-6 py-4 bg-[#2563FF] hover:bg-[#3B82F6] text-white font-bold rounded-full text-sm uppercase tracking-wider transition-all duration-300 hover:scale-105 shadow-[0_0_25px_rgba(37,99,255,0.4)] border border-[#60A5FA]/30"
+                  className="flex items-center justify-center gap-2 px-4 py-3 bg-[#2563FF] hover:bg-[#3B82F6] text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all duration-300 hover:scale-[1.02] shadow-[0_0_20px_rgba(37,99,255,0.4)] border border-[#60A5FA]/30 text-center"
                 >
-                  <span>Chat on WhatsApp</span>
+                  <span>WhatsApp</span>
                 </a>
                 <a
                   href="tel:+6580808824"
-                  className="flex items-center justify-center gap-3 w-full px-6 py-4 bg-transparent border border-[#2563FF] text-[#60A5FA] hover:bg-[#2563FF] hover:text-white rounded-full font-semibold text-sm uppercase tracking-wider transition-all duration-300 hover:scale-105"
+                  className="flex items-center justify-center gap-2 px-4 py-3 bg-white/5 hover:bg-white/10 text-white hover:text-[#60A5FA] border border-white/15 hover:border-[#2563FF] rounded-xl font-semibold text-xs uppercase tracking-wider transition-all duration-300 hover:scale-[1.02] text-center"
                 >
-                  <Phone className="w-5 h-5" />
+                  <Phone className="w-3.5 h-3.5 text-[#2563FF]" />
                   <span>Call Us Now</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Bottom: Follow Innowize Social Badges */}
+            <div className="pt-5 border-t border-white/10 font-poppins">
+              <span className="text-xs font-semibold text-white/70 uppercase tracking-wider block mb-3 font-poppins">
+                Follow Innowize
+              </span>
+              <div className="grid grid-cols-3 gap-2.5">
+                <a
+                  href="https://www.instagram.com/innowizedigital?stkn=bDRiZnAzOTY2dmVn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 rounded-xl bg-white/[0.04] hover:bg-[#2563FF] border border-white/10 hover:border-[#2563FF] text-white transition-all duration-300 hover:scale-105 group text-center"
+                  title="Follow us on Instagram"
+                >
+                  <Instagram className="w-4 h-4 text-[#60A5FA] group-hover:text-white transition-colors" />
+                  <span className="text-[11px] font-medium">Instagram</span>
+                </a>
+                <a
+                  href="https://www.linkedin.com/company/innowizedidital/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 rounded-xl bg-white/[0.04] hover:bg-[#2563FF] border border-white/10 hover:border-[#2563FF] text-white transition-all duration-300 hover:scale-105 group text-center"
+                  title="Connect on LinkedIn"
+                >
+                  <Linkedin className="w-4 h-4 text-[#60A5FA] group-hover:text-white transition-colors" />
+                  <span className="text-[11px] font-medium">LinkedIn</span>
+                </a>
+                <a
+                  href="https://www.youtube.com/channel/UCV37EAmAcRPr0pTo4CHKUVA"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 rounded-xl bg-white/[0.04] hover:bg-[#2563FF] border border-white/10 hover:border-[#2563FF] text-white transition-all duration-300 hover:scale-105 group text-center"
+                  title="Subscribe on YouTube"
+                >
+                  <Youtube className="w-4 h-4 text-[#60A5FA] group-hover:text-white transition-colors" />
+                  <span className="text-[11px] font-medium">YouTube</span>
                 </a>
               </div>
             </div>

@@ -1,305 +1,278 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Play, Hexagon, MapPin, Sparkles } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Hexagon, MapPin, Sparkles, Maximize2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const Hero: React.FC = () => {
   const navigate = useNavigate();
-  const headRef = useRef<HTMLImageElement>(null);
-  const headCenterRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
-  const rafRef = useRef<number | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(true);
 
-  // Update pivot position of the head on scroll and resize
+  // Automatically pause video when user leaves the website/tab or window loses focus
   useEffect(() => {
-    const updatePivot = () => {
-      if (!headRef.current) return;
-      const rect = headRef.current.getBoundingClientRect();
-      // Anatomical cervical pivot (56.36% X, 45.0% Y inside the 896x1200 frame)
-      headCenterRef.current = {
-        x: rect.left + rect.width * 0.5636,
-        y: rect.top + rect.height * 0.45,
-      };
-    };
-
-    updatePivot();
-    // Re-check after layout settles
-    const timeout = setTimeout(updatePivot, 300);
-    window.addEventListener('resize', updatePivot, { passive: true });
-    window.addEventListener('scroll', updatePivot, { passive: true });
-
-    return () => {
-      clearTimeout(timeout);
-      window.removeEventListener('resize', updatePivot);
-      window.removeEventListener('scroll', updatePivot);
-    };
-  }, []);
-
-  // Track mouse and rotate head according to mouse angle between 90 and 270 degrees
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (rafRef.current) return;
-      rafRef.current = requestAnimationFrame(() => {
-        rafRef.current = null;
-        if (!headRef.current) return;
-
-        const pivot = headCenterRef.current;
-        const deltaX = e.clientX - pivot.x;
-        const deltaY = e.clientY - pivot.y;
-
-        // Calculate angle in degrees
-        let angleDeg = (Math.atan2(deltaY, deltaX) * 180) / Math.PI;
-        if (angleDeg < 0) {
-          angleDeg += 360;
-        }
-
-        // Clamp the angle strictly between 90 deg (down) and 270 deg (up) as requested
-        const clampedAngle = Math.max(90, Math.min(270, angleDeg));
-
-        // Normalized progress: 0 at 90 deg, 0.5 at 180 deg (neutral forward), 1 at 270 deg
-        const t = (clampedAngle - 90) / 180;
-        // Centered: -1 (down) to 0 (level) to +1 (up)
-        const centered = (t - 0.5) * 2;
-        // Smooth easing so it smoothly decelerates near the ends
-        const eased = Math.sign(centered) * Math.pow(Math.abs(centered), 0.9);
-
-        // Maximum rotation angles at the ends (natural ergonomic limits that keep neck locked in collar)
-        const maxDown = 15; // max downward tilt
-        const maxUp = 13;   // max upward tilt
-        const rotationDeg = eased < 0 ? eased * maxDown : eased * maxUp;
-
-        headRef.current.style.transform = `rotate(${rotationDeg}deg)`;
-      });
-    };
-
-    const handleMouseLeave = () => {
-      if (headRef.current) {
-        headRef.current.style.transform = 'rotate(0deg)';
+    const handleVisibilityChange = () => {
+      if (!videoRef.current) return;
+      if (document.hidden) {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        videoRef.current.play().catch(() => {});
+        setIsPlaying(true);
       }
     };
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    document.addEventListener('mouseleave', handleMouseLeave);
+    const handlePageHide = () => {
+      if (!videoRef.current) return;
+      videoRef.current.pause();
+      setIsPlaying(false);
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('pagehide', handlePageHide);
+    window.addEventListener('beforeunload', handlePageHide);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseleave', handleMouseLeave);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('pagehide', handlePageHide);
+      window.removeEventListener('beforeunload', handlePageHide);
+      if (videoRef.current) {
+        videoRef.current.pause();
+      }
     };
   }, []);
 
-  return (
-    <section className="relative w-full min-h-[96vh] lg:min-h-screen bg-[#FFFFFF] flex flex-col justify-between overflow-hidden pt-24 sm:pt-28 lg:pt-32 select-none">
-      {/* Background Soft Electric-Blue Ambient Backlight Aura */}
-      <div
-        className="absolute right-0 top-12 sm:top-20 w-[60vw] h-[75vh] max-w-[900px] pointer-events-none rounded-full blur-3xl opacity-60 z-[1]"
-        style={{
-          background:
-            'radial-gradient(circle at 65% 45%, rgba(37, 99, 255, 0.28) 0%, rgba(56, 189, 248, 0.16) 35%, transparent 70%)',
-        }}
-      />
+  // Pause video when scrolled out of view, resume when back in view
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
 
-      {/* Futuristic Geometric Tech Line - Stepping up behind model */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none z-[6] hidden md:block overflow-hidden">
-        <svg
-          className="w-full h-full"
-          viewBox="0 0 1440 850"
-          preserveAspectRatio="none"
-          fill="none"
-        >
-          <motion.path
-            d="M 0,455 L 480,455 L 610,295 L 1440,295"
-            stroke="#2563FF"
-            strokeWidth="1.75"
-            className="opacity-75"
-            style={{
-              filter: 'drop-shadow(0 0 8px rgba(37, 99, 255, 0.55))',
-            }}
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ pathLength: 1, opacity: 0.75 }}
-            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-          />
-        </svg>
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) {
+          video.pause();
+          setIsPlaying(false);
+        } else if (!document.hidden) {
+          video.play().catch(() => {});
+          setIsPlaying(true);
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(video);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  const togglePlay = () => {
+    if (!videoRef.current) return;
+    if (isPlaying) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      videoRef.current.play();
+      setIsPlaying(true);
+    }
+  };
+
+  const toggleMute = () => {
+    if (!videoRef.current) return;
+    videoRef.current.muted = !videoRef.current.muted;
+    setIsMuted(videoRef.current.muted);
+  };
+
+  const toggleFullscreen = () => {
+    if (!videoRef.current) return;
+    if (videoRef.current.requestFullscreen) {
+      videoRef.current.requestFullscreen();
+    }
+  };
+
+  const clientAvatars = [
+    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80',
+  ];
+
+  return (
+    <section className="relative w-full min-h-[96vh] lg:min-h-screen bg-[#070A12] flex flex-col justify-between overflow-hidden pt-24 sm:pt-28 lg:pt-32 select-none">
+      {/* Full-Screen Innowize Digital Showreel Video Background */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden z-0">
+        <video
+          ref={videoRef}
+          src="/showreel.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          className="w-full h-full object-cover object-center"
+        />
+
+        {/* Subtle Top Header Vignette Only - Zero Shade Below/At Bottom */}
+        <div className="absolute top-0 inset-x-0 h-36 bg-gradient-to-b from-black/50 to-transparent pointer-events-none" />
       </div>
 
-      {/* Prominent Big VR Model Visual on Right (Anchored to touch the bottom, 100% True Transparent PNG) */}
-      <div className="absolute right-0 top-0 bottom-0 w-[75%] sm:w-[62%] md:w-[55%] lg:w-[50%] xl:w-[48%] max-w-[950px] pointer-events-none z-[8] flex items-end justify-end">
-        <motion.div
-          initial={{ opacity: 0, x: 35, scale: 0.98 }}
-          animate={{ opacity: 1, x: 0, scale: 1 }}
-          transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full h-full flex items-end justify-end"
+      {/* Floating Interactive Video Audio & Playback Controls */}
+      <div className="absolute top-24 sm:top-28 right-6 md:right-12 z-20 flex items-center gap-2.5 pointer-events-auto">
+        <button
+          onClick={toggleMute}
+          className="px-3.5 py-2 rounded-full bg-black/50 hover:bg-black/80 backdrop-blur-md border border-white/20 text-white text-xs font-poppins flex items-center gap-2 transition-all hover:scale-105 cursor-pointer shadow-lg"
+          title={isMuted ? 'Unmute Showreel Audio' : 'Mute Showreel'}
         >
-          {/* Cyan/Blue Ambient Glow behind head */}
-          <div className="absolute right-4 top-1/4 w-72 h-80 bg-[#2563FF]/25 blur-3xl rounded-full pointer-events-none" />
+          {isMuted ? <VolumeX className="w-4 h-4 text-[#60A5FA]" /> : <Volume2 className="w-4 h-4 text-[#2563FF]" />}
+          <span className="hidden sm:inline text-[11px] font-semibold tracking-wider uppercase">
+            {isMuted ? 'Sound Off' : 'Sound On'}
+          </span>
+        </button>
 
-          {/* Dual-Layer Interactive VR Model: Separated Head & Body */}
-          <div className="relative h-full w-auto max-h-[96vh] flex items-end justify-end" style={{ aspectRatio: '896 / 1200' }}>
-            {/* Interactive Rotating Head Layer */}
-            <img
-              ref={headRef}
-              src="/images/vr_hero_head.png"
-              alt="Futuristic Digital Universe VR Head"
-              width="896"
-              height="1200"
-              className="absolute inset-0 w-full h-full object-contain object-bottom pointer-events-none z-[8]"
-              style={{
-                transformOrigin: '56.36% 45.0%',
-                willChange: 'transform',
-                transition: 'transform 0.1s cubic-bezier(0.2, 0, 0, 1)',
-              }}
-            />
+        <button
+          onClick={togglePlay}
+          className="p-2 rounded-full bg-black/50 hover:bg-black/80 backdrop-blur-md border border-white/20 text-white transition-all hover:scale-105 cursor-pointer shadow-lg"
+          title={isPlaying ? 'Pause Showreel' : 'Play Showreel'}
+        >
+          {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-white" />}
+        </button>
 
-            {/* Stable Body Layer (Overlaying Collar & Suit) */}
-            <img
-              src="/images/vr_hero_body.png"
-              alt="Futuristic Digital Universe VR Model Body"
-              width="896"
-              height="1200"
-              className="relative w-full h-full object-contain object-bottom pointer-events-none z-[9] drop-shadow-[0_20px_50px_rgba(37,99,255,0.2)]"
-            />
-          </div>
-        </motion.div>
+        <button
+          onClick={toggleFullscreen}
+          className="p-2 rounded-full bg-black/50 hover:bg-black/80 backdrop-blur-md border border-white/20 text-white transition-all hover:scale-105 cursor-pointer shadow-lg hidden sm:flex"
+          title="Fullscreen Video"
+        >
+          <Maximize2 className="w-4 h-4" />
+        </button>
       </div>
 
       {/* Main Content Area */}
-      <div className="max-w-[1440px] mx-auto w-full px-6 sm:px-10 lg:px-16 relative z-20 flex-1 flex flex-col justify-center py-4 sm:py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
-          {/* Left Column: Headlines, Actions, Metric, Clients (7 Cols) */}
-          <div className="lg:col-span-7 xl:col-span-7 flex flex-col justify-center z-20 max-w-2xl xl:max-w-3xl">
-            {/* Top Tag: CREATIVE VIDEO & AI PRODUCTION */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 text-[#2563FF] text-[11px] sm:text-xs font-poppins font-bold tracking-[0.22em] uppercase mb-3"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-[#2563FF]" />
-              <span>CREATIVE VIDEO & AI STUDIO</span>
-            </motion.div>
+      <div className="max-w-[1440px] mx-auto w-full px-6 sm:px-10 lg:px-16 relative z-20 flex-1 flex flex-col justify-center py-6 sm:py-8">
+        <div className="max-w-3xl xl:max-w-4xl flex flex-col justify-center z-20">
+          {/* Top Tag: INNOWIZE DIGITAL SHOWREEL */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            onClick={() => navigate('/work')}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2563FF]/20 hover:bg-[#2563FF]/40 border border-[#2563FF]/40 text-[#60A5FA] hover:text-white text-[11px] sm:text-xs font-poppins font-bold tracking-[0.25em] uppercase mb-3 sm:mb-4 w-fit backdrop-blur-sm cursor-pointer transition-all"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-[#2563FF]" />
+            <span>INNOWIZE DIGITAL SHOWREEL</span>
+          </motion.div>
 
-            {/* Master Headline: NEW DIGITAL UNIVERSE */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.6rem] font-barlow font-black tracking-tight leading-[0.95] text-slate-950 uppercase mb-4"
-            >
-              NEW DIGITAL <br />
-              <span className="text-[#2563FF]">UNIVERSE</span>
-            </motion.h1>
+          {/* Master Headline: NEW DIGITAL UNIVERSE */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="text-5xl sm:text-6xl md:text-7xl xl:text-[5.4rem] font-barlow font-black tracking-tight leading-[0.92] text-white uppercase mb-6 sm:mb-8 drop-shadow-xl"
+          >
+            NEW DIGITAL <br />
+            <span className="text-[#2563FF]">UNIVERSE</span>
+          </motion.h1>
 
-            {/* Clear, Concise Standard Subtitle */}
-            <motion.p
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.15 }}
-              className="text-xs sm:text-sm md:text-base text-slate-600 font-poppins max-w-lg leading-relaxed mb-6"
+          {/* Actions Row & Metric: Get Started, Watch Showreel & 87.2K Projects */}
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="relative flex flex-wrap items-end gap-5 sm:gap-8 mb-8 sm:mb-12"
+          >
+            <button
+              onClick={() => navigate('/work')}
+              className="px-8 py-3.5 rounded-lg bg-[#2563FF] hover:bg-[#1D4ED8] text-white font-poppins font-semibold text-xs sm:text-sm tracking-wide shadow-[0_8px_25px_rgba(37,99,255,0.45)] transition-all duration-300 hover:scale-105 cursor-pointer border border-white/15"
             >
-              Crafting high-impact commercial video productions, cinematic brand films, and next-generation AI visuals for ambitious brands worldwide.
-            </motion.p>
+              Explore Work
+            </button>
 
-            {/* Standard Professional Action Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="flex flex-wrap items-center gap-3.5 mb-8"
+            <button
+              onClick={toggleMute}
+              className="group flex items-center gap-3 text-white/90 hover:text-[#60A5FA] font-poppins font-semibold text-xs sm:text-sm tracking-wide transition-colors cursor-pointer"
             >
-              <button
-                onClick={() => navigate('/work')}
-                className="px-8 py-3.5 rounded-full bg-[#2563FF] hover:bg-[#1D4ED8] text-white font-poppins font-semibold text-sm tracking-wide shadow-[0_8px_25px_rgba(37,99,255,0.35)] hover:shadow-[0_12px_32px_rgba(37,99,255,0.55)] transition-all duration-300 hover:scale-105 cursor-pointer"
-              >
-                Explore Work
-              </button>
+              <span>{isMuted ? 'Play Audio' : 'Mute Audio'}</span>
+              <div className="w-9 h-9 rounded-full border border-white/30 text-white flex items-center justify-center group-hover:bg-[#2563FF] group-hover:border-[#2563FF] transition-all duration-300 shadow-sm backdrop-blur-sm">
+                {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+              </div>
+            </button>
 
-              <button
-                onClick={() => {
-                  const workTarget = document.getElementById('work') || document.querySelector('.home-page');
-                  if (workTarget) {
-                    window.scrollTo({ top: window.innerHeight * 0.95, behavior: 'smooth' });
-                  }
-                }}
-                className="group flex items-center gap-2.5 px-6 py-3.5 rounded-full border border-slate-300/80 hover:border-[#2563FF] text-slate-800 hover:text-[#2563FF] font-poppins font-semibold text-sm transition-all duration-300 bg-white/80 backdrop-blur-sm cursor-pointer shadow-sm hover:shadow"
-              >
-                <div className="w-6 h-6 rounded-full bg-[#2563FF]/10 text-[#2563FF] flex items-center justify-center group-hover:bg-[#2563FF] group-hover:text-white transition-colors">
-                  <Play className="w-3 h-3 fill-current translate-x-0.5" />
+            {/* Metric: 87.2K Projects */}
+            <div className="flex flex-col sm:ml-auto lg:ml-6 pb-0.5">
+              <span className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-barlow text-[#60A5FA] leading-none tracking-tight drop-shadow-md">
+                87.2K
+              </span>
+              <span className="text-xs sm:text-sm font-poppins font-medium text-white/80 mt-1">
+                Projects
+              </span>
+            </div>
+          </motion.div>
+
+          {/* Bottom Row: Happy Clients & Strategic Description */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.35 }}
+            className="grid grid-cols-1 sm:grid-cols-12 gap-6 sm:gap-8 items-center max-w-xl"
+          >
+            {/* Happy Clients */}
+            <div className="sm:col-span-5 flex flex-col">
+              <span className="text-xs font-poppins font-semibold text-white/80 block mb-2">
+                Happy Clients
+              </span>
+              <div className="flex items-center gap-3">
+                <div className="flex -space-x-2.5 overflow-hidden">
+                  {clientAvatars.map((src, i) => (
+                    <img
+                      key={i}
+                      src={src}
+                      alt="Client avatar"
+                      width="36"
+                      height="36"
+                      className="w-9 h-9 rounded-full object-cover border-2 border-white/30 shadow-sm flex-shrink-0"
+                    />
+                  ))}
                 </div>
-                <span>Watch Showreel</span>
-              </button>
-            </motion.div>
-
-            {/* Standard Professional Stats Strip */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-              className="flex items-center gap-6 sm:gap-8 pt-6 border-t border-slate-200/80 max-w-lg select-none"
-            >
-              <div>
-                <div className="text-2xl sm:text-3xl font-extrabold font-barlow text-slate-950 leading-none">
-                  100+
-                </div>
-                <div className="text-[11px] sm:text-xs font-poppins font-medium text-slate-500 mt-1 uppercase tracking-wider">
-                  Commercial Works
+                <div className="flex flex-col leading-tight">
+                  <span className="text-lg sm:text-xl font-bold font-barlow text-white">28+</span>
+                  <span className="text-[10px] font-poppins font-semibold text-white/60 uppercase tracking-wider">
+                    Worldwide
+                  </span>
                 </div>
               </div>
+            </div>
 
-              <div className="w-px h-8 bg-slate-200" />
-
-              <div>
-                <div className="text-2xl sm:text-3xl font-extrabold font-barlow text-[#2563FF] leading-none">
-                  4K / HD
-                </div>
-                <div className="text-[11px] sm:text-xs font-poppins font-medium text-slate-500 mt-1 uppercase tracking-wider">
-                  Master Quality
-                </div>
-              </div>
-
-              <div className="w-px h-8 bg-slate-200" />
-
-              <div>
-                <div className="text-2xl sm:text-3xl font-extrabold font-barlow text-slate-950 leading-none">
-                  Global
-                </div>
-                <div className="text-[11px] sm:text-xs font-poppins font-medium text-slate-500 mt-1 uppercase tracking-wider">
-                  Singapore Base
-                </div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Right Column Spacer to preserve grid balance on wide screens */}
-          <div className="hidden lg:block lg:col-span-5 xl:col-span-5 pointer-events-none" />
+            {/* Description Paragraph */}
+            <div className="sm:col-span-7 flex items-center">
+              <p className="text-xs sm:text-sm font-poppins text-white/80 leading-relaxed font-normal">
+                Join 28,000+ global brands who trust us to craft immersive digital experiences that drive results.
+              </p>
+            </div>
+          </motion.div>
         </div>
       </div>
 
-      {/* Futuristic Chamfered Dark Bottom Shelf */}
-      <div className="relative w-full z-30 mt-auto">
+      {/* Futuristic Chamfered Dark Bottom-Left Shelf (Elongated & Seamless) */}
+      <div className="relative w-full z-30 mt-auto flex justify-start">
         <div
-          className="w-full bg-[#0B0E17] text-white pt-4 pb-4 px-6 md:px-12 flex items-center justify-between border-t border-white/5"
+          className="w-[94%] sm:w-[86%] md:w-[80%] lg:w-[75%] max-w-[1050px] bg-[#0B0E17] text-white py-4 px-6 sm:px-12 md:px-16 flex items-center"
           style={{
-            clipPath: 'polygon(0 0, 52% 0, 56% 100%, 100% 100%, 100% 100%, 0 100%)',
+            clipPath: 'polygon(0 0, calc(100% - 95px) 0, 100% 100%, 0 100%)',
           }}
         >
-          <div className="flex items-center gap-6 sm:gap-10 md:gap-14 text-xs font-poppins font-semibold tracking-[0.16em] uppercase text-white/90">
-            <div className="flex items-center gap-2 text-white/80 hover:text-[#60A5FA] transition-colors cursor-default">
-              <Hexagon className="w-4 h-4 text-[#2563FF]" />
+          <div className="flex items-center gap-7 sm:gap-11 md:gap-14 text-xs sm:text-sm font-poppins font-bold tracking-[0.2em] uppercase text-white select-none">
+            <div className="flex items-center gap-2.5 text-white hover:text-[#60A5FA] transition-colors cursor-default">
+              <Hexagon className="w-4 h-4 text-[#2563FF] stroke-[2.2]" />
               <span>EXPERIENCE</span>
             </div>
-            <div className="flex items-center gap-2 text-white/80 hover:text-[#60A5FA] transition-colors cursor-default">
-              <MapPin className="w-4 h-4 text-[#2563FF]" />
+            <div className="flex items-center gap-2.5 text-white hover:text-[#60A5FA] transition-colors cursor-default">
+              <MapPin className="w-4 h-4 text-[#2563FF] stroke-[2.2]" />
               <span>INNOVATION</span>
             </div>
-            <div className="flex items-center gap-2 text-white/80 hover:text-[#60A5FA] transition-colors cursor-default">
-              <Sparkles className="w-4 h-4 text-[#2563FF]" />
+            <div className="flex items-center gap-2.5 text-white hover:text-[#60A5FA] transition-colors cursor-default">
+              <Sparkles className="w-4 h-4 text-[#2563FF] stroke-[2.2]" />
               <span>EXCELLENCE</span>
             </div>
-          </div>
-
-          <div className="hidden lg:flex items-center gap-3 pr-8">
-            <span className="text-[10px] font-poppins font-semibold text-white/40 tracking-[0.25em] uppercase">
-              ABOUT US
-            </span>
           </div>
         </div>
       </div>

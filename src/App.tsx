@@ -16,19 +16,36 @@ const ContactModal = React.lazy(() => import('./components/ContactModal').then((
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Scroll to top helper on route navigation
+// Scroll to top helper on route navigation with hash anchor support
 const ScrollToTop = () => {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    if (hash) {
+      const elementId = hash.replace('#', '');
+      const timer = setTimeout(() => {
+        const element = document.getElementById(elementId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 150);
+      return () => clearTimeout(timer);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
 
   return null;
 };
 
 export const AppContent: React.FC = () => {
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [contactSubject, setContactSubject] = useState('');
+
+  const handleOpenContact = (subject?: string) => {
+    setContactSubject(subject || '');
+    setIsContactOpen(true);
+  };
 
   // Synchronize Lenis Smooth Scrolling with GSAP ScrollTrigger for 60fps jitter-free scrolling
   useEffect(() => {
@@ -37,6 +54,7 @@ export const AppContent: React.FC = () => {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       smoothWheel: true,
+      syncTouch: false,
     });
 
     lenis.on('scroll', ScrollTrigger.update);
@@ -56,23 +74,30 @@ export const AppContent: React.FC = () => {
   return (
     <div className="relative min-h-screen bg-alpha text-tango selection:bg-beta selection:text-white flex flex-col justify-between">
       <ScrollToTop />
-      <Header onOpenContact={() => setIsContactOpen(true)} />
+      <Header onOpenContact={() => handleOpenContact()} />
 
       <main className="flex-grow">
         <Suspense fallback={null}>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About onOpenContact={() => setIsContactOpen(true)} />} />
-            <Route path="/services" element={<Services onOpenContact={() => setIsContactOpen(true)} />} />
-            <Route path="/work" element={<Work onOpenContact={() => setIsContactOpen(true)} />} />
+            <Route path="/about" element={<About onOpenContact={() => handleOpenContact()} />} />
+            <Route path="/services" element={<Services onOpenContact={(subject) => handleOpenContact(subject)} />} />
+            <Route path="/services/:serviceId" element={<Services onOpenContact={(subject) => handleOpenContact(subject)} />} />
+            <Route path="/work" element={<Work onOpenContact={() => handleOpenContact()} />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>
         </Suspense>
       </main>
 
-      <Footer onOpenContact={() => setIsContactOpen(true)} />
+      <Footer onOpenContact={() => handleOpenContact()} />
       <Suspense fallback={null}>
-        {isContactOpen && <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />}
+        {isContactOpen && (
+          <ContactModal
+            isOpen={isContactOpen}
+            initialSubject={contactSubject}
+            onClose={() => setIsContactOpen(false)}
+          />
+        )}
       </Suspense>
     </div>
   );

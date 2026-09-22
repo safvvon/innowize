@@ -1,8 +1,20 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Play, Sparkles, Film, Volume2, X, ExternalLink, ArrowRight, Maximize2 } from 'lucide-react';
 import { videoProjects, VideoProject } from '../../data/portfolioData';
+
+const prefetchVideo = (driveId?: string) => {
+  if (!driveId) return;
+  const href = `https://drive.google.com/file/d/${driveId}/preview`;
+  if (!document.querySelector(`link[rel="prefetch"][href="${href}"]`)) {
+    const link = document.createElement('link');
+    link.rel = 'prefetch';
+    link.as = 'document';
+    link.href = href;
+    document.head.appendChild(link);
+  }
+};
 
 const ReelCard: React.FC<{
   project: VideoProject;
@@ -11,17 +23,27 @@ const ReelCard: React.FC<{
 }> = React.memo(({ project, index, onSelect }) => {
   const [imgSrc, setImgSrc] = useState(project.thumbnail);
   const [imgLoaded, setImgLoaded] = useState(false);
-  const [retried, setRetried] = useState(false);
+  const [retryStep, setRetryStep] = useState(0);
+  const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     setImgSrc(project.thumbnail);
     setImgLoaded(false);
-    setRetried(false);
+    setRetryStep(0);
   }, [project.thumbnail]);
+
+  // Synchronously detect if the image was already cached/completed by the browser
+  useEffect(() => {
+    if (imgRef.current && imgRef.current.complete && imgRef.current.naturalWidth > 0) {
+      setImgLoaded(true);
+    }
+  }, [imgSrc]);
 
   return (
     <div
       onClick={() => onSelect(project)}
+      onMouseEnter={() => prefetchVideo(project.driveId)}
+      onTouchStart={() => prefetchVideo(project.driveId)}
       className="group flex-shrink-0 rounded-2xl overflow-hidden relative w-[290px] h-[290px] sm:w-[330px] sm:h-[330px] md:w-[350px] md:h-[350px] cursor-pointer border border-white/15 hover:border-[#2563FF] shadow-[0_25px_60px_rgba(0,0,0,0.65)] hover:shadow-[0_30px_70px_rgba(37,99,255,0.4)] bg-[#0A0D16] transition-all duration-500 hover:-translate-y-2 hover:scale-[1.03]"
       style={{
         willChange: 'transform',
@@ -30,28 +52,31 @@ const ReelCard: React.FC<{
     >
       {/* Background Poster / Thumbnail Image */}
       {!imgLoaded && (
-        <div className="absolute inset-0 bg-gradient-to-tr from-[#0B0E17] via-[#141A2B] to-[#1E293B] animate-pulse" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#0B0E17] via-[#141A2B] to-[#1E293B] animate-pulse pointer-events-none" />
       )}
 
       <img
+        ref={imgRef}
         src={imgSrc}
         alt={project.title}
         width="350"
         height="350"
-        loading="lazy"
+        loading={index < 4 ? 'eager' : 'lazy'}
+        fetchPriority={index < 4 ? 'high' : 'auto'}
         decoding="async"
         referrerPolicy="no-referrer"
         onLoad={() => setImgLoaded(true)}
         onError={() => {
-          if (!retried && project.driveId) {
-            setRetried(true);
-            setImgSrc(`https://drive.google.com/thumbnail?id=${project.driveId}&sz=w2400`);
+          if (retryStep === 0 && project.driveId) {
+            setRetryStep(1);
+            setImgSrc(`https://drive.google.com/thumbnail?id=${project.driveId}&sz=w1200`);
+          } else if (retryStep === 1 && project.driveId) {
+            setRetryStep(2);
+            setImgSrc(`https://lh3.googleusercontent.com/d/${project.driveId}=w3840`);
           }
         }}
         style={{ imageRendering: '-webkit-optimize-contrast' }}
-        className={`absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-700 ease-out contrast-[1.04] saturate-[1.07] brightness-[1.01] ${
-          imgLoaded ? 'opacity-100' : 'opacity-0'
-        }`}
+        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-700 ease-out contrast-[1.04] saturate-[1.07] brightness-[1.01]"
       />
 
       {/* Subtle Top Vignette for Badges */}
@@ -113,9 +138,36 @@ export const IntroSection3: React.FC = () => {
   const navigate = useNavigate();
   const sectionRef = useRef<HTMLElement>(null);
   const [activeVideo, setActiveVideo] = useState<VideoProject | null>(null);
+  const [videoLoading, setVideoLoading] = useState(true);
+
+  useEffect(() => {
+    if (activeVideo) {
+      setVideoLoading(true);
+      const timer = setTimeout(() => {
+        setVideoLoading(false);
+      }, 3500);
+      return () => clearTimeout(timer);
+    }
+  }, [activeVideo]);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 90,
+    damping: 26,
+    restDelta: 0.001,
+  });
+
+  // Directly moves according to user scrolling (Row 1 left, Row 2 right)
+  const scrollX1 = useTransform(smoothProgress, [0, 1], ['15%', '-25%']);
+  const scrollX2 = useTransform(smoothProgress, [0, 1], ['-25%', '15%']);
+  const workItems = ['WORK', 'WORK', 'WORK', 'WORK', 'WORK', 'WORK', 'WORK', 'WORK'];
 
   const handleSelectProject = (project: VideoProject) => {
-    setActiveVideo(project);
+    navigate(`/work?video=${project.id}#${project.id}`);
   };
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
@@ -134,14 +186,41 @@ export const IntroSection3: React.FC = () => {
       ref={sectionRef}
       className="relative min-h-[80vh] md:min-h-screen w-full bg-gradient-to-br from-[#1242CE] via-[#1D5BF6] to-[#1242CE] overflow-hidden pt-12 md:pt-16 pb-20 md:pb-28 z-10 select-none"
     >
-      {/* Deep Vibrant Geometric Backdrop & Giant Translucent WORK Watermarks */}
-      <div className="absolute inset-0 z-[1] flex flex-col items-center justify-center pointer-events-none select-none overflow-hidden">
-        <span className="text-[26vw] font-black italic text-[#081B4E]/25 sm:text-[#081B4E]/20 uppercase font-barlow tracking-widest leading-[0.7] translate-y-4">
-          WORK
-        </span>
-        <span className="text-[26vw] font-black italic text-[#081B4E]/25 sm:text-[#081B4E]/20 uppercase font-barlow tracking-widest leading-[0.7]">
-          WORK
-        </span>
+      {/* Deep Vibrant Geometric Backdrop & Giant Translucent WORK Watermarks Moving Strictly With Scrolling */}
+      <div className="absolute inset-0 z-[1] flex flex-col justify-center pointer-events-none select-none overflow-hidden gap-1 sm:gap-2">
+        {/* Row 1: Directly moves left as user scrolls down */}
+        <div className="w-full overflow-hidden flex">
+          <motion.div
+            style={{ x: scrollX1 }}
+            className="flex w-max will-change-transform"
+          >
+            {workItems.map((text, i) => (
+              <span
+                key={`top-${i}`}
+                className="text-[24vw] sm:text-[22vw] font-black italic text-[#081B4E]/25 sm:text-[#081B4E]/20 uppercase font-barlow tracking-widest leading-[0.75] px-6 sm:px-12 select-none translate-y-3"
+              >
+                {text}
+              </span>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Row 2: Directly moves right as user scrolls down */}
+        <div className="w-full overflow-hidden flex">
+          <motion.div
+            style={{ x: scrollX2 }}
+            className="flex w-max will-change-transform"
+          >
+            {workItems.map((text, i) => (
+              <span
+                key={`bot-${i}`}
+                className="text-[24vw] sm:text-[22vw] font-black italic text-[#081B4E]/25 sm:text-[#081B4E]/20 uppercase font-barlow tracking-widest leading-[0.75] px-6 sm:px-12 select-none"
+              >
+                {text}
+              </span>
+            ))}
+          </motion.div>
+        </div>
       </div>
 
       {/* Top Section Header - Standard, Small & Clean */}
@@ -285,12 +364,57 @@ export const IntroSection3: React.FC = () => {
 
             {/* Video Player Container - Expands to 100% of Screen */}
             <div className="relative flex-1 w-full h-full bg-black flex items-center justify-center overflow-hidden">
+              {/* Instant High-Res Poster Backdrop & Ambient Glow While Video Buffers */}
+              <div
+                className={`absolute inset-0 z-0 transition-opacity duration-500 flex items-center justify-center ${
+                  videoLoading ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                }`}
+              >
+                {/* Blurred ambient background glow */}
+                <img
+                  src={activeVideo.thumbnail.replace('=w3840', '=w1200')}
+                  alt={activeVideo.title}
+                  className="absolute inset-0 w-full h-full object-cover filter blur-3xl scale-110 opacity-35"
+                />
+
+                {/* Centered Poster Card with Shimmer & Branded Cinema Loader */}
+                <div className="relative max-w-4xl max-h-[70vh] aspect-video w-full rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/15 mx-4 bg-[#0A0D16]">
+                  <img
+                    src={activeVideo.thumbnail.replace('=w3840', '=w1200')}
+                    alt={activeVideo.title}
+                    className="w-full h-full object-cover filter contrast-[1.03]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
+
+                  {/* Sleek Cinema Loading Screen */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center">
+                    <div className="relative flex items-center justify-center">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-[#2563FF]/30 border-t-[#3B82F6] animate-spin" />
+                      <div className="absolute inset-0 rounded-full bg-[#2563FF]/20 blur-xl animate-pulse" />
+                      <Play className="w-6 h-6 sm:w-8 sm:h-8 text-white fill-white translate-x-0.5 absolute" />
+                    </div>
+                    <div>
+                      <p className="text-white font-barlow text-base sm:text-xl font-bold tracking-wide uppercase">
+                        Loading Cinema Stream...
+                      </p>
+                      <p className="text-white/60 font-poppins text-xs mt-1">
+                        Connecting to 1080p high-fidelity master
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Stream Iframe */}
               <iframe
                 src={`https://drive.google.com/file/d/${activeVideo.driveId}/preview?autoplay=1&vq=hd1080`}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
                 allowFullScreen
-                className="w-full h-full border-0"
+                className={`w-full h-full border-0 relative z-10 transition-opacity duration-500 ${
+                  videoLoading ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                }`}
                 title={activeVideo.title}
+                onLoad={() => setVideoLoading(false)}
               />
             </div>
 

@@ -63,7 +63,7 @@ export const IntroSection2: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.5, delay: idx * 0.06 }}
-                onClick={() => navigate('/services')}
+                onClick={() => navigate(`/services#${service.id}`)}
                 className="group relative rounded-2xl bg-[#090E1B] border border-[#141C30] hover:border-[#2563FF]/70 p-7 sm:p-8 flex flex-col justify-between h-full min-h-[270px] sm:min-h-[285px] transition-all duration-300 hover:-translate-y-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_40px_rgba(37,99,255,0.2)] cursor-pointer"
               >
                 {/* Top Row: Number on left, Blue squircle icon on right */}

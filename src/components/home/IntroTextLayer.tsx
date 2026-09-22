@@ -96,22 +96,22 @@ export const IntroTextLayer: React.FC = () => {
       className="absolute inset-0 z-30 flex flex-col justify-start mt-[8vh] md:mt-0 lg:mt-[8vh] pt-0 pointer-events-none overflow-visible w-full px-4 -ml-8 md:ml-0"
     >
       <div ref={r1} className="w-full flex justify-start pl-[59vw] will-change-transform">
-        <h1 className={textStyle}>we</h1>
+        <span aria-hidden="true" className={textStyle}>we</span>
       </div>
       <div ref={r2} className="w-full flex justify-start pl-[5vw] will-change-transform">
-        <h1 className={textStyle}>turn</h1>
+        <span aria-hidden="true" className={textStyle}>turn</span>
       </div>
       <div ref={r3} className="w-full flex justify-start pl-[55vw] will-change-transform">
-        <h1 className={textStyle}>ideas</h1>
+        <span aria-hidden="true" className={textStyle}>ideas</span>
       </div>
       <div ref={r4} className="w-full flex justify-start pl-[2vw] will-change-transform">
-        <h1 className={textStyle}>into</h1>
+        <span aria-hidden="true" className={textStyle}>into</span>
       </div>
       <div ref={r5} className="w-full flex justify-start pl-[35vw] will-change-transform">
-        <h1 className={textStyle}>digital</h1>
+        <span aria-hidden="true" className={textStyle}>digital</span>
       </div>
       <div ref={r6} className="w-full flex justify-start pl-[2vw] will-change-transform">
-        <h1 className={`${textStyle} whitespace-nowrap`}>experiences</h1>
+        <span aria-hidden="true" className={`${textStyle} whitespace-nowrap`}>experiences</span>
       </div>
       <div
         ref={r7}

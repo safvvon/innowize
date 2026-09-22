@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Instagram, Twitter, Linkedin, Github, ArrowUpRight, MapPin, Mail, Phone } from 'lucide-react';
+import { Instagram, Linkedin, Youtube, ArrowUpRight, MapPin, Mail, Phone } from 'lucide-react';
 import { InnowizeLogo } from './InnowizeLogo';
+import { servicesData } from '../data/servicesData';
 
 interface FooterProps {
   onOpenContact?: () => void;
@@ -11,10 +12,7 @@ export const Footer: React.FC<FooterProps> = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full bg-[#0B0E17] text-white relative overflow-hidden border-t border-white/10">
-      {/* Top ambient highlight line */}
-      <div className="w-full h-px bg-gradient-to-r from-transparent via-[#2563FF]/40 to-transparent" />
-
+    <footer className="w-full bg-[#0B0E17] text-white relative overflow-hidden">
       <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-16 lg:px-24 py-16 md:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
           {/* Col 1: Brand & Bio */}
@@ -27,40 +25,34 @@ export const Footer: React.FC<FooterProps> = () => {
             </p>
             <div className="flex items-center space-x-3 pt-2">
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/innowizedigital?stkn=bDRiZnAzOTY2dmVn"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-white/5 hover:bg-[#2563FF] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 border border-white/10"
+                className="w-10 h-10 bg-white/5 hover:bg-[#2563FF] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 border border-white/10 group"
                 aria-label="Instagram"
+                title="Follow us on Instagram"
               >
-                <Instagram className="w-4 h-4 text-white" />
+                <Instagram className="w-4 h-4 text-white group-hover:text-white" />
               </a>
               <a
-                href="https://twitter.com"
+                href="https://www.linkedin.com/company/innowizedidital/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-white/5 hover:bg-[#2563FF] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 border border-white/10"
-                aria-label="Twitter"
-              >
-                <Twitter className="w-4 h-4 text-white" />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-white/5 hover:bg-[#2563FF] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 border border-white/10"
+                className="w-10 h-10 bg-white/5 hover:bg-[#2563FF] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 border border-white/10 group"
                 aria-label="LinkedIn"
+                title="Connect with us on LinkedIn"
               >
-                <Linkedin className="w-4 h-4 text-white" />
+                <Linkedin className="w-4 h-4 text-white group-hover:text-white" />
               </a>
               <a
-                href="https://github.com"
+                href="https://www.youtube.com/channel/UCV37EAmAcRPr0pTo4CHKUVA"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-white/5 hover:bg-[#2563FF] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 border border-white/10"
-                aria-label="GitHub"
+                className="w-10 h-10 bg-white/5 hover:bg-[#2563FF] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 border border-white/10 group"
+                aria-label="YouTube"
+                title="Subscribe to our YouTube Channel"
               >
-                <Github className="w-4 h-4 text-white" />
+                <Youtube className="w-4 h-4 text-white group-hover:text-white" />
               </a>
             </div>
           </div>
@@ -125,12 +117,17 @@ export const Footer: React.FC<FooterProps> = () => {
               Services
             </h3>
             <ul className="space-y-2.5">
-              <li className="text-white/70 text-sm font-poppins">Instagram Reels</li>
-              <li className="text-white/70 text-sm font-poppins">Brand Videos</li>
-              <li className="text-white/70 text-sm font-poppins">Social Media Content</li>
-              <li className="text-white/70 text-sm font-poppins">Product Videos</li>
-              <li className="text-white/70 text-sm font-poppins">Event Coverage</li>
-              <li className="text-white/70 text-sm font-poppins">Motion Design</li>
+              {servicesData.map((service) => (
+                <li key={service.id}>
+                  <Link
+                    to={`/services#${service.id}`}
+                    className="text-white/70 hover:text-[#60A5FA] transition-colors duration-300 text-sm font-poppins flex items-center gap-1 group"
+                  >
+                    <span>{service.title}</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
