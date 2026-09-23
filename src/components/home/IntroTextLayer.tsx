@@ -20,97 +20,91 @@ export const IntroTextLayer: React.FC = () => {
       if (!containerRef.current) return;
 
       if (isMobile) {
-        // Mobile: Elegant kinetic parallax — alternating directions with smooth, controlled glide
-        gsap.fromTo(
+        // Mobile 3-Phase Scroll: Words first come from sides, arrive and arrange in the centre, then exit to sides as you scroll down
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1,
+          },
+        });
+
+        tl.fromTo(
           r1.current,
-          { x: '-7vw' },
-          {
-            x: '7vw',
-            scrollTrigger: {
-              trigger: containerRef.current,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true,
-            },
-          }
+          { x: '75vw' },
+          { x: '0vw', ease: 'none', duration: 1 },
+          0
+        ).to(
+          r1.current,
+          { x: '-75vw', ease: 'none', duration: 1 },
+          1
         );
-        gsap.fromTo(
+
+        tl.fromTo(
           r2.current,
-          { x: '8vw' },
-          {
-            x: '-8vw',
-            scrollTrigger: {
-              trigger: containerRef.current,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true,
-            },
-          }
+          { x: '-75vw' },
+          { x: '0vw', ease: 'none', duration: 1 },
+          0
+        ).to(
+          r2.current,
+          { x: '75vw', ease: 'none', duration: 1 },
+          1
         );
-        gsap.fromTo(
+
+        tl.fromTo(
           r3.current,
-          { x: '-8vw' },
-          {
-            x: '8vw',
-            scrollTrigger: {
-              trigger: containerRef.current,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true,
-            },
-          }
+          { x: '75vw' },
+          { x: '0vw', ease: 'none', duration: 1 },
+          0
+        ).to(
+          r3.current,
+          { x: '-75vw', ease: 'none', duration: 1 },
+          1
         );
-        gsap.fromTo(
+
+        tl.fromTo(
           r4.current,
-          { x: '7vw' },
-          {
-            x: '-7vw',
-            scrollTrigger: {
-              trigger: containerRef.current,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true,
-            },
-          }
+          { x: '-75vw' },
+          { x: '0vw', ease: 'none', duration: 1 },
+          0
+        ).to(
+          r4.current,
+          { x: '75vw', ease: 'none', duration: 1 },
+          1
         );
-        gsap.fromTo(
+
+        tl.fromTo(
           r5.current,
-          { x: '-6vw' },
-          {
-            x: '6vw',
-            scrollTrigger: {
-              trigger: containerRef.current,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true,
-            },
-          }
+          { x: '75vw' },
+          { x: '0vw', ease: 'none', duration: 1 },
+          0
+        ).to(
+          r5.current,
+          { x: '-75vw', ease: 'none', duration: 1 },
+          1
         );
-        gsap.fromTo(
+
+        tl.fromTo(
           r6.current,
-          { x: '4vw' },
-          {
-            x: '-4vw',
-            scrollTrigger: {
-              trigger: containerRef.current,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true,
-            },
-          }
+          { x: '-70vw' },
+          { x: '0vw', ease: 'none', duration: 1 },
+          0
+        ).to(
+          r6.current,
+          { x: '70vw', ease: 'none', duration: 1 },
+          1
         );
-        gsap.fromTo(
+
+        tl.fromTo(
           r7.current,
-          { x: '-5vw' },
-          {
-            x: '5vw',
-            scrollTrigger: {
-              trigger: containerRef.current,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true,
-            },
-          }
+          { x: '50vw' },
+          { x: '0vw', ease: 'none', duration: 1 },
+          0
+        ).to(
+          r7.current,
+          { x: '-50vw', ease: 'none', duration: 1 },
+          1
         );
       } else {
         // Desktop: Exact original source of truth
@@ -184,29 +178,29 @@ export const IntroTextLayer: React.FC = () => {
   }, []);
 
   const textStyleBig =
-    'text-[18vw] min-[390px]:text-[19.5vw] sm:text-[18vw] md:text-[16vw] lg:text-[15vw] leading-[0.8] md:leading-[0.65] lg:leading-[0.75] font-extrabold italic text-white/[0.09] uppercase font-barlow relative select-none';
+    'text-[17vw] min-[390px]:text-[18.5vw] sm:text-[18vw] md:text-[16vw] lg:text-[15vw] leading-[0.82] md:leading-[0.65] lg:leading-[0.75] font-extrabold italic text-white/[0.09] uppercase font-barlow relative select-none';
 
   const textStyleLong =
-    'text-[13.5vw] min-[390px]:text-[14.5vw] sm:text-[15vw] md:text-[16vw] lg:text-[15vw] leading-[0.85] md:leading-[0.65] lg:leading-[0.75] font-extrabold italic text-white/[0.09] uppercase font-barlow relative select-none';
+    'text-[12.8vw] min-[390px]:text-[13.8vw] sm:text-[15vw] md:text-[16vw] lg:text-[15vw] leading-[0.85] md:leading-[0.65] lg:leading-[0.75] font-extrabold italic text-white/[0.09] uppercase font-barlow relative select-none';
 
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 z-30 flex flex-col justify-between sm:justify-start h-screen md:h-auto pt-24 pb-12 sm:pt-4 sm:pb-0 pointer-events-none overflow-hidden w-full max-w-full px-4 md:px-0"
+      className="absolute inset-0 z-30 flex flex-col justify-between sm:justify-start h-screen md:h-auto pt-24 pb-12 sm:pt-4 sm:pb-0 pointer-events-none overflow-hidden w-full max-w-full px-2 sm:px-4 md:px-0"
     >
-      <div ref={r1} className="w-full flex justify-start pl-[6vw] md:pl-[59vw] will-change-transform">
+      <div ref={r1} className="w-full flex justify-center md:justify-start md:pl-[59vw] will-change-transform">
         <span aria-hidden="true" className={textStyleBig}>we</span>
       </div>
-      <div ref={r2} className="w-full flex justify-end pr-[6vw] md:justify-start md:pl-[5vw] will-change-transform">
+      <div ref={r2} className="w-full flex justify-center md:justify-start md:pl-[5vw] will-change-transform">
         <span aria-hidden="true" className={textStyleBig}>turn</span>
       </div>
-      <div ref={r3} className="w-full flex justify-start pl-[5vw] md:pl-[55vw] will-change-transform">
+      <div ref={r3} className="w-full flex justify-center md:justify-start md:pl-[55vw] will-change-transform">
         <span aria-hidden="true" className={textStyleBig}>ideas</span>
       </div>
-      <div ref={r4} className="w-full flex justify-end pr-[10vw] md:justify-start md:pl-[2vw] will-change-transform">
+      <div ref={r4} className="w-full flex justify-center md:justify-start md:pl-[2vw] will-change-transform">
         <span aria-hidden="true" className={textStyleBig}>into</span>
       </div>
-      <div ref={r5} className="w-full flex justify-start pl-[6vw] md:pl-[35vw] will-change-transform">
+      <div ref={r5} className="w-full flex justify-center md:justify-start md:pl-[35vw] will-change-transform">
         <span aria-hidden="true" className={textStyleBig}>digital</span>
       </div>
       <div ref={r6} className="w-full flex justify-center md:justify-start md:pl-[2vw] will-change-transform">
