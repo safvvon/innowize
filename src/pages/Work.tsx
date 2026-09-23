@@ -434,6 +434,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
         {/* 1. VIDEOGRAPHY SECTION */}
         {showVideos && (
           <div>
+            <h2 className="sr-only">Featured Video Productions &amp; Commercials</h2>
             {/* Standard 12-Column Gapless Bento Grid with Different Shapes */}
             <div className="grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-6 lg:gap-7 w-full">
               <AnimatePresence mode="popLayout">

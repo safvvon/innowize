@@ -6,12 +6,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { Home } from './pages/Home';
+import { SEOHead } from './seo/SEOHead';
 
 // Lazy-loaded routes for optimal initial chunk size & fast initial rendering
 const About = React.lazy(() => import('./pages/About').then((m) => ({ default: m.About })));
 const Services = React.lazy(() => import('./pages/Services').then((m) => ({ default: m.Services })));
 const Work = React.lazy(() => import('./pages/Work').then((m) => ({ default: m.Work })));
 const Contact = React.lazy(() => import('./pages/Contact').then((m) => ({ default: m.Contact })));
+const NotFound = React.lazy(() => import('./pages/NotFound').then((m) => ({ default: m.NotFound })));
 const ContactModal = React.lazy(() => import('./components/ContactModal').then((m) => ({ default: m.ContactModal })));
 
 gsap.registerPlugin(ScrollTrigger);
@@ -73,6 +75,7 @@ export const AppContent: React.FC = () => {
 
   return (
     <div className="relative min-h-screen bg-alpha text-tango selection:bg-beta selection:text-white flex flex-col justify-between">
+      <SEOHead />
       <ScrollToTop />
       <Header onOpenContact={() => handleOpenContact()} />
 
@@ -85,6 +88,7 @@ export const AppContent: React.FC = () => {
             <Route path="/services/:serviceId" element={<Services onOpenContact={(subject) => handleOpenContact(subject)} />} />
             <Route path="/work" element={<Work onOpenContact={() => handleOpenContact()} />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </main>

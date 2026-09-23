@@ -1,0 +1,16 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Allow all critical static rendering assets
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.svg$
+Allow: /*.webp$
+Allow: /*.mp4$
+
+# Canonical XML Sitemap
+Sitemap: https://innowize.vercel.app/sitemap.xml

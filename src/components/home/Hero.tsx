@@ -183,6 +183,8 @@ export const Hero: React.FC = () => {
           muted
           playsInline
           preload="auto"
+          title="Innowize Digital Official Showreel"
+          aria-label="Innowize Digital Showreel Video"
           className="w-full h-full object-cover object-center"
         />
 
@@ -196,6 +198,7 @@ export const Hero: React.FC = () => {
           onClick={toggleMute}
           className="group flex items-center gap-2 sm:gap-2.5 text-white/90 hover:text-[#60A5FA] font-poppins font-semibold text-xs sm:text-sm tracking-wide transition-colors cursor-pointer"
           title={isMuted ? 'Play Audio' : 'Mute Audio'}
+          aria-label={isMuted ? 'Play Showreel Audio' : 'Mute Showreel Audio'}
         >
           <span className="hidden sm:inline">{isMuted ? 'Play Audio' : 'Mute Audio'}</span>
           <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-white/30 text-white flex items-center justify-center group-hover:bg-[#2563FF] group-hover:border-[#2563FF] transition-all duration-300 shadow-sm backdrop-blur-sm bg-black/40">
@@ -207,6 +210,7 @@ export const Hero: React.FC = () => {
           onClick={togglePlay}
           className="p-2 rounded-full bg-black/50 hover:bg-black/80 backdrop-blur-md border border-white/20 text-white transition-all hover:scale-105 cursor-pointer shadow-lg"
           title={isPlaying ? 'Pause Showreel' : 'Play Showreel'}
+          aria-label={isPlaying ? 'Pause Showreel Video' : 'Play Showreel Video'}
         >
           {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-white" />}
         </button>
@@ -215,6 +219,7 @@ export const Hero: React.FC = () => {
           onClick={toggleFullscreen}
           className="p-2 rounded-full bg-black/50 hover:bg-black/80 backdrop-blur-md border border-white/20 text-white transition-all hover:scale-105 cursor-pointer shadow-lg hidden sm:flex"
           title="Fullscreen Video"
+          aria-label="View Showreel Fullscreen"
         >
           <Maximize2 className="w-4 h-4" />
         </button>
@@ -230,6 +235,7 @@ export const Hero: React.FC = () => {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="text-[2.6rem] min-[380px]:text-5xl sm:text-6xl md:text-7xl xl:text-[5.4rem] font-barlow font-black tracking-tight leading-[0.92] text-white uppercase mb-6 sm:mb-8 drop-shadow-xl"
           >
+            <span className="sr-only">Innowize Digital — Creative Studio &amp; Digital Experiences | </span>
             NEW DIGITAL <br />
             <span className="text-[#2563FF]">UNIVERSE</span>
           </motion.h1>
@@ -243,6 +249,7 @@ export const Hero: React.FC = () => {
           >
             <button
               onClick={() => navigate('/work')}
+              aria-label="Explore Innowize Digital Portfolio and Work"
               className="px-6 sm:px-8 py-3 sm:py-3.5 rounded-lg bg-[#2563FF] hover:bg-[#1D4ED8] text-white font-poppins font-semibold text-xs sm:text-sm tracking-wide shadow-[0_8px_25px_rgba(37,99,255,0.45)] transition-all duration-300 hover:scale-105 cursor-pointer border border-white/15"
             >
               Explore Work

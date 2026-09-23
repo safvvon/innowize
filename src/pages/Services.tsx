@@ -68,7 +68,16 @@ export const Services: React.FC<{ onOpenContact?: (subject?: string) => void }> 
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.5, delay: idx * 0.06 }}
                 onClick={() => handleSelectService(service)}
-                className={`group relative rounded-2xl bg-[#090E1B] border p-6 sm:p-8 flex flex-col justify-between h-full min-h-[280px] sm:min-h-[320px] transition-all duration-300 hover:-translate-y-1.5 cursor-pointer scroll-mt-32 ${
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleSelectService(service);
+                  }
+                }}
+                role="button"
+                tabIndex={0}
+                aria-label={`Inquire about ${service.title} services`}
+                className={`group relative rounded-2xl bg-[#090E1B] border p-6 sm:p-8 flex flex-col justify-between h-full min-h-[280px] sm:min-h-[320px] transition-all duration-300 hover:-translate-y-1.5 cursor-pointer scroll-mt-32 focus:outline-none focus:ring-2 focus:ring-[#2563FF] ${
                   isActive
                     ? 'border-[#2563FF] ring-2 ring-[#2563FF]/60 shadow-[0_0_40px_rgba(37,99,255,0.35)] -translate-y-1'
                     : 'border-[#141C30] hover:border-[#2563FF]/70 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_40px_rgba(37,99,255,0.2)]'
@@ -118,6 +127,7 @@ export const Services: React.FC<{ onOpenContact?: (subject?: string) => void }> 
                 <div className="pt-5 sm:pt-6 mt-5 sm:mt-6 border-t border-white/[0.06] min-h-[44px] flex items-center">
                   <span className="inline-flex items-center gap-2 text-xs font-poppins font-bold tracking-[0.16em] text-[#2563FF] group-hover:text-[#60A5FA] uppercase transition-colors">
                     <span>INQUIRE ABOUT THIS SERVICE</span>
+                    <span className="sr-only">({service.title})</span>
                     <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1.5 transition-transform" />
                   </span>
                 </div>

@@ -1,0 +1,21 @@
+{
+  "name": "Innowize Digital",
+  "short_name": "Innowize",
+  "description": "Creative digital studio specializing in innovative digital solutions, visual storytelling, and cutting-edge design experiences.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B0E17",
+  "theme_color": "#0B0E17",
+  "icons": [
+    {
+      "src": "/images/iw-mark.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/iw-mark.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

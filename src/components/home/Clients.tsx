@@ -61,20 +61,20 @@ const Counter: React.FC<{
 
 export const Clients: React.FC = () => {
   const clientLogos = [
-    { src: '/images/clients/client.png', alt: 'Client 1' },
-    { src: '/images/clients/client2.png', alt: 'Client 2' },
-    { src: '/images/clients/client3.png', alt: 'Client 3' },
-    { src: '/images/clients/client4.png', alt: 'Client 4' },
-    { src: '/images/clients/client5.png', alt: 'Client 5' },
-    { src: '/images/clients/client55.png', alt: 'Client 55' },
-    { src: '/images/clients/client6.png', alt: 'Client 6' },
-    { src: '/images/clients/client7.png', alt: 'Client 7' },
-    { src: '/images/clients/client77.png', alt: 'Client 77' },
-    { src: '/images/clients/client8.png', alt: 'Client 8' },
-    { src: '/images/clients/client9.png', alt: 'Client 9' },
-    { src: '/images/clients/client10.png', alt: 'Client 10' },
-    { src: '/images/clients/client11.png', alt: 'Client 11' },
-    { src: '/images/clients/client13.png', alt: 'Client 13' },
+    { src: '/images/clients/client.png', alt: 'Client Partner Brand Logo' },
+    { src: '/images/clients/client2.png', alt: 'Client Partner Brand Logo' },
+    { src: '/images/clients/client3.png', alt: 'Client Partner Brand Logo' },
+    { src: '/images/clients/client4.png', alt: 'Client Partner Brand Logo' },
+    { src: '/images/clients/client5.png', alt: 'Client Partner Brand Logo' },
+    { src: '/images/clients/client55.png', alt: 'Client Partner Brand Logo' },
+    { src: '/images/clients/client6.png', alt: 'Client Partner Brand Logo' },
+    { src: '/images/clients/client7.png', alt: 'Client Partner Brand Logo' },
+    { src: '/images/clients/client77.png', alt: 'Client Partner Brand Logo' },
+    { src: '/images/clients/client8.png', alt: 'Client Partner Brand Logo' },
+    { src: '/images/clients/client9.png', alt: 'Client Partner Brand Logo' },
+    { src: '/images/clients/client10.png', alt: 'Client Partner Brand Logo' },
+    { src: '/images/clients/client11.png', alt: 'Client Partner Brand Logo' },
+    { src: '/images/clients/client13.png', alt: 'Client Partner Brand Logo' },
   ];
 
   const stats = [
@@ -85,6 +85,7 @@ export const Clients: React.FC = () => {
 
   return (
     <section className="relative w-full bg-[#0B0E17] flex flex-col items-center p-0 m-0 overflow-visible pt-16 pb-20">
+      <h2 className="sr-only">Trusted by Leading Brands and Proven Track Record</h2>
       {/* Subtle Divider Glow */}
       <div className="w-full max-w-7xl h-px bg-gradient-to-r from-transparent via-[#2563FF]/30 to-transparent" />
 
