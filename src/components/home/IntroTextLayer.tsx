@@ -184,10 +184,10 @@ export const IntroTextLayer: React.FC = () => {
   }, []);
 
   const textStyleBig =
-    'text-[19vw] min-[390px]:text-[21vw] sm:text-[18vw] md:text-[16vw] lg:text-[15vw] leading-[0.8] md:leading-[0.65] lg:leading-[0.75] font-extrabold italic text-white/[0.08] uppercase font-barlow relative select-none';
+    'text-[25vw] min-[390px]:text-[27vw] sm:text-[22vw] md:text-[16vw] lg:text-[15vw] leading-[0.76] min-[390px]:leading-[0.78] md:leading-[0.65] lg:leading-[0.75] font-extrabold italic text-white/[0.09] uppercase font-barlow relative select-none';
 
   const textStyleLong =
-    'text-[14.5vw] min-[390px]:text-[15.5vw] sm:text-[15vw] md:text-[16vw] lg:text-[15vw] leading-[0.85] md:leading-[0.65] lg:leading-[0.75] font-extrabold italic text-white/[0.08] uppercase font-barlow relative select-none';
+    'text-[17.5vw] min-[390px]:text-[19vw] sm:text-[17vw] md:text-[16vw] lg:text-[15vw] leading-[0.82] min-[390px]:leading-[0.84] md:leading-[0.65] lg:leading-[0.75] font-extrabold italic text-white/[0.09] uppercase font-barlow relative select-none';
 
   return (
     <div
