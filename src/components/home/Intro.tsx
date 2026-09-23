@@ -2,7 +2,7 @@ import React from 'react';
 
 export const Intro: React.FC = () => {
   return (
-    <section className="relative h-[90vh] md:h-[80vh] lg:h-[175vh] w-full bg-alpha flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[110vh] sm:min-h-[120vh] md:h-[80vh] lg:h-[175vh] w-full bg-alpha flex items-center justify-center overflow-hidden">
       {/* Precision Responsive Vector Shape - Top end touches right side, bottom end touches left side */}
       <svg
         className="absolute inset-0 w-full h-full pointer-events-none z-[1]"
@@ -17,8 +17,16 @@ export const Intro: React.FC = () => {
             <stop offset="100%" stopColor="#172554" />
           </linearGradient>
         </defs>
+        {/* Desktop slope (100% identical to source of truth) */}
         <polygon
+          className="hidden sm:block"
           points="0,100 100,22 100,100"
+          fill="url(#introDirectBlueGrad)"
+        />
+        {/* Mobile slope: gentler angle to provide proper breathing room for typography */}
+        <polygon
+          className="block sm:hidden"
+          points="0,100 100,48 100,100"
           fill="url(#introDirectBlueGrad)"
         />
       </svg>
