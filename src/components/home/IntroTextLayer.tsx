@@ -20,12 +20,12 @@ export const IntroTextLayer: React.FC = () => {
       if (!containerRef.current) return;
 
       if (isMobile) {
-        // Mobile: Dynamic kinetic scroll — words first come in from alternating sides, then go out into sides as user scrolls down
+        // Mobile: Elegant kinetic parallax — alternating directions with smooth, controlled glide
         gsap.fromTo(
           r1.current,
-          { x: '60vw' },
+          { x: '-7vw' },
           {
-            x: '-60vw',
+            x: '7vw',
             scrollTrigger: {
               trigger: containerRef.current,
               start: 'top bottom',
@@ -36,9 +36,9 @@ export const IntroTextLayer: React.FC = () => {
         );
         gsap.fromTo(
           r2.current,
-          { x: '-55vw' },
+          { x: '8vw' },
           {
-            x: '50vw',
+            x: '-8vw',
             scrollTrigger: {
               trigger: containerRef.current,
               start: 'top bottom',
@@ -49,9 +49,9 @@ export const IntroTextLayer: React.FC = () => {
         );
         gsap.fromTo(
           r3.current,
-          { x: '55vw' },
+          { x: '-8vw' },
           {
-            x: '-50vw',
+            x: '8vw',
             scrollTrigger: {
               trigger: containerRef.current,
               start: 'top bottom',
@@ -62,9 +62,9 @@ export const IntroTextLayer: React.FC = () => {
         );
         gsap.fromTo(
           r4.current,
-          { x: '-50vw' },
+          { x: '7vw' },
           {
-            x: '45vw',
+            x: '-7vw',
             scrollTrigger: {
               trigger: containerRef.current,
               start: 'top bottom',
@@ -75,9 +75,9 @@ export const IntroTextLayer: React.FC = () => {
         );
         gsap.fromTo(
           r5.current,
-          { x: '50vw' },
+          { x: '-6vw' },
           {
-            x: '-45vw',
+            x: '6vw',
             scrollTrigger: {
               trigger: containerRef.current,
               start: 'top bottom',
@@ -88,9 +88,9 @@ export const IntroTextLayer: React.FC = () => {
         );
         gsap.fromTo(
           r6.current,
-          { x: '-40vw' },
+          { x: '4vw' },
           {
-            x: '35vw',
+            x: '-4vw',
             scrollTrigger: {
               trigger: containerRef.current,
               start: 'top bottom',
@@ -101,9 +101,9 @@ export const IntroTextLayer: React.FC = () => {
         );
         gsap.fromTo(
           r7.current,
-          { x: '-30vw' },
+          { x: '-5vw' },
           {
-            x: '30vw',
+            x: '5vw',
             scrollTrigger: {
               trigger: containerRef.current,
               start: 'top bottom',
@@ -184,29 +184,29 @@ export const IntroTextLayer: React.FC = () => {
   }, []);
 
   const textStyleBig =
-    'text-[25vw] min-[390px]:text-[27vw] sm:text-[22vw] md:text-[16vw] lg:text-[15vw] leading-[0.76] min-[390px]:leading-[0.78] md:leading-[0.65] lg:leading-[0.75] font-extrabold italic text-white/[0.09] uppercase font-barlow relative select-none';
+    'text-[18vw] min-[390px]:text-[19.5vw] sm:text-[18vw] md:text-[16vw] lg:text-[15vw] leading-[0.8] md:leading-[0.65] lg:leading-[0.75] font-extrabold italic text-white/[0.09] uppercase font-barlow relative select-none';
 
   const textStyleLong =
-    'text-[17.5vw] min-[390px]:text-[19vw] sm:text-[17vw] md:text-[16vw] lg:text-[15vw] leading-[0.82] min-[390px]:leading-[0.84] md:leading-[0.65] lg:leading-[0.75] font-extrabold italic text-white/[0.09] uppercase font-barlow relative select-none';
+    'text-[13.5vw] min-[390px]:text-[14.5vw] sm:text-[15vw] md:text-[16vw] lg:text-[15vw] leading-[0.85] md:leading-[0.65] lg:leading-[0.75] font-extrabold italic text-white/[0.09] uppercase font-barlow relative select-none';
 
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 z-30 flex flex-col justify-between sm:justify-start h-screen md:h-auto mt-[1vh] sm:mt-[6vh] md:mt-0 lg:mt-[8vh] pt-3 pb-8 sm:pt-4 sm:pb-0 pointer-events-none overflow-hidden w-full max-w-full px-2 sm:px-4 md:px-0"
+      className="absolute inset-0 z-30 flex flex-col justify-between sm:justify-start h-screen md:h-auto pt-24 pb-12 sm:pt-4 sm:pb-0 pointer-events-none overflow-hidden w-full max-w-full px-4 md:px-0"
     >
-      <div ref={r1} className="w-full flex justify-center md:justify-start md:pl-[59vw] will-change-transform">
+      <div ref={r1} className="w-full flex justify-start pl-[6vw] md:pl-[59vw] will-change-transform">
         <span aria-hidden="true" className={textStyleBig}>we</span>
       </div>
-      <div ref={r2} className="w-full flex justify-center md:justify-start md:pl-[5vw] will-change-transform">
+      <div ref={r2} className="w-full flex justify-end pr-[6vw] md:justify-start md:pl-[5vw] will-change-transform">
         <span aria-hidden="true" className={textStyleBig}>turn</span>
       </div>
-      <div ref={r3} className="w-full flex justify-center md:justify-start md:pl-[55vw] will-change-transform">
+      <div ref={r3} className="w-full flex justify-start pl-[5vw] md:pl-[55vw] will-change-transform">
         <span aria-hidden="true" className={textStyleBig}>ideas</span>
       </div>
-      <div ref={r4} className="w-full flex justify-center md:justify-start md:pl-[2vw] will-change-transform">
+      <div ref={r4} className="w-full flex justify-end pr-[10vw] md:justify-start md:pl-[2vw] will-change-transform">
         <span aria-hidden="true" className={textStyleBig}>into</span>
       </div>
-      <div ref={r5} className="w-full flex justify-center md:justify-start md:pl-[35vw] will-change-transform">
+      <div ref={r5} className="w-full flex justify-start pl-[6vw] md:pl-[35vw] will-change-transform">
         <span aria-hidden="true" className={textStyleBig}>digital</span>
       </div>
       <div ref={r6} className="w-full flex justify-center md:justify-start md:pl-[2vw] will-change-transform">

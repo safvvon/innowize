@@ -23,10 +23,10 @@ export const Intro: React.FC = () => {
           points="0,100 100,22 100,100"
           fill="url(#introDirectBlueGrad)"
         />
-        {/* Mobile slope: gentler angle to provide proper breathing room for typography */}
+        {/* Mobile slope: starts lower to keep words clean and unobstructed */}
         <polygon
           className="block sm:hidden"
-          points="0,100 100,48 100,100"
+          points="0,100 100,60 100,100"
           fill="url(#introDirectBlueGrad)"
         />
       </svg>
