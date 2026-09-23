@@ -2,7 +2,7 @@ import React from 'react';
 
 export const Intro: React.FC = () => {
   return (
-    <section className="relative min-h-screen md:h-[80vh] lg:h-[175vh] w-full bg-alpha flex items-center justify-center overflow-hidden">
+    <section id="intro-section" className="relative min-h-screen md:h-[80vh] lg:h-[175vh] w-full bg-alpha flex items-center justify-center overflow-hidden">
       {/* Precision Responsive Vector Shape - Top end touches right side, bottom end touches left side */}
       <svg
         className="absolute inset-0 w-full h-full pointer-events-none z-[1]"
