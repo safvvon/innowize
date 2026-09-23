@@ -265,21 +265,18 @@ export const Hero: React.FC = () => {
       {/* Futuristic Chamfered Dark Bottom-Left Shelf (Elongated & Seamless) */}
       <div className="relative w-full z-30 mt-auto flex justify-start">
         <div
-          className="w-full sm:w-[86%] md:w-[80%] lg:w-[75%] max-w-[1050px] bg-[#0B0E17] text-white py-3.5 sm:py-4 px-4 sm:px-12 md:px-16 flex items-center"
-          style={{
-            clipPath: 'polygon(0 0, calc(100% - clamp(30px, 8vw, 95px)) 0, 100% 100%, 0 100%)',
-          }}
+          className="w-fit max-w-[96vw] sm:w-[86%] md:w-[80%] lg:w-[75%] max-w-[1050px] bg-[#0B0E17] text-white py-3 sm:py-4 pl-3.5 min-[360px]:pl-5 sm:pl-12 md:pl-16 pr-9 min-[360px]:pr-11 sm:pr-24 md:pr-28 flex items-center shrink-0 [clip-path:polygon(0_0,calc(100%-32px)_0,100%_100%,0_100%)] sm:[clip-path:polygon(0_0,calc(100%-95px)_0,100%_100%,0_100%)]"
         >
-          <div className="flex items-center gap-4 sm:gap-9 md:gap-14 text-[10px] sm:text-xs md:text-sm font-poppins font-bold tracking-[0.12em] sm:tracking-[0.2em] uppercase text-white select-none whitespace-nowrap overflow-x-auto scrollbar-none">
-            <div className="flex items-center gap-1.5 sm:gap-2.5 text-white hover:text-[#60A5FA] transition-colors cursor-default">
+          <div className="flex items-center gap-2.5 min-[360px]:gap-3.5 min-[410px]:gap-5 sm:gap-9 md:gap-14 text-[9px] min-[360px]:text-[10px] min-[410px]:text-xs sm:text-xs md:text-sm font-poppins font-bold tracking-[0.08em] min-[360px]:tracking-[0.14em] sm:tracking-[0.2em] uppercase text-white select-none whitespace-nowrap">
+            <div className="flex items-center gap-1.5 sm:gap-2.5 text-white hover:text-[#60A5FA] transition-colors cursor-default shrink-0">
               <Hexagon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#2563FF] stroke-[2.2] shrink-0" />
               <span>EXPERIENCE</span>
             </div>
-            <div className="flex items-center gap-1.5 sm:gap-2.5 text-white hover:text-[#60A5FA] transition-colors cursor-default">
+            <div className="flex items-center gap-1.5 sm:gap-2.5 text-white hover:text-[#60A5FA] transition-colors cursor-default shrink-0">
               <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#2563FF] stroke-[2.2] shrink-0" />
               <span>INNOVATION</span>
             </div>
-            <div className="flex items-center gap-1.5 sm:gap-2.5 text-white hover:text-[#60A5FA] transition-colors cursor-default">
+            <div className="flex items-center gap-1.5 sm:gap-2.5 text-white hover:text-[#60A5FA] transition-colors cursor-default shrink-0">
               <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#2563FF] stroke-[2.2] shrink-0" />
               <span>EXCELLENCE</span>
             </div>
