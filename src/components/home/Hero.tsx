@@ -178,7 +178,6 @@ export const Hero: React.FC = () => {
         <video
           ref={videoRef}
           src="/showreel.mp4"
-          poster="/images/hero_3d_cinematographer.jpg"
           autoPlay
           loop
           muted
