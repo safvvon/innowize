@@ -90,17 +90,17 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
       </section>
 
       {/* Interactive Tabs Section */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 py-8">
-        <div className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-8 sm:p-12 lg:p-16 shadow-2xl w-full">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-6 sm:py-8">
+        <div className="bg-[#0F1628] border border-[#141A2B] rounded-3xl p-5 sm:p-10 lg:p-16 shadow-2xl w-full">
           {/* Tab Buttons */}
-          <div className="flex items-center gap-3 mb-10 pb-6 border-b border-white/10">
+          <div className="flex items-center gap-2 sm:gap-3 mb-8 sm:mb-10 pb-5 sm:pb-6 border-b border-white/10 overflow-x-auto scrollbar-none">
             {(['mission', 'vision', 'values'] as const).map((tab) => {
               const isActive = activeTab === tab;
               return (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`relative px-6 py-2.5 rounded-full text-xs sm:text-sm font-poppins font-semibold tracking-wider uppercase transition-all duration-300 cursor-pointer ${
+                  className={`relative px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-poppins font-semibold tracking-wider uppercase transition-all duration-300 cursor-pointer min-h-[40px] shrink-0 ${
                     isActive
                       ? 'text-white'
                       : 'text-white/60 hover:text-white hover:bg-white/5'
@@ -120,18 +120,18 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
           </div>
 
           {/* Active Tab Content */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center w-full">
-            <div className="lg:col-span-7 space-y-6">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-barlow text-white leading-tight">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14 items-center w-full">
+            <div className="lg:col-span-7 space-y-4 sm:space-y-6">
+              <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold font-barlow text-white leading-tight">
                 {tabContent[activeTab].title}
               </h2>
-              <p className="text-white/75 text-base md:text-lg font-poppins leading-relaxed">
+              <p className="text-white/75 text-sm sm:text-base md:text-lg font-poppins leading-relaxed">
                 {tabContent[activeTab].description}
               </p>
-              <ul className="space-y-3.5 pt-2 font-poppins">
+              <ul className="space-y-3 pt-2 font-poppins">
                 {tabContent[activeTab].points.map((pt, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm md:text-base text-white/80">
-                    <CheckCircle className="w-5 h-5 text-[#2563FF] flex-shrink-0 mt-0.5" />
+                  <li key={i} className="flex items-start gap-2.5 sm:gap-3 text-xs sm:text-sm md:text-base text-white/80">
+                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-[#2563FF] flex-shrink-0 mt-0.5" />
                     <span>{pt}</span>
                   </li>
                 ))}
@@ -139,7 +139,7 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
             </div>
 
             <div className="lg:col-span-5 flex justify-center w-full">
-              <div className="relative w-full h-80 sm:h-96 lg:h-[480px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-[#0A0D16] group">
+              <div className="relative w-full h-64 sm:h-80 lg:h-[480px] rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-[#0A0D16] group">
                 <AnimatePresence mode="wait">
                   <motion.img
                     key={activeTab}
@@ -156,11 +156,11 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
 
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E17]/95 via-transparent to-transparent pointer-events-none" />
 
-                <div className="absolute bottom-6 left-6 right-6 pointer-events-none">
-                  <span className="text-[11px] font-poppins font-bold tracking-widest text-[#60A5FA] uppercase block mb-1">
+                <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 pointer-events-none">
+                  <span className="text-[10px] sm:text-[11px] font-poppins font-bold tracking-widest text-[#60A5FA] uppercase block mb-0.5 sm:mb-1">
                     {tabContent[activeTab].badge}
                   </span>
-                  <p className="text-white font-barlow font-bold text-lg sm:text-xl">
+                  <p className="text-white font-barlow font-bold text-base sm:text-xl">
                     {tabContent[activeTab].label}
                   </p>
                 </div>
@@ -171,12 +171,12 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
       </section>
 
       {/* 3 Core Pillars Section */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 py-12">
-        <div className="mb-8">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-8 sm:py-12">
+        <div className="mb-6 sm:mb-8">
           <span className="text-[#60A5FA] text-xs font-poppins font-semibold tracking-[0.3em] uppercase mb-2 block">
             Our Foundation
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-barlow text-white">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold font-barlow text-white">
             Three Pillars of Innowize
           </h2>
         </div>
@@ -189,15 +189,15 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="bg-[#0F1628] border border-[#141A2B] hover:border-[#2563FF]/50 rounded-3xl p-8 sm:p-10 lg:p-12 shadow-xl transition-all duration-500"
+              className="bg-[#0F1628] border border-[#141A2B] hover:border-[#2563FF]/50 rounded-2xl sm:rounded-3xl p-6 sm:p-10 lg:p-12 shadow-xl transition-all duration-500"
             >
-              <div className="w-16 h-16 rounded-2xl bg-[#2563FF]/10 flex items-center justify-center mb-6 border border-[#2563FF]/20">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#2563FF]/10 flex items-center justify-center mb-5 sm:mb-6 border border-[#2563FF]/20">
                 {pillar.icon}
               </div>
-              <h3 className="text-2xl font-bold font-barlow text-white tracking-wide mb-3">
+              <h3 className="text-xl sm:text-2xl font-bold font-barlow text-white tracking-wide mb-2 sm:mb-3">
                 {pillar.title}
               </h3>
-              <p className="text-sm md:text-base text-white/70 font-poppins leading-relaxed">
+              <p className="text-xs sm:text-sm md:text-base text-white/70 font-poppins leading-relaxed">
                 {pillar.description}
               </p>
             </motion.div>
@@ -206,26 +206,26 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
       </section>
 
       {/* Stats Counter Section */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-10 md:p-16 rounded-3xl bg-[#0F1628] border border-[#141A2B] text-center shadow-xl w-full">
-          <div>
-            <div className="text-5xl md:text-7xl lg:text-8xl font-black font-barlow text-white mb-2">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-8 sm:py-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 p-6 sm:p-10 md:p-16 rounded-3xl bg-[#0F1628] border border-[#141A2B] text-center shadow-xl w-full">
+          <div className="pb-6 md:pb-0 border-b md:border-b-0 border-white/10">
+            <div className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black font-barlow text-white mb-1 sm:mb-2">
               87.2K
             </div>
             <div className="text-xs sm:text-sm font-poppins font-semibold tracking-wider text-[#60A5FA] uppercase">
               Projects Completed
             </div>
           </div>
-          <div className="md:border-x border-white/10 md:px-6">
-            <div className="text-5xl md:text-7xl lg:text-8xl font-black font-barlow text-white mb-2">
+          <div className="py-2 md:py-0 pb-6 md:pb-0 border-b md:border-b-0 md:border-x border-white/10 md:px-6">
+            <div className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black font-barlow text-white mb-1 sm:mb-2">
               28+
             </div>
             <div className="text-xs sm:text-sm font-poppins font-semibold tracking-wider text-[#60A5FA] uppercase">
               Worldwide Reach
             </div>
           </div>
-          <div>
-            <div className="text-5xl md:text-7xl lg:text-8xl font-black font-barlow text-white mb-2">
+          <div className="pt-2 md:pt-0">
+            <div className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black font-barlow text-white mb-1 sm:mb-2">
               28,000+
             </div>
             <div className="text-xs sm:text-sm font-poppins font-semibold tracking-wider text-[#60A5FA] uppercase">
@@ -236,25 +236,25 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
       </section>
 
       {/* Bottom CTA Banner */}
-      <section className="max-w-5xl mx-auto px-6 mt-8 mb-16">
-        <div className="rounded-3xl bg-[#0F1628] border border-[#141A2B] p-10 md:p-16 lg:p-20 text-center shadow-2xl w-full">
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black italic text-white uppercase font-barlow leading-tight mb-4">
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 mt-6 sm:mt-8 mb-12 sm:mb-16">
+        <div className="rounded-3xl bg-[#0F1628] border border-[#141A2B] p-6 sm:p-12 lg:p-20 text-center shadow-2xl w-full">
+          <h2 className="text-2xl sm:text-5xl md:text-6xl font-black italic text-white uppercase font-barlow leading-tight mb-4">
             READY TO CREATE <br />
             <span className="text-[#2563FF]">TOGETHER?</span>
           </h2>
-          <p className="text-white/70 text-base md:text-lg font-poppins max-w-4xl mx-auto leading-relaxed mb-8">
+          <p className="text-white/70 text-xs sm:text-base md:text-lg font-poppins max-w-4xl mx-auto leading-relaxed mb-6 sm:mb-8">
             Let's bring your vision to life. Whether you have an established brand or an ambitious new venture, we are here to craft something extraordinary.
           </p>
-          <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center items-center w-full">
             <button
               onClick={onOpenContact ? onOpenContact : () => navigate('/contact')}
-              className="px-10 py-4 rounded-full bg-[#2563FF] hover:bg-[#3B82F6] text-white text-sm font-poppins font-semibold tracking-[0.1em] uppercase transition-all duration-300 hover:scale-105 shadow-[0_0_25px_rgba(37,99,255,0.5)] border border-[#60A5FA]/40 cursor-pointer"
+              className="w-full sm:w-auto px-8 sm:px-10 py-3.5 sm:py-4 rounded-full bg-[#2563FF] hover:bg-[#3B82F6] text-white text-xs sm:text-sm font-poppins font-semibold tracking-[0.1em] uppercase transition-all duration-300 hover:scale-105 shadow-[0_0_25px_rgba(37,99,255,0.5)] border border-[#60A5FA]/40 cursor-pointer min-h-[44px]"
             >
               Get In Touch
             </button>
             <button
               onClick={() => navigate('/work')}
-              className="px-10 py-4 rounded-full border border-white/20 hover:border-white/50 text-white text-sm font-poppins font-medium tracking-[0.1em] uppercase transition-all duration-300 w-full sm:w-auto cursor-pointer bg-[#0F1628]/60 hover:bg-[#0F1628]"
+              className="w-full sm:w-auto px-8 sm:px-10 py-3.5 sm:py-4 rounded-full border border-white/20 hover:border-white/50 text-white text-xs sm:text-sm font-poppins font-medium tracking-[0.1em] uppercase transition-all duration-300 cursor-pointer bg-[#0F1628]/60 hover:bg-[#0F1628] min-h-[44px]"
             >
               View Our Work
             </button>

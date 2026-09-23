@@ -21,7 +21,7 @@
 }
 
 @layer base {
-  * {
+  *, *::before, *::after {
     box-sizing: border-box;
   }
   
@@ -30,13 +30,35 @@
     font-family: 'Poppins', sans-serif;
     background-color: #0B0E17;
     color: #FFFFFF;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
     overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
     margin: 0;
     padding: 0;
     background-color: #0B0E17;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #root {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+    min-height: 100vh;
+  }
+
+  /* Prevent iOS Safari from auto-zooming inputs on focus */
+  @media screen and (max-width: 768px) {
+    input, textarea, select {
+      font-size: 16px !important;
+    }
   }
 }
 
@@ -86,16 +108,18 @@
 }
 
 .animate-innowize-marquee {
-  animation: innowize-marquee 95s linear infinite;
+  animation: innowize-marquee 85s linear infinite;
   will-change: transform;
 }
 
 @media (max-width: 768px) {
   .animate-innowize-marquee {
-    animation-duration: 70s;
+    animation-duration: 60s;
   }
 }
 
+/* Continuous infinite playback - never freeze abruptly */
 .marquee-hover-pause:hover .animate-innowize-marquee {
-  animation-play-state: paused;
+  animation-play-state: running;
 }
+

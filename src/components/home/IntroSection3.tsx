@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Play, Sparkles, Film, Volume2, X, ExternalLink, ArrowRight, Maximize2 } from 'lucide-react';
+import { Play, Sparkles, Film, Volume2, X, ExternalLink, ArrowRight, Maximize2, ArrowLeft } from 'lucide-react';
 import { videoProjects, VideoProject } from '../../data/portfolioData';
 
 const prefetchVideo = (driveId?: string) => {
@@ -25,6 +25,7 @@ const ReelCard: React.FC<{
   const [imgLoaded, setImgLoaded] = useState(false);
   const [retryStep, setRetryStep] = useState(0);
   const imgRef = useRef<HTMLImageElement>(null);
+  const isPortrait = project.orientation === 'portrait';
 
   useEffect(() => {
     setImgSrc(project.thumbnail);
@@ -44,23 +45,37 @@ const ReelCard: React.FC<{
       onClick={() => onSelect(project)}
       onMouseEnter={() => prefetchVideo(project.driveId)}
       onTouchStart={() => prefetchVideo(project.driveId)}
-      className="group flex-shrink-0 rounded-2xl overflow-hidden relative w-[290px] h-[290px] sm:w-[330px] sm:h-[330px] md:w-[350px] md:h-[350px] cursor-pointer border border-white/15 hover:border-[#2563FF] shadow-[0_25px_60px_rgba(0,0,0,0.65)] hover:shadow-[0_30px_70px_rgba(37,99,255,0.4)] bg-[#0A0D16] transition-all duration-500 hover:-translate-y-2 hover:scale-[1.03]"
+      className={`group flex-shrink-0 rounded-2xl overflow-hidden relative cursor-pointer border border-white/15 hover:border-[#2563FF] shadow-[0_25px_60px_rgba(0,0,0,0.65)] hover:shadow-[0_30px_70px_rgba(37,99,255,0.4)] bg-[#0A0D16] transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02] ${
+        isPortrait
+          ? 'w-[235px] h-[390px] sm:w-[265px] sm:h-[440px] md:w-[285px] md:h-[480px]'
+          : 'w-[330px] h-[390px] sm:w-[380px] sm:h-[440px] md:w-[420px] md:h-[480px]'
+      }`}
       style={{
         willChange: 'transform',
         transform: 'translateZ(0)',
       }}
     >
-      {/* Background Poster / Thumbnail Image */}
+      {/* Background Poster / Thumbnail Placeholder */}
       {!imgLoaded && (
         <div className="absolute inset-0 bg-gradient-to-tr from-[#0B0E17] via-[#141A2B] to-[#1E293B] animate-pulse pointer-events-none" />
       )}
 
+      {/* Ambient Blurred Background for landscape/letterbox harmony */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <img
+          src={imgSrc}
+          alt=""
+          className="w-full h-full object-cover blur-2xl scale-125 opacity-35 brightness-75"
+        />
+      </div>
+
+      {/* Main Crisp Focused Video Thumbnail with Custom Focal Position */}
       <img
         ref={imgRef}
         src={imgSrc}
         alt={project.title}
-        width="350"
-        height="350"
+        width={isPortrait ? '285' : '420'}
+        height="480"
         loading={index < 4 ? 'eager' : 'lazy'}
         fetchPriority={index < 4 ? 'high' : 'auto'}
         decoding="async"
@@ -75,15 +90,18 @@ const ReelCard: React.FC<{
             setImgSrc(`https://lh3.googleusercontent.com/d/${project.driveId}=w3840`);
           }
         }}
-        style={{ imageRendering: '-webkit-optimize-contrast' }}
+        style={{
+          imageRendering: '-webkit-optimize-contrast',
+          objectPosition: project.objectPosition || 'center center',
+        }}
         className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-700 ease-out contrast-[1.04] saturate-[1.07] brightness-[1.01]"
       />
 
       {/* Subtle Top Vignette for Badges */}
-      <div className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-black/70 via-black/30 to-transparent pointer-events-none" />
+      <div className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-black/75 via-black/30 to-transparent pointer-events-none" />
 
       {/* Subtle Bottom Gradient for Text Legibility */}
-      <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-[#0B0E17]/95 via-[#0B0E17]/60 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 inset-x-0 h-36 bg-gradient-to-t from-[#0B0E17]/95 via-[#0B0E17]/60 to-transparent pointer-events-none" />
 
       {/* Ambient Electric Blue Glow on Hover */}
       <div className="absolute inset-0 bg-gradient-to-tr from-[#2563FF]/30 via-transparent to-[#3B82F6]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
@@ -95,9 +113,12 @@ const ReelCard: React.FC<{
           <span>{project.category}</span>
         </span>
 
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/55 backdrop-blur-md border border-white/15 text-[9px] font-poppins text-white/80">
-          <Volume2 className="w-2.5 h-2.5 text-white/60" />
-          <span>0:30</span>
+        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-black/55 backdrop-blur-md border border-white/15 text-[9px] font-poppins text-white/90 font-semibold tracking-wide">
+          {isPortrait ? (
+            <span className="text-[#60A5FA]">9:16 REEL</span>
+          ) : (
+            <span className="text-white/70">CINEMATIC</span>
+          )}
         </span>
       </div>
 
@@ -244,8 +265,8 @@ export const IntroSection3: React.FC = () => {
         className="w-[125%] md:w-[110%] flex items-start justify-center relative z-40 overflow-visible -ml-[12%] md:-ml-[5%] py-6"
         style={{ transform: 'rotate(-4deg) translateZ(0)' }}
       >
-        <div className="flex w-max marquee-hover-pause select-none">
-          {/* Track 1: All Innowize Client Video Projects */}
+        <div className="flex w-max select-none">
+          {/* Track 1: Master Video Projects */}
           <div className="flex shrink-0 gap-6 md:gap-8 pr-6 md:pr-8 animate-innowize-marquee">
             {videoProjects.map((project, idx) => (
               <ReelCard
@@ -257,7 +278,7 @@ export const IntroSection3: React.FC = () => {
             ))}
           </div>
 
-          {/* Track 2: Duplicate for 100% Mathematically Seamless Infinite Loop */}
+          {/* Track 2: Seamless Infinite Duplicate */}
           <div
             className="flex shrink-0 gap-6 md:gap-8 pr-6 md:pr-8 animate-innowize-marquee"
             aria-hidden="true"
@@ -265,6 +286,36 @@ export const IntroSection3: React.FC = () => {
             {videoProjects.map((project, idx) => (
               <ReelCard
                 key={`track2-${project.id}`}
+                project={project}
+                index={idx}
+                onSelect={handleSelectProject}
+              />
+            ))}
+          </div>
+
+          {/* Track 3: Seamless Infinite Duplicate for Ultra-Wide Displays */}
+          <div
+            className="flex shrink-0 gap-6 md:gap-8 pr-6 md:pr-8 animate-innowize-marquee"
+            aria-hidden="true"
+          >
+            {videoProjects.map((project, idx) => (
+              <ReelCard
+                key={`track3-${project.id}`}
+                project={project}
+                index={idx}
+                onSelect={handleSelectProject}
+              />
+            ))}
+          </div>
+
+          {/* Track 4: Continuous Infinite Loop Insurance */}
+          <div
+            className="flex shrink-0 gap-6 md:gap-8 pr-6 md:pr-8 animate-innowize-marquee"
+            aria-hidden="true"
+          >
+            {videoProjects.map((project, idx) => (
+              <ReelCard
+                key={`track4-${project.id}`}
                 project={project}
                 index={idx}
                 onSelect={handleSelectProject}
@@ -298,7 +349,24 @@ export const IntroSection3: React.FC = () => {
           >
             {/* Top Floating Glass Navigation Bar */}
             <div className="relative z-30 w-full px-4 sm:px-8 py-3 sm:py-3.5 bg-[#0B0E17]/90 backdrop-blur-xl border-b border-white/10 flex items-center justify-between gap-4 shrink-0 shadow-2xl">
-              <div className="flex items-center gap-3 overflow-hidden pr-4">
+              <div className="flex items-center gap-3 sm:gap-4 overflow-hidden pr-4">
+                {/* Back Button */}
+                <button
+                  onClick={() => {
+                    if (document.fullscreenElement && document.exitFullscreen) {
+                      document.exitFullscreen().catch(() => {});
+                    }
+                    setActiveVideo(null);
+                  }}
+                  className="flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl bg-white/10 hover:bg-[#2563FF] border border-white/15 text-white text-xs sm:text-sm font-poppins font-semibold transition-all hover:scale-105 cursor-pointer shadow-lg group shrink-0"
+                  title="Back (Esc)"
+                >
+                  <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1 text-[#60A5FA] group-hover:text-white" />
+                  <span>Back</span>
+                </button>
+
+                <div className="h-6 w-px bg-white/10 hidden sm:block shrink-0" />
+
                 <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#2563FF]/20 border border-[#2563FF]/40 flex items-center justify-center text-[#60A5FA] shrink-0">
                   <Film className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>

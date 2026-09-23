@@ -83,38 +83,39 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, ini
             exit={{ scale: 0.9, opacity: 0, y: 30 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative z-[9999] w-full max-w-lg bg-[#363636]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl shadow-black/60 overflow-hidden"
+            className="relative z-[9999] w-full max-w-lg max-h-[92vh] overflow-y-auto bg-[#1A1F2C]/95 backdrop-blur-2xl border border-white/15 rounded-2xl sm:rounded-3xl shadow-2xl shadow-black/80"
           >
             {/* Ambient background glow */}
-            <div className="absolute inset-0 bg-gradient-to-br from-beta/15 via-transparent to-zigma/10 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#2563FF]/20 via-transparent to-[#3B82F6]/10 pointer-events-none" />
 
-            {/* Close Button */}
+            {/* Close Button with 44px touch area */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-200 group text-tango/70 hover:text-tango cursor-pointer"
+              className="absolute top-3.5 right-3.5 z-10 w-11 h-11 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-200 group text-white/70 hover:text-white cursor-pointer"
+              aria-label="Close dialog"
             >
               <X className="w-5 h-5" />
             </button>
 
             {/* Header */}
-            <div className="relative p-6 sm:p-8 pb-4">
-              <h2 className="text-2xl sm:text-3xl font-paytone text-tango mb-1">
+            <div className="relative p-5 sm:p-8 pb-3 sm:pb-4">
+              <h2 className="text-2xl sm:text-3xl font-paytone text-white mb-1">
                 Let's Talk
               </h2>
-              <p className="text-tango/60 text-xs sm:text-sm font-poppins">
+              <p className="text-white/60 text-xs sm:text-sm font-poppins">
                 Ready to bring your vision to life? Get in touch with us.
               </p>
             </div>
 
             {/* Form Body */}
-            <div className="relative px-6 sm:px-8 pb-8">
+            <div className="relative px-5 sm:px-8 pb-6 sm:pb-8">
               {submitStatus === 'success' && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mb-4 p-3 rounded-lg bg-beta/20 border border-beta/40 text-zigma text-xs flex items-center gap-2"
+                  className="mb-4 p-3 rounded-lg bg-[#2563FF]/20 border border-[#2563FF]/40 text-[#60A5FA] text-xs flex items-center gap-2"
                 >
-                  <CheckCircle2 className="w-4 h-4 text-beta flex-shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-[#2563FF] flex-shrink-0" />
                   <span>Message sent successfully! We'll get back to you soon.</span>
                 </motion.div>
               )}
@@ -130,14 +131,14 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, ini
                 </motion.div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4">
                 <div>
                   <input
                     type="text"
                     placeholder="Your Name"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-tango placeholder-tango/40 focus:outline-none focus:border-beta/60 transition-colors"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 sm:py-3 text-base sm:text-sm text-white placeholder-white/40 focus:outline-none focus:border-[#2563FF] transition-colors min-h-[44px]"
                   />
                   {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name}</p>}
                 </div>
@@ -148,7 +149,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, ini
                     placeholder="Your Email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-tango placeholder-tango/40 focus:outline-none focus:border-beta/60 transition-colors"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 sm:py-3 text-base sm:text-sm text-white placeholder-white/40 focus:outline-none focus:border-[#2563FF] transition-colors min-h-[44px]"
                   />
                   {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
                 </div>
@@ -159,7 +160,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, ini
                     placeholder="Subject / Project Type"
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-tango placeholder-tango/40 focus:outline-none focus:border-beta/60 transition-colors"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 sm:py-3 text-base sm:text-sm text-white placeholder-white/40 focus:outline-none focus:border-[#2563FF] transition-colors min-h-[44px]"
                   />
                   {errors.subject && <p className="text-red-400 text-xs mt-1">{errors.subject}</p>}
                 </div>
@@ -170,7 +171,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, ini
                     placeholder="Tell us about your project..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-tango placeholder-tango/40 focus:outline-none focus:border-beta/60 transition-colors resize-none"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-base sm:text-sm text-white placeholder-white/40 focus:outline-none focus:border-[#2563FF] transition-colors resize-none"
                   />
                   {errors.message && <p className="text-red-400 text-xs mt-1">{errors.message}</p>}
                 </div>
@@ -178,7 +179,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, ini
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-3.5 px-6 rounded-xl bg-[#2563FF] hover:bg-[#3B82F6] text-white font-medium text-sm transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-[#2563FF]/30 cursor-pointer disabled:opacity-50"
+                  className="w-full min-h-[48px] py-3.5 px-6 rounded-xl bg-[#2563FF] hover:bg-[#3B82F6] text-white font-medium text-sm transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-[#2563FF]/30 cursor-pointer disabled:opacity-50"
                 >
                   {isSubmitting ? (
                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -192,7 +193,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, ini
               </form>
 
               {/* Divider */}
-              <div className="flex items-center gap-4 my-5">
+              <div className="flex items-center gap-4 my-4 sm:my-5">
                 <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                 <span className="text-white/40 text-xs font-poppins uppercase tracking-wider">or</span>
                 <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
@@ -203,7 +204,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, ini
                 href="https://wa.me/6580808824?text=Hello!%20I%20would%20like%20to%20discuss%20a%20project."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-3 px-4 rounded-xl bg-[#25D366]/15 hover:bg-[#25D366]/25 border border-[#25D366]/30 text-[#25D366] text-xs font-medium flex items-center justify-center gap-2 transition-all duration-300"
+                className="w-full min-h-[44px] py-3 px-4 rounded-xl bg-[#25D366]/15 hover:bg-[#25D366]/25 border border-[#25D366]/30 text-[#25D366] text-xs font-medium flex items-center justify-center gap-2 transition-all duration-300"
               >
                 <span>Chat with us on WhatsApp</span>
               </a>

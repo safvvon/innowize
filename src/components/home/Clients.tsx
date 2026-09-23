@@ -89,17 +89,16 @@ export const Clients: React.FC = () => {
       <div className="w-full max-w-7xl h-px bg-gradient-to-r from-transparent via-[#2563FF]/30 to-transparent" />
 
       {/* Infinite Client Logos Marquee */}
-      <div className="relative z-30 w-full pt-16 pb-12 overflow-hidden">
+      <div className="relative z-30 w-full pt-10 sm:pt-16 pb-8 sm:pb-12 overflow-hidden">
         <motion.div
-          className="flex items-center gap-6 will-change-transform"
+          className="flex items-center gap-4 sm:gap-6 will-change-transform"
           animate={{ x: ['0%', '-50%'] }}
           transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
         >
           {[...clientLogos, ...clientLogos].map((c, i) => (
             <div
               key={i}
-              className="flex items-center justify-center hover:scale-105 transition-all duration-300 flex-shrink-0 bg-white hover:bg-slate-50 border border-white/20 hover:border-[#2563FF]/50 rounded-xl p-4 shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:shadow-[0_8px_30px_rgba(37,99,255,0.3)] cursor-pointer"
-              style={{ width: '160px', height: '100px' }}
+              className="flex items-center justify-center hover:scale-105 transition-all duration-300 flex-shrink-0 bg-white hover:bg-slate-50 border border-white/20 hover:border-[#2563FF]/50 rounded-xl p-3 sm:p-4 shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:shadow-[0_8px_30px_rgba(37,99,255,0.3)] cursor-pointer w-[125px] h-[75px] sm:w-[160px] sm:h-[100px]"
             >
               <img
                 src={c.src}
@@ -108,7 +107,7 @@ export const Clients: React.FC = () => {
                 height="70"
                 loading="lazy"
                 decoding="async"
-                className="max-w-[130px] max-h-[70px] w-auto h-auto object-contain transition-all duration-300"
+                className="max-w-[105px] max-h-[55px] sm:max-w-[130px] sm:max-h-[70px] w-auto h-auto object-contain transition-all duration-300"
               />
             </div>
           ))}
@@ -116,7 +115,7 @@ export const Clients: React.FC = () => {
       </div>
 
       {/* Stats Counter Row */}
-      <div className="relative z-30 max-w-6xl w-full px-6 py-16 my-4 border-t border-white/10">
+      <div className="relative z-30 max-w-6xl w-full px-4 sm:px-6 py-10 sm:py-16 my-2 sm:my-4 border-t border-white/10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
           {stats.map((st, i) => (
             <Counter

@@ -10,7 +10,7 @@ export const Home: React.FC = () => {
   return (
     <div className="home-page w-full overflow-hidden">
       <Hero />
-      <div className="relative w-full">
+      <div className="relative w-full overflow-hidden">
         <IntroTextLayer />
         <Intro />
         <IntroSection2 />

@@ -93,7 +93,7 @@ export const IntroTextLayer: React.FC = () => {
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 z-30 flex flex-col justify-start mt-[8vh] md:mt-0 lg:mt-[8vh] pt-0 pointer-events-none overflow-visible w-full px-4 -ml-8 md:ml-0"
+      className="absolute inset-0 z-30 flex flex-col justify-start mt-[8vh] md:mt-0 lg:mt-[8vh] pt-0 pointer-events-none overflow-hidden w-full max-w-full px-4 -ml-4 md:ml-0"
     >
       <div ref={r1} className="w-full flex justify-start pl-[59vw] will-change-transform">
         <span aria-hidden="true" className={textStyle}>we</span>

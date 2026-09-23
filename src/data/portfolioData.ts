@@ -13,6 +13,8 @@ export interface VideoProject {
   featured?: boolean;
   isFullLengthBanner?: boolean;
   isTallLength?: boolean;
+  orientation?: 'portrait' | 'landscape';
+  objectPosition?: string;
   gridSpan: string;
   minHeight: string;
   aspectClass: string;
@@ -33,6 +35,8 @@ export const videoProjects: VideoProject[] = [
     "tagline": "Cutting-edge artificial intelligence video generation, neural motion graphics, and algorithmic storytelling.",
     "featured": true,
     "isFullLengthBanner": true,
+    "orientation": "landscape",
+    "objectPosition": "center 60%",
     "gridSpan": "col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-4",
     "minHeight": "min-h-[460px] lg:min-h-[540px]",
     "aspectClass": "aspect-[21/9]",
@@ -50,24 +54,9 @@ export const videoProjects: VideoProject[] = [
     "thumbnail": "https://lh3.googleusercontent.com/d/1bcJgpKoTQrkOfIXG9K7GQ_sKtTGllZ_y=w1200",
     "tagline": "Mesmerizing melodic techno rhythms, monumentally scaled stage lighting, and transcendent stadium crowds.",
     "featured": true,
-    "isFullLengthBanner": true,
-    "gridSpan": "col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-4",
-    "minHeight": "min-h-[460px] lg:min-h-[540px]",
-    "aspectClass": "aspect-[21/9]",
-    "masonryHeight": "h-[520px]"
-  },
-  {
-    "id": "vid-3",
-    "title": "Alaxis Medical Aesthetics — Beauty & Radiance",
-    "category": "Brand Story",
-    "categorySlug": "brand-story",
-    "client": "Alaxis Aesthetic Clinic",
-    "year": "2024",
-    "driveId": "1TTQEAe3FdxFGb9KtTIIfFWZX43QlFNaL",
-    "folderId": "1-lbbuQEsutdT25V_-wtnBFvlGKVtDceT",
-    "thumbnail": "https://lh3.googleusercontent.com/d/1TTQEAe3FdxFGb9KtTIIfFWZX43QlFNaL=w1200",
-    "tagline": "High-fashion 9:16 vertical aesthetic cinematography tailored for luxury wellness and dermatological elegance.",
     "isTallLength": true,
+    "orientation": "portrait",
+    "objectPosition": "center 40%",
     "gridSpan": "col-span-1 xl:row-span-2",
     "minHeight": "min-h-[620px] lg:min-h-[700px]",
     "aspectClass": "aspect-[9/16]",
@@ -84,6 +73,8 @@ export const videoProjects: VideoProject[] = [
     "folderId": "1-lbbuQEsutdT25V_-wtnBFvlGKVtDceT",
     "thumbnail": "https://lh3.googleusercontent.com/d/1Uf00_w-QtVPy7Q8nCnLzNwW4MnU5YdNf=w1200",
     "tagline": "An intimate surgical brand narrative highlighting world-class orthopedic precision, patient recovery, and surgical expertise.",
+    "orientation": "landscape",
+    "objectPosition": "25% 40%",
     "gridSpan": "col-span-1 md:col-span-2",
     "minHeight": "min-h-[380px] lg:min-h-[420px]",
     "aspectClass": "aspect-[16/9]",
@@ -101,11 +92,33 @@ export const videoProjects: VideoProject[] = [
     "folderId": "1L8nzrObb9wak6BpAYiGDDMUrskbr7-8D",
     "thumbnail": "https://lh3.googleusercontent.com/d/10eDuJvKA90GTqpQQ9u98BT-oDocS8zD9=w1200",
     "tagline": "Explosive technology summit recap with high-octane stage cinematography, executive keynotes, and thought leadership.",
+    "orientation": "landscape",
+    "objectPosition": "25% 45%",
     "gridSpan": "col-span-1 md:col-span-2",
     "minHeight": "min-h-[380px]",
     "aspectClass": "aspect-[16/9]",
     "masonryHeight": "h-[400px]",
     "featured": true
+  },
+  {
+    "id": "vid-3",
+    "title": "Alaxis Medical Aesthetics — Beauty & Radiance",
+    "category": "Brand Story",
+    "categorySlug": "brand-story",
+    "client": "Alaxis Aesthetic Clinic",
+    "year": "2024",
+    "driveId": "1TTQEAe3FdxFGb9KtTIIfFWZX43QlFNaL",
+    "folderId": "1-lbbuQEsutdT25V_-wtnBFvlGKVtDceT",
+    "thumbnail": "https://lh3.googleusercontent.com/d/1TTQEAe3FdxFGb9KtTIIfFWZX43QlFNaL=w1200",
+    "tagline": "High-fashion 9:16 vertical aesthetic cinematography tailored for luxury wellness and dermatological elegance.",
+    "featured": true,
+    "isTallLength": true,
+    "orientation": "portrait",
+    "objectPosition": "center 20%",
+    "gridSpan": "col-span-1 xl:row-span-2",
+    "minHeight": "min-h-[620px] lg:min-h-[700px]",
+    "aspectClass": "aspect-[9/16]",
+    "masonryHeight": "h-[680px]"
   },
   {
     "id": "vid-6",
@@ -118,9 +131,11 @@ export const videoProjects: VideoProject[] = [
     "folderId": "1zdQcNTS0XbCaogeq1aeJpPNiWGE52iea",
     "thumbnail": "https://lh3.googleusercontent.com/d/1l2wnGZ4GhEKXTNQgYw9BmSdqQO88l7UV=w1200",
     "tagline": "Sleek industrial product film unveiling groundbreaking robotics engineering and AI navigation automation.",
+    "orientation": "landscape",
+    "objectPosition": "center center",
     "gridSpan": "col-span-1",
     "minHeight": "min-h-[360px]",
-    "aspectClass": "aspect-[4/3]",
+    "aspectClass": "aspect-[16/9]",
     "masonryHeight": "h-[360px]"
   },
   {
@@ -134,10 +149,12 @@ export const videoProjects: VideoProject[] = [
     "folderId": "1-lbbuQEsutdT25V_-wtnBFvlGKVtDceT",
     "thumbnail": "https://lh3.googleusercontent.com/d/163RNjt3l0yvUOX4V-S2xYWgRmkMAk-oL=w1200",
     "tagline": "The journey of real estate pioneers transforming premier urban spaces with architectural vision and legacy commitment.",
-    "gridSpan": "col-span-1",
-    "minHeight": "min-h-[440px] lg:min-h-[480px]",
-    "aspectClass": "aspect-[3/4]",
-    "masonryHeight": "h-[460px]"
+    "orientation": "landscape",
+    "objectPosition": "25% 40%",
+    "gridSpan": "col-span-1 md:col-span-2",
+    "minHeight": "min-h-[380px] lg:min-h-[420px]",
+    "aspectClass": "aspect-[16/9]",
+    "masonryHeight": "h-[390px]"
   },
   {
     "id": "vid-8",
@@ -150,6 +167,8 @@ export const videoProjects: VideoProject[] = [
     "folderId": "1EbBKhvHixExHkki6Vhn-os1Uc4BNfyKS",
     "thumbnail": "https://lh3.googleusercontent.com/d/1xlrAh68tzv6MYBVwV7rto_UgWj5sUU2G=w1200",
     "tagline": "In-depth technical panel discussion exploring validator architecture, restaking mechanics, and enterprise risk management.",
+    "orientation": "landscape",
+    "objectPosition": "center 35%",
     "gridSpan": "col-span-1 md:col-span-2",
     "minHeight": "min-h-[380px]",
     "aspectClass": "aspect-[16/9]",
@@ -166,42 +185,12 @@ export const videoProjects: VideoProject[] = [
     "folderId": "1EbBKhvHixExHkki6Vhn-os1Uc4BNfyKS",
     "thumbnail": "https://lh3.googleusercontent.com/d/1T_fIevdFfJgtM875JDoXFkssQ3Z3cNK7=w1200",
     "tagline": "World-class blockchain executives debating protocol scalability, liquidity staking derivatives, and regulatory compliance.",
+    "orientation": "landscape",
+    "objectPosition": "center 35%",
     "gridSpan": "col-span-1 md:col-span-2",
     "minHeight": "min-h-[380px]",
     "aspectClass": "aspect-[16/9]",
     "masonryHeight": "h-[390px]"
-  },
-  {
-    "id": "vid-10",
-    "title": "Stanford Club of Singapore — Alumni Annual Gala",
-    "category": "Events",
-    "categorySlug": "events",
-    "client": "Stanford University Alumni Association",
-    "year": "2023",
-    "driveId": "1K7I_avqYCJM5nDRAgtFCugFM1QCu4DtT",
-    "folderId": "1L8nzrObb9wak6BpAYiGDDMUrskbr7-8D",
-    "thumbnail": "https://lh3.googleusercontent.com/d/1K7I_avqYCJM5nDRAgtFCugFM1QCu4DtT=w1200",
-    "tagline": "Sophisticated evening celebrating visionary alumni leaders, collegiate traditions, and lifelong Stanford bonds.",
-    "gridSpan": "col-span-1",
-    "minHeight": "min-h-[360px]",
-    "aspectClass": "aspect-[4/3]",
-    "masonryHeight": "h-[360px]"
-  },
-  {
-    "id": "vid-11",
-    "title": "Gotbit Web3 Global Liquidity Summit",
-    "category": "Events",
-    "categorySlug": "events",
-    "client": "Gotbit Hedge Fund",
-    "year": "2024",
-    "driveId": "1vDtDuNigLXmwyKEjwtZeXAA-cHXDxKSJ",
-    "folderId": "1L8nzrObb9wak6BpAYiGDDMUrskbr7-8D",
-    "thumbnail": "https://lh3.googleusercontent.com/d/1vDtDuNigLXmwyKEjwtZeXAA-cHXDxKSJ=w1200",
-    "tagline": "Global decentralized finance conference capturing crypto institutional leaders and networking dynamics.",
-    "gridSpan": "col-span-1",
-    "minHeight": "min-h-[360px]",
-    "aspectClass": "aspect-square",
-    "masonryHeight": "h-[360px]"
   },
   {
     "id": "vid-12",
@@ -214,10 +203,49 @@ export const videoProjects: VideoProject[] = [
     "folderId": "1-lbbuQEsutdT25V_-wtnBFvlGKVtDceT",
     "thumbnail": "https://lh3.googleusercontent.com/d/1h5VmTProRFefgdBU1YmxcnxogF2WFj26=w1200",
     "tagline": "High-energy commerce narrative spotlighting creative entrepreneurship and preloved culture across Southeast Asia.",
-    "gridSpan": "col-span-1",
-    "minHeight": "min-h-[360px]",
-    "aspectClass": "aspect-square",
-    "masonryHeight": "h-[360px]"
+    "isTallLength": true,
+    "orientation": "portrait",
+    "objectPosition": "center 18%",
+    "gridSpan": "col-span-1 xl:row-span-2",
+    "minHeight": "min-h-[620px] lg:min-h-[700px]",
+    "aspectClass": "aspect-[9/16]",
+    "masonryHeight": "h-[680px]"
+  },
+  {
+    "id": "vid-10",
+    "title": "Stanford Club of Singapore — Alumni Annual Gala",
+    "category": "Events",
+    "categorySlug": "events",
+    "client": "Stanford University Alumni Association",
+    "year": "2023",
+    "driveId": "1K7I_avqYCJM5nDRAgtFCugFM1QCu4DtT",
+    "folderId": "1L8nzrObb9wak6BpAYiGDDMUrskbr7-8D",
+    "thumbnail": "https://lh3.googleusercontent.com/d/1K7I_avqYCJM5nDRAgtFCugFM1QCu4DtT=w1200",
+    "tagline": "Sophisticated evening celebrating visionary alumni leaders, collegiate traditions, and lifelong Stanford bonds.",
+    "orientation": "landscape",
+    "objectPosition": "center 35%",
+    "gridSpan": "col-span-1 md:col-span-2",
+    "minHeight": "min-h-[380px]",
+    "aspectClass": "aspect-[16/9]",
+    "masonryHeight": "h-[390px]"
+  },
+  {
+    "id": "vid-11",
+    "title": "Gotbit Web3 Global Liquidity Summit",
+    "category": "Events",
+    "categorySlug": "events",
+    "client": "Gotbit Hedge Fund",
+    "year": "2024",
+    "driveId": "1vDtDuNigLXmwyKEjwtZeXAA-cHXDxKSJ",
+    "folderId": "1L8nzrObb9wak6BpAYiGDDMUrskbr7-8D",
+    "thumbnail": "https://lh3.googleusercontent.com/d/1vDtDuNigLXmwyKEjwtZeXAA-cHXDxKSJ=w1200",
+    "tagline": "Global decentralized finance conference capturing crypto institutional leaders and networking dynamics.",
+    "orientation": "landscape",
+    "objectPosition": "center 65%",
+    "gridSpan": "col-span-1 md:col-span-2",
+    "minHeight": "min-h-[380px]",
+    "aspectClass": "aspect-[16/9]",
+    "masonryHeight": "h-[390px]"
   },
   {
     "id": "vid-13",
@@ -230,6 +258,8 @@ export const videoProjects: VideoProject[] = [
     "folderId": "1-lbbuQEsutdT25V_-wtnBFvlGKVtDceT",
     "thumbnail": "https://lh3.googleusercontent.com/d/1dy8tqXquKgsLdEOEd_c-_fuQj1VwqQi1=w1200",
     "tagline": "Comprehensive medical excellence, state-of-the-art facility showcase, and human-centered compassionate care.",
+    "orientation": "landscape",
+    "objectPosition": "center 35%",
     "gridSpan": "col-span-1 md:col-span-2",
     "minHeight": "min-h-[380px]",
     "aspectClass": "aspect-[16/9]",
@@ -246,10 +276,13 @@ export const videoProjects: VideoProject[] = [
     "folderId": "1zdQcNTS0XbCaogeq1aeJpPNiWGE52iea",
     "thumbnail": "https://lh3.googleusercontent.com/d/1l53fBHGCJ1pOZg-4xPijLhaOZ4MT3cPg=w1200",
     "tagline": "Crisp macro cinematography highlighting patented vortex dermal infusion and rejuvenating clinical aesthetic results.",
-    "gridSpan": "col-span-1",
-    "minHeight": "min-h-[360px]",
-    "aspectClass": "aspect-[4/3]",
-    "masonryHeight": "h-[360px]"
+    "isTallLength": true,
+    "orientation": "portrait",
+    "objectPosition": "center 25%",
+    "gridSpan": "col-span-1 xl:row-span-2",
+    "minHeight": "min-h-[620px] lg:min-h-[700px]",
+    "aspectClass": "aspect-[9/16]",
+    "masonryHeight": "h-[680px]"
   },
   {
     "id": "vid-15",
@@ -262,10 +295,12 @@ export const videoProjects: VideoProject[] = [
     "folderId": "1WXWALFZR9L-D_p6WeYLmY0PGbPCxKMGS",
     "thumbnail": "https://lh3.googleusercontent.com/d/1-cR8RVQxWaxMf-_JidtrgY3i0acjMfXI=w1200",
     "tagline": "Authentic, cinematic interviews with high-net-worth investors sharing their seamless property portfolio acquisitions.",
-    "gridSpan": "col-span-1",
-    "minHeight": "min-h-[360px]",
-    "aspectClass": "aspect-square",
-    "masonryHeight": "h-[360px]"
+    "orientation": "landscape",
+    "objectPosition": "28% 40%",
+    "gridSpan": "col-span-1 md:col-span-2",
+    "minHeight": "min-h-[380px]",
+    "aspectClass": "aspect-[16/9]",
+    "masonryHeight": "h-[390px]"
   },
   {
     "id": "vid-16",
@@ -278,10 +313,13 @@ export const videoProjects: VideoProject[] = [
     "folderId": "1WXWALFZR9L-D_p6WeYLmY0PGbPCxKMGS",
     "thumbnail": "https://lh3.googleusercontent.com/d/1LUnj2YoGdC91VyNz-4j1_ASwcqgp73ln=w1200",
     "tagline": "Candid trichology expert consultation and client transformation journey filmed in intimate studio lighting.",
-    "gridSpan": "col-span-1 md:col-span-2",
-    "minHeight": "min-h-[380px]",
-    "aspectClass": "aspect-[16/9]",
-    "masonryHeight": "h-[390px]"
+    "isTallLength": true,
+    "orientation": "portrait",
+    "objectPosition": "center 20%",
+    "gridSpan": "col-span-1 xl:row-span-2",
+    "minHeight": "min-h-[620px] lg:min-h-[700px]",
+    "aspectClass": "aspect-[9/16]",
+    "masonryHeight": "h-[680px]"
   }
 ];
 

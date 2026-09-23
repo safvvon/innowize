@@ -15,6 +15,7 @@ import {
   ArrowRight,
   Maximize2,
   LayoutGrid,
+  ArrowLeft,
 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
@@ -44,7 +45,9 @@ const ImageWithFallback: React.FC<{
   alt: string;
   className?: string;
   fallbackSrc?: string;
-}> = ({ src, alt, className = '', fallbackSrc }) => {
+  objectPosition?: string;
+  style?: React.CSSProperties;
+}> = ({ src, alt, className = '', fallbackSrc, objectPosition, style }) => {
   const [imgSrc, setImgSrc] = useState(src);
   const [loaded, setLoaded] = useState(false);
   const [retryStep, setRetryStep] = useState(0);
@@ -94,7 +97,11 @@ const ImageWithFallback: React.FC<{
             }
           }
         }}
-        style={{ imageRendering: '-webkit-optimize-contrast' }}
+        style={{
+          imageRendering: '-webkit-optimize-contrast',
+          objectPosition: objectPosition || style?.objectPosition || 'center center',
+          ...style,
+        }}
         className={`${className} transition-opacity duration-300`}
       />
     </div>
@@ -107,82 +114,93 @@ interface CardBentoLayout {
   badgeType: 'banner' | 'wide' | 'portrait' | 'square' | 'duo';
 }
 
-// Deterministic gapless 12-column layout for video projects with diverse standard shapes
-const getVideoBentoLayout = (index: number, total: number): CardBentoLayout => {
+// Deterministic gapless 12-column layout for video projects tailored to orientation
+const getVideoBentoLayout = (project: VideoProject, index: number, total: number): CardBentoLayout => {
+  const isP = project.orientation === 'portrait';
+
   // If only 1 item in view
   if (total === 1) {
     return {
       spanClass: 'col-span-1 md:col-span-12',
-      heightClass: 'h-[360px] sm:h-[420px] lg:h-[480px]',
-      badgeType: 'banner',
+      heightClass: isP ? 'h-[440px] min-[380px]:h-[480px] sm:h-[520px] lg:h-[560px]' : 'h-[250px] min-[380px]:h-[280px] sm:h-[380px] lg:h-[480px]',
+      badgeType: isP ? 'portrait' : 'banner',
     };
   }
 
   // If 2 items (e.g. 2-item categories like Panel Discussions or Testimonials)
   if (total === 2) {
     return {
-      spanClass: 'col-span-1 md:col-span-6',
-      heightClass: 'h-[340px] sm:h-[380px] lg:h-[420px]',
-      badgeType: 'duo',
+      spanClass: isP ? 'col-span-1 md:col-span-5' : 'col-span-1 md:col-span-7',
+      heightClass: isP ? 'h-[440px] min-[380px]:h-[480px] sm:h-[480px] lg:h-[500px]' : 'h-[250px] min-[380px]:h-[280px] sm:h-[380px] lg:h-[500px]',
+      badgeType: isP ? 'portrait' : 'wide',
     };
   }
 
   // If 3 items (e.g. 3-item categories)
   if (total === 3) {
+    if (isP) {
+      return {
+        spanClass: 'col-span-1 md:col-span-4',
+        heightClass: 'h-[440px] min-[380px]:h-[480px] sm:h-[420px] lg:h-[460px]',
+        badgeType: 'portrait',
+      };
+    }
     return {
       spanClass: 'col-span-1 md:col-span-4',
-      heightClass: 'h-[320px] sm:h-[360px] lg:h-[390px]',
+      heightClass: 'h-[240px] min-[380px]:h-[260px] sm:h-[320px] lg:h-[390px]',
       badgeType: 'square',
     };
   }
 
-  // If 4 items (e.g. Events: 7+5 and 5+7)
+  // If 4 items (e.g. Events: 1 portrait (vid-2) + 3 landscape (vid-5, vid-10, vid-11))
   if (total === 4) {
-    if (index === 0) return { spanClass: 'col-span-1 md:col-span-7', heightClass: 'h-[350px] sm:h-[390px] lg:h-[430px]', badgeType: 'wide' };
-    if (index === 1) return { spanClass: 'col-span-1 md:col-span-5', heightClass: 'h-[350px] sm:h-[390px] lg:h-[430px]', badgeType: 'portrait' };
-    if (index === 2) return { spanClass: 'col-span-1 md:col-span-5', heightClass: 'h-[350px] sm:h-[390px] lg:h-[430px]', badgeType: 'portrait' };
-    return { spanClass: 'col-span-1 md:col-span-7', heightClass: 'h-[350px] sm:h-[390px] lg:h-[430px]', badgeType: 'wide' };
+    if (index === 0) return { spanClass: 'col-span-1 md:col-span-5', heightClass: 'h-[440px] min-[380px]:h-[480px] sm:h-[480px] lg:h-[520px]', badgeType: 'portrait' };
+    if (index === 1) return { spanClass: 'col-span-1 md:col-span-7', heightClass: 'h-[250px] min-[380px]:h-[280px] sm:h-[380px] lg:h-[520px]', badgeType: 'wide' };
+    return { spanClass: 'col-span-1 md:col-span-6', heightClass: 'h-[240px] min-[380px]:h-[270px] sm:h-[350px] lg:h-[430px]', badgeType: 'duo' };
   }
 
-  // If 5 items (e.g. Brand Story: 7+5 and 4+4+4)
+  // If 5 items (e.g. Brand Story: 2 portrait (vid-3, vid-12) + 3 landscape (vid-4, vid-7, vid-13))
   if (total === 5) {
-    if (index === 0) return { spanClass: 'col-span-1 md:col-span-7', heightClass: 'h-[350px] sm:h-[390px] lg:h-[430px]', badgeType: 'wide' };
-    if (index === 1) return { spanClass: 'col-span-1 md:col-span-5', heightClass: 'h-[350px] sm:h-[390px] lg:h-[430px]', badgeType: 'portrait' };
-    return { spanClass: 'col-span-1 md:col-span-4', heightClass: 'h-[320px] sm:h-[350px] lg:h-[380px]', badgeType: 'square' };
+    if (index === 0) return { spanClass: 'col-span-1 md:col-span-7', heightClass: 'h-[250px] min-[380px]:h-[280px] sm:h-[380px] lg:h-[520px]', badgeType: 'wide' };
+    if (index === 1) return { spanClass: 'col-span-1 md:col-span-5', heightClass: 'h-[440px] min-[380px]:h-[480px] sm:h-[480px] lg:h-[520px]', badgeType: 'portrait' };
+    if (index === 2) return { spanClass: 'col-span-1 md:col-span-7', heightClass: 'h-[250px] min-[380px]:h-[280px] sm:h-[380px] lg:h-[520px]', badgeType: 'wide' };
+    if (index === 3) return { spanClass: 'col-span-1 md:col-span-5', heightClass: 'h-[440px] min-[380px]:h-[480px] sm:h-[480px] lg:h-[520px]', badgeType: 'portrait' };
+    return { spanClass: 'col-span-1 md:col-span-12', heightClass: 'h-[260px] min-[380px]:h-[300px] sm:h-[380px] lg:h-[480px]', badgeType: 'banner' };
   }
 
   // Full 16-item grid: Standard Curated Editorial Bento Rhythm (Every row = exactly 12 columns)
   const patternIndex = index % 16;
   switch (patternIndex) {
-    case 0:
-      return { spanClass: 'col-span-1 md:col-span-12', heightClass: 'h-[360px] sm:h-[420px] lg:h-[490px]', badgeType: 'banner' };
-    case 1:
-      return { spanClass: 'col-span-1 md:col-span-7', heightClass: 'h-[350px] sm:h-[390px] lg:h-[430px]', badgeType: 'wide' };
-    case 2:
-      return { spanClass: 'col-span-1 md:col-span-5', heightClass: 'h-[350px] sm:h-[390px] lg:h-[430px]', badgeType: 'portrait' };
-    case 3:
-      return { spanClass: 'col-span-1 md:col-span-5', heightClass: 'h-[350px] sm:h-[390px] lg:h-[430px]', badgeType: 'portrait' };
-    case 4:
-      return { spanClass: 'col-span-1 md:col-span-7', heightClass: 'h-[350px] sm:h-[390px] lg:h-[430px]', badgeType: 'wide' };
-    case 5:
-    case 6:
-    case 7:
-      return { spanClass: 'col-span-1 md:col-span-4', heightClass: 'h-[310px] sm:h-[340px] lg:h-[370px]', badgeType: 'square' };
-    case 8:
-      return { spanClass: 'col-span-1 md:col-span-8', heightClass: 'h-[350px] sm:h-[390px] lg:h-[430px]', badgeType: 'wide' };
-    case 9:
-      return { spanClass: 'col-span-1 md:col-span-4', heightClass: 'h-[350px] sm:h-[390px] lg:h-[430px]', badgeType: 'portrait' };
-    case 10:
-      return { spanClass: 'col-span-1 md:col-span-4', heightClass: 'h-[350px] sm:h-[390px] lg:h-[430px]', badgeType: 'portrait' };
-    case 11:
-      return { spanClass: 'col-span-1 md:col-span-8', heightClass: 'h-[350px] sm:h-[390px] lg:h-[430px]', badgeType: 'wide' };
-    case 12:
-    case 13:
-    case 14:
-      return { spanClass: 'col-span-1 md:col-span-4', heightClass: 'h-[310px] sm:h-[340px] lg:h-[370px]', badgeType: 'square' };
-    case 15:
+    case 0: // vid-1: AI Visuals (16:9 banner)
+      return { spanClass: 'col-span-1 md:col-span-12', heightClass: 'h-[260px] min-[380px]:h-[300px] sm:h-[380px] lg:h-[500px]', badgeType: 'banner' };
+    case 1: // vid-2: AfterLife (9:16 portrait)
+      return { spanClass: 'col-span-1 md:col-span-5', heightClass: 'h-[440px] min-[380px]:h-[480px] sm:h-[500px] lg:h-[540px]', badgeType: 'portrait' };
+    case 2: // vid-4: Achieve Spine (16:9 wide)
+      return { spanClass: 'col-span-1 md:col-span-7', heightClass: 'h-[250px] min-[380px]:h-[280px] sm:h-[380px] lg:h-[540px]', badgeType: 'wide' };
+    case 3: // vid-5: Accelerate Google (16:9 wide)
+      return { spanClass: 'col-span-1 md:col-span-7', heightClass: 'h-[250px] min-[380px]:h-[280px] sm:h-[380px] lg:h-[540px]', badgeType: 'wide' };
+    case 4: // vid-3: Alaxis Medical (9:16 portrait)
+      return { spanClass: 'col-span-1 md:col-span-5', heightClass: 'h-[440px] min-[380px]:h-[480px] sm:h-[500px] lg:h-[540px]', badgeType: 'portrait' };
+    case 5: // vid-6: HiveBotics (16:9 square)
+    case 6: // vid-7: CG Property Founders (16:9 square)
+    case 7: // vid-8: Staking Circle S1 (16:9 square)
+      return { spanClass: 'col-span-1 md:col-span-4', heightClass: 'h-[240px] min-[380px]:h-[260px] sm:h-[320px] lg:h-[380px]', badgeType: 'square' };
+    case 8: // vid-9: Staking Circle S2 (16:9 wide)
+      return { spanClass: 'col-span-1 md:col-span-7', heightClass: 'h-[250px] min-[380px]:h-[280px] sm:h-[380px] lg:h-[540px]', badgeType: 'wide' };
+    case 9: // vid-12: Diano x Carousell (9:16 portrait)
+      return { spanClass: 'col-span-1 md:col-span-5', heightClass: 'h-[440px] min-[380px]:h-[480px] sm:h-[500px] lg:h-[540px]', badgeType: 'portrait' };
+    case 10: // vid-10: Stanford Gala (16:9 duo)
+    case 11: // vid-11: Gotbit Summit (16:9 duo)
+      return { spanClass: 'col-span-1 md:col-span-6', heightClass: 'h-[240px] min-[380px]:h-[270px] sm:h-[350px] lg:h-[430px]', badgeType: 'duo' };
+    case 12: // vid-13: SOS Clinic (16:9 wide)
+      return { spanClass: 'col-span-1 md:col-span-7', heightClass: 'h-[250px] min-[380px]:h-[280px] sm:h-[380px] lg:h-[540px]', badgeType: 'wide' };
+    case 13: // vid-14: TKMA Hydrafacial (9:16 portrait)
+      return { spanClass: 'col-span-1 md:col-span-5', heightClass: 'h-[440px] min-[380px]:h-[480px] sm:h-[500px] lg:h-[540px]', badgeType: 'portrait' };
+    case 14: // vid-15: CG Property Client (16:9 wide)
+      return { spanClass: 'col-span-1 md:col-span-7', heightClass: 'h-[250px] min-[380px]:h-[280px] sm:h-[380px] lg:h-[540px]', badgeType: 'wide' };
+    case 15: // vid-16: Svenson Kristina (9:16 portrait)
     default:
-      return { spanClass: 'col-span-1 md:col-span-12', heightClass: 'h-[360px] sm:h-[420px] lg:h-[470px]', badgeType: 'banner' };
+      return { spanClass: 'col-span-1 md:col-span-5', heightClass: 'h-[440px] min-[380px]:h-[480px] sm:h-[500px] lg:h-[540px]', badgeType: 'portrait' };
   }
 };
 
@@ -190,20 +208,20 @@ const getVideoBentoLayout = (index: number, total: number): CardBentoLayout => {
 const getPhotoBentoLayout = (index: number): CardBentoLayout => {
   switch (index) {
     case 0:
-      return { spanClass: 'col-span-1 md:col-span-7', heightClass: 'h-[350px] sm:h-[390px] lg:h-[430px]', badgeType: 'wide' };
+      return { spanClass: 'col-span-1 md:col-span-7', heightClass: 'h-[250px] min-[380px]:h-[280px] sm:h-[350px] lg:h-[430px]', badgeType: 'wide' };
     case 1:
-      return { spanClass: 'col-span-1 md:col-span-5', heightClass: 'h-[350px] sm:h-[390px] lg:h-[430px]', badgeType: 'portrait' };
+      return { spanClass: 'col-span-1 md:col-span-5', heightClass: 'h-[250px] min-[380px]:h-[280px] sm:h-[350px] lg:h-[430px]', badgeType: 'portrait' };
     case 2:
-      return { spanClass: 'col-span-1 md:col-span-5', heightClass: 'h-[350px] sm:h-[390px] lg:h-[430px]', badgeType: 'portrait' };
+      return { spanClass: 'col-span-1 md:col-span-5', heightClass: 'h-[250px] min-[380px]:h-[280px] sm:h-[350px] lg:h-[430px]', badgeType: 'portrait' };
     case 3:
-      return { spanClass: 'col-span-1 md:col-span-7', heightClass: 'h-[350px] sm:h-[390px] lg:h-[430px]', badgeType: 'wide' };
+      return { spanClass: 'col-span-1 md:col-span-7', heightClass: 'h-[250px] min-[380px]:h-[280px] sm:h-[350px] lg:h-[430px]', badgeType: 'wide' };
     case 4:
     case 5:
     case 6:
-      return { spanClass: 'col-span-1 md:col-span-4', heightClass: 'h-[310px] sm:h-[340px] lg:h-[370px]', badgeType: 'square' };
+      return { spanClass: 'col-span-1 md:col-span-4', heightClass: 'h-[240px] min-[380px]:h-[260px] sm:h-[310px] lg:h-[370px]', badgeType: 'square' };
     case 7:
     default:
-      return { spanClass: 'col-span-1 md:col-span-12', heightClass: 'h-[360px] sm:h-[420px] lg:h-[470px]', badgeType: 'banner' };
+      return { spanClass: 'col-span-1 md:col-span-12', heightClass: 'h-[260px] min-[380px]:h-[300px] sm:h-[360px] lg:h-[470px]', badgeType: 'banner' };
   }
 };
 
@@ -356,7 +374,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
   return (
     <div className="min-h-screen bg-[#0B0E17] text-white overflow-x-hidden pt-28 pb-20">
       {/* Top Header Section with Clean Standard Architecture */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 pt-6 pb-6">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 pt-4 sm:pt-6 pb-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-barlow text-white tracking-tight uppercase leading-none">
             Selected Works
@@ -370,8 +388,8 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
         </div>
 
         {/* Standard Segmented Filter Bar with Smooth Sliding Pill */}
-        <div className="mt-6 overflow-x-auto pb-2 scrollbar-none">
-          <div className="inline-flex items-center p-1.5 rounded-2xl bg-[#0D121F] border border-white/10 backdrop-blur-xl shadow-xl gap-1">
+        <div className="mt-6 w-full overflow-x-auto pb-2 scrollbar-none -mx-4 sm:-mx-6 md:mx-0 px-4 sm:px-6 md:px-0">
+          <div className="inline-flex w-max min-w-max items-center p-1.5 rounded-2xl bg-[#0D121F] border border-white/10 backdrop-blur-xl shadow-xl gap-1 mr-4 md:mr-0">
             {categories.map((cat) => {
               const isActive = activeTab === cat.id;
               const count = categoryCounts[cat.id as keyof typeof categoryCounts] || 0;
@@ -380,7 +398,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                 <button
                   key={cat.id}
                   onClick={() => setActiveTab(cat.id)}
-                  className={`relative px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl text-xs font-poppins font-medium transition-all duration-300 flex items-center gap-2 shrink-0 cursor-pointer ${
+                  className={`relative px-3 sm:px-3.5 md:px-4 py-2 sm:py-2.5 rounded-xl text-xs font-poppins font-medium transition-all duration-300 flex items-center gap-1.5 sm:gap-2 shrink-0 cursor-pointer min-h-[44px] whitespace-nowrap ${
                     isActive ? 'text-white font-semibold' : 'text-white/60 hover:text-white hover:bg-white/5'
                   }`}
                 >
@@ -412,7 +430,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
       </section>
 
       {/* Main Works Grid Area - Dynamic Editorial Bento Grid with Different Shapes */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 py-4">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-4">
         {/* 1. VIDEOGRAPHY SECTION */}
         {showVideos && (
           <div>
@@ -420,7 +438,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
             <div className="grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-6 lg:gap-7 w-full">
               <AnimatePresence mode="popLayout">
                 {filteredVideos.map((project, idx) => {
-                  const layout = getVideoBentoLayout(idx, filteredVideos.length);
+                  const layout = getVideoBentoLayout(project, idx, filteredVideos.length);
                   const isFull = layout.badgeType === 'banner';
 
                   return (
@@ -451,6 +469,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                           src={project.thumbnail}
                           alt={project.title}
                           fallbackSrc={project.driveId ? `https://drive.google.com/thumbnail?id=${project.driveId}&sz=w1200` : undefined}
+                          objectPosition={project.objectPosition}
                           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 contrast-[1.04] saturate-[1.07] brightness-[1.02]"
                         />
                       </div>
@@ -577,7 +596,24 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
           >
             {/* Top Floating Glass Navigation Bar */}
             <div className="relative z-30 w-full px-4 sm:px-8 py-3 sm:py-3.5 bg-[#0B0E17]/95 backdrop-blur-xl border-b border-white/10 flex items-center justify-between gap-4 shrink-0 shadow-2xl">
-              <div className="flex items-center gap-3 overflow-hidden pr-4">
+              <div className="flex items-center gap-3 sm:gap-4 overflow-hidden pr-4">
+                {/* Back Button */}
+                <button
+                  onClick={() => {
+                    if (document.fullscreenElement && document.exitFullscreen) {
+                      document.exitFullscreen().catch(() => {});
+                    }
+                    setActiveVideo(null);
+                  }}
+                  className="flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl bg-white/10 hover:bg-[#2563FF] border border-white/15 text-white text-xs sm:text-sm font-poppins font-semibold transition-all hover:scale-105 cursor-pointer shadow-lg group shrink-0"
+                  title="Back (Esc)"
+                >
+                  <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1 text-[#60A5FA] group-hover:text-white" />
+                  <span>Back</span>
+                </button>
+
+                <div className="h-6 w-px bg-white/10 hidden sm:block shrink-0" />
+
                 <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#2563FF]/20 border border-[#2563FF]/40 flex items-center justify-center text-[#60A5FA] shrink-0">
                   <Film className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
@@ -604,7 +640,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                   href={`https://drive.google.com/file/d/${activeVideo.driveId}/view?usp=sharing`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-[#2563FF] via-[#3B82F6] to-[#60A5FA] hover:brightness-110 text-white text-xs font-poppins font-semibold transition-all shadow-[0_0_20px_rgba(37,99,255,0.5)] border border-white/25"
+                  className="hidden min-[540px]:inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-[#2563FF] via-[#3B82F6] to-[#60A5FA] hover:brightness-110 text-white text-xs font-poppins font-semibold transition-all shadow-[0_0_20px_rgba(37,99,255,0.5)] border border-white/25"
                   title="Open in Google Drive in original uncompressed 4K master resolution"
                 >
                   <ExternalLink className="w-3.5 h-3.5" />
@@ -619,7 +655,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                       document.exitFullscreen().catch(() => {});
                     }
                   }}
-                  className="p-2 sm:p-2.5 rounded-full bg-white/10 hover:bg-[#2563FF] text-white transition-colors cursor-pointer border border-white/10"
+                  className="p-2 sm:p-2.5 rounded-full bg-white/10 hover:bg-[#2563FF] text-white transition-colors cursor-pointer border border-white/10 hidden sm:flex"
                   title="Toggle Browser Fullscreen"
                 >
                   <Maximize2 className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -785,7 +821,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
 
                   <button
                     onClick={() => setActiveGallery(null)}
-                    className="p-2 sm:p-2.5 rounded-full bg-white/10 hover:bg-[#2563FF] text-white transition-colors cursor-pointer border border-white/10"
+                    className="p-2 sm:p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-white/10 hover:bg-[#2563FF] text-white transition-colors cursor-pointer border border-white/10"
                     title="Close (Esc)"
                   >
                     <X className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -904,24 +940,24 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
       </AnimatePresence>
 
       {/* Bottom CTA Banner */}
-      <section className="max-w-5xl mx-auto px-6 mt-20 mb-12">
-        <div className="rounded-3xl bg-gradient-to-b from-[#0F1628] to-[#0B0E17] border border-[#141A2B] p-10 md:p-16 text-center shadow-2xl w-full">
-          <div className="inline-flex items-center gap-2 text-[#60A5FA] text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 mt-14 sm:mt-20 mb-8 sm:mb-12">
+        <div className="rounded-3xl bg-gradient-to-b from-[#0F1628] to-[#0B0E17] border border-[#141A2B] p-6 sm:p-10 md:p-16 text-center shadow-2xl w-full">
+          <div className="inline-flex items-center gap-2 text-[#60A5FA] text-xs font-semibold tracking-[0.25em] uppercase mb-3 sm:mb-4">
             <Sparkles className="w-3.5 h-3.5 text-[#2563FF]" />
             <span>START A COLLABORATION</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black italic text-white uppercase font-barlow leading-tight mb-4">
+          <h2 className="text-2xl sm:text-5xl md:text-6xl font-black italic text-white uppercase font-barlow leading-tight mb-4">
             READY TO CREATE <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2563FF] to-[#60A5FA]">
               YOUR STORY?
             </span>
           </h2>
-          <p className="text-white/70 text-sm md:text-base font-poppins max-w-2xl mx-auto leading-relaxed mb-8">
+          <p className="text-white/70 text-xs sm:text-sm md:text-base font-poppins max-w-2xl mx-auto leading-relaxed mb-6 sm:mb-8">
             Let's collaborate to bring your vision to life with compelling cinematic video productions, high-impact event photography, and world-class digital storytelling.
           </p>
           <button
             onClick={onOpenContact ? onOpenContact : () => navigate('/contact')}
-            className="px-10 py-4 rounded-full bg-[#2563FF] hover:bg-[#3B82F6] text-white font-semibold text-sm uppercase tracking-wider shadow-[0_0_30px_rgba(37,99,255,0.5)] transition-all duration-300 hover:scale-105 cursor-pointer border border-[#60A5FA]/30"
+            className="w-full sm:w-auto px-8 sm:px-10 py-3.5 sm:py-4 rounded-full bg-[#2563FF] hover:bg-[#3B82F6] text-white font-semibold text-xs sm:text-sm uppercase tracking-wider shadow-[0_0_30px_rgba(37,99,255,0.5)] transition-all duration-300 hover:scale-105 cursor-pointer border border-[#60A5FA]/30"
           >
             Start a Conversation
           </button>

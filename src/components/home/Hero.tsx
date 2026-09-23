@@ -1,13 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Play, Pause, Volume2, VolumeX, Hexagon, MapPin, Sparkles, Maximize2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Play, Pause, Volume2, VolumeX, Hexagon, MapPin, Sparkles, Maximize2, Film, X, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const Hero: React.FC = () => {
   const navigate = useNavigate();
   const videoRef = useRef<HTMLVideoElement>(null);
+  const modalVideoRef = useRef<HTMLVideoElement>(null);
+  const modalContainerRef = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
+  const [showShowreelModal, setShowShowreelModal] = useState(false);
 
   // Automatically pause video when user leaves the website/tab or window loses focus
   useEffect(() => {
@@ -98,19 +101,75 @@ export const Hero: React.FC = () => {
     setIsMuted(videoRef.current.muted);
   };
 
+  const openShowreelModal = () => {
+    const video = videoRef.current;
+    if (video) {
+      video.pause();
+      setIsPlaying(false);
+    }
+    setShowShowreelModal(true);
+    const current = video ? video.currentTime : 0;
+    setTimeout(() => {
+      if (modalVideoRef.current) {
+        modalVideoRef.current.currentTime = current;
+        modalVideoRef.current.muted = false;
+        modalVideoRef.current.play().catch(() => {});
+      }
+    }, 50);
+  };
+
   const toggleFullscreen = () => {
-    if (!videoRef.current) return;
-    if (videoRef.current.requestFullscreen) {
-      videoRef.current.requestFullscreen();
+    openShowreelModal();
+  };
+
+  const closeShowreelModal = () => {
+    if (modalVideoRef.current) {
+      modalVideoRef.current.pause();
+    }
+    if (document.fullscreenElement && document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {});
+    }
+    setShowShowreelModal(false);
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {});
+      setIsPlaying(true);
     }
   };
 
-  const clientAvatars = [
-    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80',
-  ];
+  const toggleBrowserFullscreen = () => {
+    const target = modalContainerRef.current || document.documentElement;
+    if (!document.fullscreenElement) {
+      target.requestFullscreen().catch(() => {});
+    } else if (document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {});
+    }
+  };
+
+  // Revert controls when user exits native fullscreen
+  useEffect(() => {
+    const onFullscreenChange = () => {
+      const isFs = document.fullscreenElement === videoRef.current;
+      if (!isFs && videoRef.current) {
+        videoRef.current.controls = false;
+      }
+    };
+    document.addEventListener('fullscreenchange', onFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', onFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', onFullscreenChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && showShowreelModal) {
+        closeShowreelModal();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [showShowreelModal]);
 
   return (
     <section className="relative w-full min-h-[96vh] lg:min-h-screen bg-[#070A12] flex flex-col justify-between overflow-hidden pt-24 sm:pt-28 lg:pt-32 select-none">
@@ -136,13 +195,13 @@ export const Hero: React.FC = () => {
       <div className="absolute top-24 sm:top-28 right-6 md:right-12 z-20 flex items-center gap-2.5 pointer-events-auto">
         <button
           onClick={toggleMute}
-          className="px-3.5 py-2 rounded-full bg-black/50 hover:bg-black/80 backdrop-blur-md border border-white/20 text-white text-xs font-poppins flex items-center gap-2 transition-all hover:scale-105 cursor-pointer shadow-lg"
-          title={isMuted ? 'Unmute Showreel Audio' : 'Mute Showreel'}
+          className="group flex items-center gap-2 sm:gap-2.5 text-white/90 hover:text-[#60A5FA] font-poppins font-semibold text-xs sm:text-sm tracking-wide transition-colors cursor-pointer"
+          title={isMuted ? 'Play Audio' : 'Mute Audio'}
         >
-          {isMuted ? <VolumeX className="w-4 h-4 text-[#60A5FA]" /> : <Volume2 className="w-4 h-4 text-[#2563FF]" />}
-          <span className="hidden sm:inline text-[11px] font-semibold tracking-wider uppercase">
-            {isMuted ? 'Sound Off' : 'Sound On'}
-          </span>
+          <span className="hidden sm:inline">{isMuted ? 'Play Audio' : 'Mute Audio'}</span>
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-white/30 text-white flex items-center justify-center group-hover:bg-[#2563FF] group-hover:border-[#2563FF] transition-all duration-300 shadow-sm backdrop-blur-sm bg-black/40">
+            {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+          </div>
         </button>
 
         <button
@@ -163,106 +222,42 @@ export const Hero: React.FC = () => {
       </div>
 
       {/* Main Content Area */}
-      <div className="max-w-[1440px] mx-auto w-full px-6 sm:px-10 lg:px-16 relative z-20 flex-1 flex flex-col justify-center py-6 sm:py-8">
+      <div className="max-w-[1440px] mx-auto w-full px-4 sm:px-10 lg:px-16 relative z-20 flex-1 flex flex-col justify-center py-6 sm:py-8">
         <div className="max-w-3xl xl:max-w-4xl flex flex-col justify-center z-20">
-          {/* Top Tag: INNOWIZE DIGITAL SHOWREEL */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            onClick={() => navigate('/work')}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2563FF]/20 hover:bg-[#2563FF]/40 border border-[#2563FF]/40 text-[#60A5FA] hover:text-white text-[11px] sm:text-xs font-poppins font-bold tracking-[0.25em] uppercase mb-3 sm:mb-4 w-fit backdrop-blur-sm cursor-pointer transition-all"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-[#2563FF]" />
-            <span>INNOWIZE DIGITAL SHOWREEL</span>
-          </motion.div>
-
           {/* Master Headline: NEW DIGITAL UNIVERSE */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-5xl sm:text-6xl md:text-7xl xl:text-[5.4rem] font-barlow font-black tracking-tight leading-[0.92] text-white uppercase mb-6 sm:mb-8 drop-shadow-xl"
+            className="text-[2.6rem] min-[380px]:text-5xl sm:text-6xl md:text-7xl xl:text-[5.4rem] font-barlow font-black tracking-tight leading-[0.92] text-white uppercase mb-6 sm:mb-8 drop-shadow-xl"
           >
             NEW DIGITAL <br />
             <span className="text-[#2563FF]">UNIVERSE</span>
           </motion.h1>
 
-          {/* Actions Row & Metric: Get Started, Watch Showreel & 87.2K Projects */}
+          {/* Actions Row: Get Started & Watch Showreel */}
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="relative flex flex-wrap items-end gap-5 sm:gap-8 mb-8 sm:mb-12"
+            className="relative flex flex-wrap items-center gap-3.5 sm:gap-6 md:gap-8"
           >
             <button
               onClick={() => navigate('/work')}
-              className="px-8 py-3.5 rounded-lg bg-[#2563FF] hover:bg-[#1D4ED8] text-white font-poppins font-semibold text-xs sm:text-sm tracking-wide shadow-[0_8px_25px_rgba(37,99,255,0.45)] transition-all duration-300 hover:scale-105 cursor-pointer border border-white/15"
+              className="px-6 sm:px-8 py-3 sm:py-3.5 rounded-lg bg-[#2563FF] hover:bg-[#1D4ED8] text-white font-poppins font-semibold text-xs sm:text-sm tracking-wide shadow-[0_8px_25px_rgba(37,99,255,0.45)] transition-all duration-300 hover:scale-105 cursor-pointer border border-white/15"
             >
               Explore Work
             </button>
 
             <button
-              onClick={toggleMute}
-              className="group flex items-center gap-3 text-white/90 hover:text-[#60A5FA] font-poppins font-semibold text-xs sm:text-sm tracking-wide transition-colors cursor-pointer"
+              onClick={openShowreelModal}
+              className="group px-5 sm:px-6 py-3 sm:py-3.5 rounded-lg bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white font-poppins font-semibold text-xs sm:text-sm tracking-wide transition-all duration-300 hover:scale-105 cursor-pointer shadow-lg flex items-center gap-2.5"
             >
-              <span>{isMuted ? 'Play Audio' : 'Mute Audio'}</span>
-              <div className="w-9 h-9 rounded-full border border-white/30 text-white flex items-center justify-center group-hover:bg-[#2563FF] group-hover:border-[#2563FF] transition-all duration-300 shadow-sm backdrop-blur-sm">
-                {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+              <div className="w-6 h-6 rounded-full bg-[#2563FF] text-white flex items-center justify-center transition-transform group-hover:scale-110 shadow-sm">
+                <Play className="w-3 h-3 fill-white ml-0.5" />
               </div>
+              <span>Watch Showreel</span>
             </button>
-
-            {/* Metric: 87.2K Projects */}
-            <div className="flex flex-col sm:ml-auto lg:ml-6 pb-0.5">
-              <span className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-barlow text-[#60A5FA] leading-none tracking-tight drop-shadow-md">
-                87.2K
-              </span>
-              <span className="text-xs sm:text-sm font-poppins font-medium text-white/80 mt-1">
-                Projects
-              </span>
-            </div>
-          </motion.div>
-
-          {/* Bottom Row: Happy Clients & Strategic Description */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.35 }}
-            className="grid grid-cols-1 sm:grid-cols-12 gap-6 sm:gap-8 items-center max-w-xl"
-          >
-            {/* Happy Clients */}
-            <div className="sm:col-span-5 flex flex-col">
-              <span className="text-xs font-poppins font-semibold text-white/80 block mb-2">
-                Happy Clients
-              </span>
-              <div className="flex items-center gap-3">
-                <div className="flex -space-x-2.5 overflow-hidden">
-                  {clientAvatars.map((src, i) => (
-                    <img
-                      key={i}
-                      src={src}
-                      alt="Client avatar"
-                      width="36"
-                      height="36"
-                      className="w-9 h-9 rounded-full object-cover border-2 border-white/30 shadow-sm flex-shrink-0"
-                    />
-                  ))}
-                </div>
-                <div className="flex flex-col leading-tight">
-                  <span className="text-lg sm:text-xl font-bold font-barlow text-white">28+</span>
-                  <span className="text-[10px] font-poppins font-semibold text-white/60 uppercase tracking-wider">
-                    Worldwide
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Description Paragraph */}
-            <div className="sm:col-span-7 flex items-center">
-              <p className="text-xs sm:text-sm font-poppins text-white/80 leading-relaxed font-normal">
-                Join 28,000+ global brands who trust us to craft immersive digital experiences that drive results.
-              </p>
-            </div>
           </motion.div>
         </div>
       </div>
@@ -270,27 +265,122 @@ export const Hero: React.FC = () => {
       {/* Futuristic Chamfered Dark Bottom-Left Shelf (Elongated & Seamless) */}
       <div className="relative w-full z-30 mt-auto flex justify-start">
         <div
-          className="w-[94%] sm:w-[86%] md:w-[80%] lg:w-[75%] max-w-[1050px] bg-[#0B0E17] text-white py-4 px-6 sm:px-12 md:px-16 flex items-center"
+          className="w-full sm:w-[86%] md:w-[80%] lg:w-[75%] max-w-[1050px] bg-[#0B0E17] text-white py-3.5 sm:py-4 px-4 sm:px-12 md:px-16 flex items-center"
           style={{
-            clipPath: 'polygon(0 0, calc(100% - 95px) 0, 100% 100%, 0 100%)',
+            clipPath: 'polygon(0 0, calc(100% - clamp(30px, 8vw, 95px)) 0, 100% 100%, 0 100%)',
           }}
         >
-          <div className="flex items-center gap-7 sm:gap-11 md:gap-14 text-xs sm:text-sm font-poppins font-bold tracking-[0.2em] uppercase text-white select-none">
-            <div className="flex items-center gap-2.5 text-white hover:text-[#60A5FA] transition-colors cursor-default">
-              <Hexagon className="w-4 h-4 text-[#2563FF] stroke-[2.2]" />
+          <div className="flex items-center gap-4 sm:gap-9 md:gap-14 text-[10px] sm:text-xs md:text-sm font-poppins font-bold tracking-[0.12em] sm:tracking-[0.2em] uppercase text-white select-none whitespace-nowrap overflow-x-auto scrollbar-none">
+            <div className="flex items-center gap-1.5 sm:gap-2.5 text-white hover:text-[#60A5FA] transition-colors cursor-default">
+              <Hexagon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#2563FF] stroke-[2.2] shrink-0" />
               <span>EXPERIENCE</span>
             </div>
-            <div className="flex items-center gap-2.5 text-white hover:text-[#60A5FA] transition-colors cursor-default">
-              <MapPin className="w-4 h-4 text-[#2563FF] stroke-[2.2]" />
+            <div className="flex items-center gap-1.5 sm:gap-2.5 text-white hover:text-[#60A5FA] transition-colors cursor-default">
+              <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#2563FF] stroke-[2.2] shrink-0" />
               <span>INNOVATION</span>
             </div>
-            <div className="flex items-center gap-2.5 text-white hover:text-[#60A5FA] transition-colors cursor-default">
-              <Sparkles className="w-4 h-4 text-[#2563FF] stroke-[2.2]" />
+            <div className="flex items-center gap-1.5 sm:gap-2.5 text-white hover:text-[#60A5FA] transition-colors cursor-default">
+              <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#2563FF] stroke-[2.2] shrink-0" />
               <span>EXCELLENCE</span>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Full-Screen Showreel Cinema Overlay Modal */}
+      <AnimatePresence>
+        {showShowreelModal && (
+          <motion.div
+            ref={modalContainerRef}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-[999999] w-screen h-screen bg-black flex flex-col overflow-hidden select-none"
+          >
+            {/* Top Floating Glass Navigation Bar */}
+            <div className="relative z-30 w-full px-4 sm:px-8 py-3 sm:py-3.5 bg-[#0B0E17]/95 backdrop-blur-xl border-b border-white/10 flex items-center justify-between gap-4 shrink-0 shadow-2xl">
+              <div className="flex items-center gap-3 sm:gap-5 overflow-hidden">
+                {/* Prominent Back Button */}
+                <button
+                  onClick={closeShowreelModal}
+                  className="flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl bg-white/10 hover:bg-[#2563FF] border border-white/15 text-white text-xs sm:text-sm font-poppins font-semibold transition-all duration-200 hover:scale-105 cursor-pointer shadow-lg group shrink-0"
+                  title="Back to Home (Esc)"
+                  id="showreel-back-button"
+                >
+                  <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1 text-[#60A5FA] group-hover:text-white" />
+                  <span>Back</span>
+                </button>
+
+                <div className="h-6 w-px bg-white/10 hidden sm:block shrink-0" />
+
+                <div className="flex items-center gap-3 overflow-hidden">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#2563FF]/20 border border-[#2563FF]/40 flex items-center justify-center text-[#60A5FA] shrink-0">
+                    <Film className="w-4 h-4 sm:w-5 sm:h-5" />
+                  </div>
+                  <div className="truncate">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#2563FF]/20 text-[#60A5FA] text-[10px] sm:text-xs font-poppins font-semibold uppercase tracking-wider">
+                        Official Showreel
+                      </span>
+                      <span className="text-[11px] text-white/50 font-poppins hidden sm:inline">• 2025 Edition</span>
+                    </div>
+                    <h3 className="text-sm sm:text-lg font-bold font-barlow text-white leading-tight mt-0.5 truncate">
+                      Innowize Digital Showreel
+                    </h3>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[11px] font-poppins font-semibold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  Full HD Stream
+                </span>
+
+                <button
+                  onClick={toggleBrowserFullscreen}
+                  className="p-2 sm:p-2.5 rounded-full bg-white/10 hover:bg-[#2563FF] text-white transition-colors cursor-pointer border border-white/10"
+                  title="Toggle Fullscreen"
+                >
+                  <Maximize2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                </button>
+
+                <button
+                  onClick={closeShowreelModal}
+                  className="flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-full bg-white/10 hover:bg-red-500/80 text-white text-xs sm:text-sm font-poppins font-semibold transition-all border border-white/10 hover:border-red-500/80 cursor-pointer"
+                  title="Close (Esc)"
+                >
+                  <X className="w-4 h-4" />
+                  <span className="hidden sm:inline">Close</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Video Player Container */}
+            <div className="relative flex-1 w-full h-full bg-black flex items-center justify-center overflow-hidden">
+              {/* Floating Back Quick Action for smaller mobile viewports */}
+              <button
+                onClick={closeShowreelModal}
+                className="absolute top-4 left-4 z-20 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/70 hover:bg-black/95 backdrop-blur-md border border-white/20 text-white text-xs font-poppins font-medium shadow-2xl transition-all hover:scale-105 cursor-pointer sm:hidden"
+                title="Back to Home"
+              >
+                <ArrowLeft className="w-3.5 h-3.5 text-[#60A5FA]" />
+                <span>Back</span>
+              </button>
+
+              <video
+                ref={modalVideoRef}
+                src="/showreel.mp4"
+                autoPlay
+                controls
+                playsInline
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

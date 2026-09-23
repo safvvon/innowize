@@ -8,21 +8,21 @@ export const IntroSection2: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="relative w-full bg-[#070A12] flex items-center justify-center overflow-hidden z-10 px-6 md:px-12 lg:px-16 py-20 md:py-28">
+    <section className="relative w-full bg-[#070A12] flex items-center justify-center overflow-hidden z-10 px-4 sm:px-8 md:px-12 lg:px-16 py-14 sm:py-20 md:py-28">
       {/* Subtle background ambient gradients */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#070A12] via-[#0B1020]/70 to-[#070A12] pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-[#2563FF]/10 rounded-full blur-[150px] pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl w-full flex flex-col gap-10 md:gap-14">
+      <div className="relative z-10 max-w-7xl w-full flex flex-col gap-8 sm:gap-10 md:gap-14">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-white/10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 pb-6 border-b border-white/10">
           <div>
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 text-[#60A5FA] text-[11px] sm:text-xs font-semibold tracking-[0.25em] uppercase mb-3"
+              className="inline-flex items-center gap-2 text-[#60A5FA] text-[10px] sm:text-xs font-semibold tracking-[0.22em] uppercase mb-2 sm:mb-3"
             >
               <Sparkles className="w-3.5 h-3.5 text-[#2563FF]" />
               <span>SERVICES & CAPABILITIES</span>
@@ -35,7 +35,7 @@ export const IntroSection2: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-3xl sm:text-4xl md:text-5xl font-bold font-barlow text-white tracking-tight uppercase"
+              className="text-2xl sm:text-4xl md:text-5xl font-bold font-barlow text-white tracking-tight uppercase"
             >
               What We Do
             </motion.h2>
@@ -53,7 +53,7 @@ export const IntroSection2: React.FC = () => {
         </div>
 
         {/* 3-Column Standardized Uniform Service Cards Grid (Matching Model Exactly) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-7 w-full">
           {servicesData.map((service: ServiceItem, idx: number) => {
             const Icon = service.icon;
             return (
@@ -64,7 +64,7 @@ export const IntroSection2: React.FC = () => {
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.5, delay: idx * 0.06 }}
                 onClick={() => navigate(`/services#${service.id}`)}
-                className="group relative rounded-2xl bg-[#090E1B] border border-[#141C30] hover:border-[#2563FF]/70 p-7 sm:p-8 flex flex-col justify-between h-full min-h-[270px] sm:min-h-[285px] transition-all duration-300 hover:-translate-y-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_40px_rgba(37,99,255,0.2)] cursor-pointer"
+                className="group relative rounded-2xl bg-[#090E1B] border border-[#141C30] hover:border-[#2563FF]/70 p-6 sm:p-8 flex flex-col justify-between h-full min-h-[250px] sm:min-h-[285px] transition-all duration-300 hover:-translate-y-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_40px_rgba(37,99,255,0.2)] cursor-pointer"
               >
                 {/* Top Row: Number on left, Blue squircle icon on right */}
                 <div>

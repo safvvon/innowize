@@ -64,10 +64,10 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
     <>
       {/* Header with Exact Original Proportions and Floating Nav Pill */}
       <header className="fixed top-0 left-0 w-full z-50 pointer-events-none transition-all duration-300">
-        <nav className="max-w-[1440px] mx-auto w-full flex items-center justify-between px-6 md:px-12 py-5 pointer-events-auto">
+        <nav className="max-w-[1440px] mx-auto w-full flex items-center justify-between px-4 sm:px-6 md:px-12 py-4 sm:py-5 pointer-events-auto">
           {/* Logo on Left */}
           <Link to="/" className="flex-shrink-0 relative z-50 group flex items-center">
-            <InnowizeLogo className="h-9 md:h-10" theme={isLightNav ? 'light' : 'dark'} />
+            <InnowizeLogo className="h-7 sm:h-9 md:h-10 w-auto" theme={isLightNav ? 'light' : 'dark'} />
           </Link>
 
           {/* Center Floating Nav Pill with Dynamic Adaptive Contrast */}
@@ -106,11 +106,11 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
           </div>
 
           {/* Right Action: Let's Talk CTA & Mobile Hamburger */}
-          <div className="flex items-center gap-4">
-            {/* Standard Professional Let's Talk CTA Button */}
+          <div className="flex items-center gap-2 sm:gap-4">
+            {/* Standard Professional Let's Talk CTA Button - Visible from sm up to prevent header crush on 320px */}
             <button
               onClick={onOpenContact}
-              className="relative flex items-center px-6 py-2.5 bg-gradient-to-r from-[#2563FF] to-[#1D4ED8] hover:from-[#1D4ED8] hover:to-[#2563FF] shadow-[0_4px_20px_rgba(37,99,255,0.4)] hover:shadow-[0_6px_25px_rgba(37,99,255,0.6)] transition-all duration-300 ease-out rounded-full group overflow-hidden border border-white/15 cursor-pointer hover:scale-105"
+              className="hidden sm:flex relative items-center px-5 sm:px-6 py-2.5 bg-gradient-to-r from-[#2563FF] to-[#1D4ED8] hover:from-[#1D4ED8] hover:to-[#2563FF] shadow-[0_4px_20px_rgba(37,99,255,0.4)] hover:shadow-[0_6px_25px_rgba(37,99,255,0.6)] transition-all duration-300 ease-out rounded-full group overflow-hidden border border-white/15 cursor-pointer hover:scale-105"
             >
               <div className="absolute inset-x-0 top-0 h-[40%] bg-gradient-to-b from-white/30 to-transparent pointer-events-none rounded-t-full" />
               <span className="relative text-white font-bold text-xs uppercase tracking-[0.12em] font-poppins drop-shadow-md">
@@ -118,10 +118,10 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
               </span>
             </button>
 
-            {/* Mobile Menu Toggle Button */}
+            {/* Mobile Menu Toggle Button with min 44px touch target */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`flex lg:hidden w-10 h-10 items-center justify-center rounded-full backdrop-blur-md transition-colors cursor-pointer ${
+              className={`flex lg:hidden w-11 h-11 items-center justify-center rounded-full backdrop-blur-md transition-colors cursor-pointer ${
                 isLightNav
                   ? 'bg-black/5 border border-slate-300/80 text-slate-800 hover:bg-black/10'
                   : 'bg-white/5 border border-white/10 text-white hover:bg-white/10'
@@ -154,20 +154,21 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 260 }}
-              className="fixed top-0 right-0 bottom-0 w-full sm:w-80 bg-[#0F1628]/95 backdrop-blur-2xl border-l border-white/10 p-8 flex flex-col justify-between shadow-2xl z-50"
+              className="fixed top-0 right-0 bottom-0 w-[85vw] max-w-sm bg-[#0F1628]/95 backdrop-blur-2xl border-l border-white/10 p-6 sm:p-8 flex flex-col justify-between shadow-2xl z-50 overflow-y-auto"
             >
               <div>
-                <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-8">
-                  <InnowizeLogo className="h-8" />
+                <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-6 sm:mb-8">
+                  <InnowizeLogo className="h-7 sm:h-8" />
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-white cursor-pointer"
+                    className="w-11 h-11 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white cursor-pointer transition-colors"
+                    aria-label="Close menu"
                   >
                     <X className="w-5 h-5" />
                   </button>
                 </div>
 
-                <ul className="flex flex-col gap-6 text-white font-poppins text-lg font-medium tracking-wider">
+                <ul className="flex flex-col gap-2 text-white font-poppins text-base sm:text-lg font-medium tracking-wider">
                   {navLinks.map((link, idx) => (
                     <motion.li
                       key={link.name}
@@ -178,7 +179,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
                       <Link
                         to={link.path}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="hover:text-[#3B82F6] transition-colors flex items-center justify-between"
+                        className="min-h-[44px] py-2.5 px-3 rounded-lg hover:bg-white/5 hover:text-[#3B82F6] transition-all flex items-center justify-between"
                       >
                         <span>{link.name}</span>
                         <span className="text-xs text-white/30">0{idx + 1}</span>
@@ -193,14 +194,14 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.35 }}
-                className="pt-6 border-t border-white/10"
+                className="pt-6 border-t border-white/10 mt-auto"
               >
                 <button
                   onClick={() => {
                     setIsMobileMenuOpen(false);
                     onOpenContact();
                   }}
-                  className="w-full bg-[#2563FF] hover:bg-[#1D4ED8] text-white py-4 rounded-xl font-paytone tracking-wider uppercase text-sm shadow-[0_0_25px_rgba(37,99,255,0.4)] cursor-pointer"
+                  className="w-full min-h-[48px] bg-gradient-to-r from-[#2563FF] to-[#1D4ED8] hover:from-[#1D4ED8] hover:to-[#2563FF] text-white py-3.5 px-6 rounded-xl font-paytone tracking-wider uppercase text-sm shadow-[0_4px_25px_rgba(37,99,255,0.4)] cursor-pointer active:scale-95 transition-all"
                 >
                   Let's Talk
                 </button>
