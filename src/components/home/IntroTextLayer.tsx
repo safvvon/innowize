@@ -15,73 +15,169 @@ export const IntroTextLayer: React.FC = () => {
   const r7 = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const s = window.innerWidth < 768 ? 0.38 : 1;
+    const isMobile = window.innerWidth < 768;
     const ctx = gsap.context(() => {
       if (!containerRef.current) return;
 
-      gsap.to(r1.current, {
-        x: `-${122 * s}%`,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-      gsap.to(r2.current, {
-        x: `${42 * s}%`,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-      gsap.to(r3.current, {
-        x: `-${45 * s}%`,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-      gsap.to(r4.current, {
-        x: `${25 * s}%`,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-      gsap.to(r5.current, {
-        x: `-${35 * s}%`,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-      gsap.to(r6.current, {
-        x: `${18 * s}%`,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-      gsap.to(r7.current, {
-        x: `${18 * s}%`,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
+      if (isMobile) {
+        // Mobile: Dynamic kinetic scroll — words first come in from alternating sides, then go out into sides as user scrolls down
+        gsap.fromTo(
+          r1.current,
+          { x: '60vw' },
+          {
+            x: '-60vw',
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true,
+            },
+          }
+        );
+        gsap.fromTo(
+          r2.current,
+          { x: '-55vw' },
+          {
+            x: '50vw',
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true,
+            },
+          }
+        );
+        gsap.fromTo(
+          r3.current,
+          { x: '55vw' },
+          {
+            x: '-50vw',
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true,
+            },
+          }
+        );
+        gsap.fromTo(
+          r4.current,
+          { x: '-50vw' },
+          {
+            x: '45vw',
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true,
+            },
+          }
+        );
+        gsap.fromTo(
+          r5.current,
+          { x: '50vw' },
+          {
+            x: '-45vw',
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true,
+            },
+          }
+        );
+        gsap.fromTo(
+          r6.current,
+          { x: '-40vw' },
+          {
+            x: '35vw',
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true,
+            },
+          }
+        );
+        gsap.fromTo(
+          r7.current,
+          { x: '-30vw' },
+          {
+            x: '30vw',
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true,
+            },
+          }
+        );
+      } else {
+        // Desktop: Exact original source of truth
+        gsap.to(r1.current, {
+          x: '-122%',
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        });
+        gsap.to(r2.current, {
+          x: '42%',
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        });
+        gsap.to(r3.current, {
+          x: '-45%',
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        });
+        gsap.to(r4.current, {
+          x: '25%',
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        });
+        gsap.to(r5.current, {
+          x: '-35%',
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        });
+        gsap.to(r6.current, {
+          x: '20%',
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        });
+        gsap.to(r7.current, {
+          x: '20%',
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        });
+      }
     }, containerRef);
 
     return () => ctx.revert();
@@ -98,27 +194,27 @@ export const IntroTextLayer: React.FC = () => {
       ref={containerRef}
       className="absolute inset-0 z-30 flex flex-col justify-between sm:justify-start h-screen md:h-auto mt-[1vh] sm:mt-[6vh] md:mt-0 lg:mt-[8vh] pt-3 pb-8 sm:pt-4 sm:pb-0 pointer-events-none overflow-hidden w-full max-w-full px-2 sm:px-4 md:px-0"
     >
-      <div ref={r1} className="w-full flex justify-start pl-[32vw] sm:pl-[40vw] md:pl-[59vw] will-change-transform">
+      <div ref={r1} className="w-full flex justify-center md:justify-start md:pl-[59vw] will-change-transform">
         <span aria-hidden="true" className={textStyleBig}>we</span>
       </div>
-      <div ref={r2} className="w-full flex justify-start pl-[5vw] sm:pl-[5vw] md:pl-[5vw] will-change-transform">
+      <div ref={r2} className="w-full flex justify-center md:justify-start md:pl-[5vw] will-change-transform">
         <span aria-hidden="true" className={textStyleBig}>turn</span>
       </div>
-      <div ref={r3} className="w-full flex justify-start pl-[28vw] sm:pl-[36vw] md:pl-[55vw] will-change-transform">
+      <div ref={r3} className="w-full flex justify-center md:justify-start md:pl-[55vw] will-change-transform">
         <span aria-hidden="true" className={textStyleBig}>ideas</span>
       </div>
-      <div ref={r4} className="w-full flex justify-start pl-[5vw] sm:pl-[4vw] md:pl-[2vw] will-change-transform">
+      <div ref={r4} className="w-full flex justify-center md:justify-start md:pl-[2vw] will-change-transform">
         <span aria-hidden="true" className={textStyleBig}>into</span>
       </div>
-      <div ref={r5} className="w-full flex justify-start pl-[18vw] sm:pl-[24vw] md:pl-[35vw] will-change-transform">
+      <div ref={r5} className="w-full flex justify-center md:justify-start md:pl-[35vw] will-change-transform">
         <span aria-hidden="true" className={textStyleBig}>digital</span>
       </div>
-      <div ref={r6} className="w-full flex justify-start pl-[2.5vw] sm:pl-[3vw] md:pl-[2vw] will-change-transform">
+      <div ref={r6} className="w-full flex justify-center md:justify-start md:pl-[2vw] will-change-transform">
         <span aria-hidden="true" className={`${textStyleLong} whitespace-nowrap`}>experiences</span>
       </div>
       <div
         ref={r7}
-        className="w-full flex justify-start pl-[8vw] sm:pl-[14vw] md:pl-[20vw] mt-2 md:mt-3 lg:mt-12 mb-1 md:mb-1 lg:mb-4 will-change-transform opacity-30"
+        className="w-full flex justify-center md:justify-start md:pl-[20vw] mt-2 md:mt-3 lg:mt-12 mb-1 md:mb-1 lg:mb-4 will-change-transform opacity-30"
       >
         <svg
           width="35vw"
