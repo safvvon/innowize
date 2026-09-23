@@ -107,10 +107,10 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
 
           {/* Right Action: Let's Talk CTA & Mobile Hamburger */}
           <div className="flex items-center gap-2 sm:gap-4">
-            {/* Standard Professional Let's Talk CTA Button - Visible from sm up to prevent header crush on 320px */}
+            {/* Standard Professional Let's Talk CTA Button - Visible on desktop, hidden on mobile/tablet view */}
             <button
               onClick={onOpenContact}
-              className="hidden sm:flex relative items-center px-5 sm:px-6 py-2.5 bg-gradient-to-r from-[#2563FF] to-[#1D4ED8] hover:from-[#1D4ED8] hover:to-[#2563FF] shadow-[0_4px_20px_rgba(37,99,255,0.4)] hover:shadow-[0_6px_25px_rgba(37,99,255,0.6)] transition-all duration-300 ease-out rounded-full group overflow-hidden border border-white/15 cursor-pointer hover:scale-105"
+              className="hidden lg:flex relative items-center px-5 sm:px-6 py-2.5 bg-gradient-to-r from-[#2563FF] to-[#1D4ED8] hover:from-[#1D4ED8] hover:to-[#2563FF] shadow-[0_4px_20px_rgba(37,99,255,0.4)] hover:shadow-[0_6px_25px_rgba(37,99,255,0.6)] transition-all duration-300 ease-out rounded-full group overflow-hidden border border-white/15 cursor-pointer hover:scale-105"
             >
               <div className="absolute inset-x-0 top-0 h-[40%] bg-gradient-to-b from-white/30 to-transparent pointer-events-none rounded-t-full" />
               <span className="relative text-white font-bold text-xs uppercase tracking-[0.12em] font-poppins drop-shadow-md">
