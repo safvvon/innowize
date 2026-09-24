@@ -88,16 +88,14 @@ export const TeamMembers: React.FC = () => {
     <section className="relative w-full min-h-screen bg-alpha overflow-hidden flex items-center justify-center py-20 md:py-32">
       {/* Animated Dot Matrix Background */}
       <div className="absolute inset-0 opacity-10 will-change-transform pointer-events-none">
-        <motion.div
-          className="absolute inset-0"
+        <div
+          className="absolute inset-0 animate-dot-matrix"
           style={{
             backgroundImage:
               'radial-gradient(circle at 50% 50%, #2563FF 1px, transparent 1px)',
             backgroundSize: '40px 40px',
             transform: 'translateZ(0)',
           }}
-          animate={{ backgroundPosition: ['0px 0px', '40px 40px'] }}
-          transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
         />
       </div>
 
@@ -127,12 +125,19 @@ export const TeamMembers: React.FC = () => {
             >
               {/* Photo */}
               <div className="md:col-span-5 relative">
-                <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl border border-white/15 relative group">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 transition-all duration-700"
-                  />
+                <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl border border-white/15 relative group bg-[#0A0D16]">
+                  <picture>
+                    <source srcSet={member.image.replace('.jpeg', '.webp')} type="image/webp" />
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      width="400"
+                      height="500"
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 transition-all duration-700"
+                    />
+                  </picture>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
                 </div>
               </div>

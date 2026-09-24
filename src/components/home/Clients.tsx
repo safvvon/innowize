@@ -91,11 +91,7 @@ export const Clients: React.FC = () => {
 
       {/* Infinite Client Logos Marquee */}
       <div className="relative z-30 w-full pt-10 sm:pt-16 pb-8 sm:pb-12 overflow-hidden">
-        <motion.div
-          className="flex items-center gap-4 sm:gap-6 will-change-transform"
-          animate={{ x: ['0%', '-50%'] }}
-          transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-        >
+        <div className="flex w-max items-center gap-4 sm:gap-6 animate-client-marquee">
           {[...clientLogos, ...clientLogos].map((c, i) => (
             <div
               key={i}
@@ -112,7 +108,7 @@ export const Clients: React.FC = () => {
               />
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
 
       {/* Stats Counter Row */}

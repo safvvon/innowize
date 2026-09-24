@@ -60,15 +60,6 @@ const ReelCard: React.FC<{
         <div className="absolute inset-0 bg-gradient-to-tr from-[#0B0E17] via-[#141A2B] to-[#1E293B] animate-pulse pointer-events-none" />
       )}
 
-      {/* Ambient Blurred Background for landscape/letterbox harmony */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <img
-          src={imgSrc}
-          alt=""
-          className="w-full h-full object-cover blur-2xl scale-125 opacity-35 brightness-75"
-        />
-      </div>
-
       {/* Main Crisp Focused Video Thumbnail with Custom Focal Position */}
       <img
         ref={imgRef}
@@ -76,8 +67,8 @@ const ReelCard: React.FC<{
         alt={project.title}
         width={isPortrait ? '285' : '420'}
         height="480"
-        loading={index < 4 ? 'eager' : 'lazy'}
-        fetchPriority={index < 4 ? 'high' : 'auto'}
+        loading={index < 2 ? 'eager' : 'lazy'}
+        fetchPriority={index < 2 ? 'high' : 'auto'}
         decoding="async"
         referrerPolicy="no-referrer"
         onLoad={() => setImgLoaded(true)}
@@ -286,36 +277,6 @@ export const IntroSection3: React.FC = () => {
             {videoProjects.map((project, idx) => (
               <ReelCard
                 key={`track2-${project.id}`}
-                project={project}
-                index={idx}
-                onSelect={handleSelectProject}
-              />
-            ))}
-          </div>
-
-          {/* Track 3: Seamless Infinite Duplicate for Ultra-Wide Displays */}
-          <div
-            className="flex shrink-0 gap-6 md:gap-8 pr-6 md:pr-8 animate-innowize-marquee"
-            aria-hidden="true"
-          >
-            {videoProjects.map((project, idx) => (
-              <ReelCard
-                key={`track3-${project.id}`}
-                project={project}
-                index={idx}
-                onSelect={handleSelectProject}
-              />
-            ))}
-          </div>
-
-          {/* Track 4: Continuous Infinite Loop Insurance */}
-          <div
-            className="flex shrink-0 gap-6 md:gap-8 pr-6 md:pr-8 animate-innowize-marquee"
-            aria-hidden="true"
-          >
-            {videoProjects.map((project, idx) => (
-              <ReelCard
-                key={`track4-${project.id}`}
                 project={project}
                 index={idx}
                 onSelect={handleSelectProject}

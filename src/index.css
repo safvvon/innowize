@@ -26,7 +26,6 @@
   }
   
   html {
-    scroll-behavior: smooth;
     font-family: 'Poppins', sans-serif;
     background-color: #0B0E17;
     color: #FFFFFF;
@@ -77,7 +76,6 @@
   background: #3B82F6;
 }
 
-
 /* GPU Acceleration & Performance Helpers */
 .gpu-layer {
   transform: translate3d(0, 0, 0);
@@ -116,6 +114,35 @@
   .animate-innowize-marquee {
     animation-duration: 60s;
   }
+}
+
+/* Seamless Pure CSS Client Partner Logos Marquee */
+@keyframes client-marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-client-marquee {
+  animation: client-marquee 30s linear infinite;
+  will-change: transform;
+}
+
+/* Pure CSS Dot Matrix Pan (off main JS thread) */
+@keyframes dot-matrix-pan {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 40px 40px;
+  }
+}
+
+.animate-dot-matrix {
+  animation: dot-matrix-pan 25s linear infinite;
 }
 
 /* Continuous infinite playback - never freeze abruptly */

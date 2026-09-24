@@ -187,16 +187,19 @@ export const Hero: React.FC = () => {
 
         <video
           ref={videoRef}
-          src="/showreel.mp4"
+          poster="/images/showreel_poster.jpg"
           autoPlay
           loop
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
           title="Innowize Digital Official Showreel"
           aria-label="Innowize Digital Showreel Video"
           className="relative z-10 w-full h-full object-contain sm:object-cover object-[center_38%] sm:object-center scale-[4.4] sm:scale-100 origin-[center_38%] sm:origin-center transition-transform duration-300"
-        />
+        >
+          <source src="/showreel-mobile.mp4" media="(max-width: 768px)" type="video/mp4" />
+          <source src="/showreel.mp4" type="video/mp4" />
+        </video>
 
         {/* Subtle Top Header Vignette Only - Zero Shade Below/At Bottom */}
         <div className="absolute top-0 inset-x-0 h-36 bg-gradient-to-b from-black/50 to-transparent pointer-events-none z-10" />
@@ -408,9 +411,11 @@ export const Hero: React.FC = () => {
               <video
                 ref={modalVideoRef}
                 src="/showreel.mp4"
+                poster="/images/showreel_poster.jpg"
                 autoPlay
                 controls
                 playsInline
+                preload="metadata"
                 className="w-full h-full object-contain"
               />
             </div>
