@@ -198,8 +198,8 @@ export const Hero: React.FC = () => {
         <div className="absolute top-0 inset-x-0 h-36 bg-gradient-to-b from-black/50 to-transparent pointer-events-none" />
       </div>
 
-      {/* Floating Interactive Video Audio & Playback Controls (Bottom-Right Corner) */}
-      <div className="absolute bottom-16 sm:bottom-20 md:bottom-24 right-4 sm:right-6 md:right-10 z-30 flex items-center pointer-events-auto">
+      {/* Floating Interactive Video Audio & Playback Controls (Up in Mobile View) */}
+      <div className="absolute top-[88px] sm:top-24 md:top-auto md:bottom-24 right-4 sm:right-6 md:right-10 z-30 flex items-center pointer-events-auto">
         <div className="flex items-center gap-0.5 sm:gap-1.5 p-1 sm:p-1.5 rounded-full bg-black/60 hover:bg-black/75 backdrop-blur-xl border border-white/20 shadow-2xl transition-all">
           {/* Mute / Unmute Button */}
           <button
