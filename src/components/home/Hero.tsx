@@ -180,7 +180,11 @@ export const Hero: React.FC = () => {
   return (
     <section className="relative w-full min-h-[96vh] lg:min-h-screen bg-[#070A12] flex flex-col justify-between overflow-hidden pt-24 sm:pt-28 lg:pt-32 select-none">
       {/* Full-Screen Innowize Digital Showreel Video Background */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden z-0">
+      <div className="absolute inset-0 w-full h-full overflow-hidden z-0 bg-[#070A12]">
+        {/* Mobile Ambient Cinematic Backdrop Glow (Zero harsh borders, immersive atmosphere) */}
+        <div className="block sm:hidden absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95vw] h-[55vw] bg-[#2563FF]/25 rounded-full blur-[80px] pointer-events-none" />
+        <div className="block sm:hidden absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[75vw] h-[40vw] bg-[#1D4ED8]/30 rounded-full blur-[50px] pointer-events-none" />
+
         <video
           ref={videoRef}
           src="/showreel.mp4"
@@ -191,11 +195,11 @@ export const Hero: React.FC = () => {
           preload="auto"
           title="Innowize Digital Official Showreel"
           aria-label="Innowize Digital Showreel Video"
-          className="w-full h-full object-cover object-center"
+          className="relative z-10 w-full h-full object-contain sm:object-cover object-[center_38%] sm:object-center"
         />
 
         {/* Subtle Top Header Vignette Only - Zero Shade Below/At Bottom */}
-        <div className="absolute top-0 inset-x-0 h-36 bg-gradient-to-b from-black/50 to-transparent pointer-events-none" />
+        <div className="absolute top-0 inset-x-0 h-36 bg-gradient-to-b from-black/50 to-transparent pointer-events-none z-10" />
       </div>
 
       {/* Floating Interactive Video Audio & Playback Controls (Up in Mobile View) */}
