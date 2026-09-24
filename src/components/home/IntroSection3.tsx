@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Play, Sparkles, Film, Volume2, X, ExternalLink, ArrowRight, Maximize2, ArrowLeft } from 'lucide-react';
+import { Play, Sparkles, Film, X, ExternalLink, ArrowRight, Maximize2, ArrowLeft } from 'lucide-react';
 import { videoProjects, VideoProject } from '../../data/portfolioData';
 
 const prefetchVideo = (driveId?: string) => {

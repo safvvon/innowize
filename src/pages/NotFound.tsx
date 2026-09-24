@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Home, Sparkles, Film, Mail, Compass } from 'lucide-react';
+import { Home, Sparkles, Film, Mail, Compass } from 'lucide-react';
 
 export const NotFound: React.FC = () => {
   return (

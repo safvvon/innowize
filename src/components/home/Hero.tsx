@@ -97,8 +97,14 @@ export const Hero: React.FC = () => {
 
   const toggleMute = () => {
     if (!videoRef.current) return;
-    videoRef.current.muted = !videoRef.current.muted;
-    setIsMuted(videoRef.current.muted);
+    const nextMuted = !videoRef.current.muted;
+    videoRef.current.muted = nextMuted;
+    if (!nextMuted) {
+      videoRef.current.volume = 1;
+      videoRef.current.play().catch(() => {});
+      setIsPlaying(true);
+    }
+    setIsMuted(nextMuted);
   };
 
   const openShowreelModal = () => {
@@ -192,42 +198,65 @@ export const Hero: React.FC = () => {
         <div className="absolute top-0 inset-x-0 h-36 bg-gradient-to-b from-black/50 to-transparent pointer-events-none" />
       </div>
 
-      {/* Floating Interactive Video Audio & Playback Controls */}
-      <div className="absolute top-24 sm:top-28 right-6 md:right-12 z-20 flex items-center gap-2.5 pointer-events-auto">
-        <button
-          onClick={toggleMute}
-          className="group flex items-center gap-2 sm:gap-2.5 text-white/90 hover:text-[#60A5FA] font-poppins font-semibold text-xs sm:text-sm tracking-wide transition-colors cursor-pointer"
-          title={isMuted ? 'Play Audio' : 'Mute Audio'}
-          aria-label={isMuted ? 'Play Showreel Audio' : 'Mute Showreel Audio'}
-        >
-          <span className="hidden sm:inline">{isMuted ? 'Play Audio' : 'Mute Audio'}</span>
-          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-white/30 text-white flex items-center justify-center group-hover:bg-[#2563FF] group-hover:border-[#2563FF] transition-all duration-300 shadow-sm backdrop-blur-sm bg-black/40">
-            {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-          </div>
-        </button>
+      {/* Floating Interactive Video Audio & Playback Controls (Bottom-Right Corner) */}
+      <div className="absolute bottom-16 sm:bottom-20 md:bottom-24 right-4 sm:right-6 md:right-10 z-30 flex items-center pointer-events-auto">
+        <div className="flex items-center gap-0.5 sm:gap-1.5 p-1 sm:p-1.5 rounded-full bg-black/60 hover:bg-black/75 backdrop-blur-xl border border-white/20 shadow-2xl transition-all">
+          {/* Mute / Unmute Button */}
+          <button
+            onClick={toggleMute}
+            className="group flex items-center gap-2 p-1 sm:px-2.5 sm:py-1 rounded-full hover:bg-white/10 text-white/90 hover:text-white transition-all cursor-pointer"
+            title={isMuted ? 'Play Audio' : 'Mute Audio'}
+            aria-label={isMuted ? 'Play Showreel Audio' : 'Mute Showreel Audio'}
+          >
+            <div className="w-8 h-8 sm:w-8 sm:h-8 rounded-full bg-white/10 group-hover:bg-[#2563FF] text-white flex items-center justify-center transition-all duration-200">
+              {isMuted ? (
+                <VolumeX className="w-4 h-4 text-white/80 group-hover:text-white" />
+              ) : (
+                <Volume2 className="w-4 h-4 text-[#60A5FA] group-hover:text-white" />
+              )}
+            </div>
+            <span className="hidden md:inline font-poppins font-medium text-xs tracking-wide pr-1">
+              {isMuted ? 'Play Audio' : 'Mute Audio'}
+            </span>
+          </button>
 
-        <button
-          onClick={togglePlay}
-          className="p-2 rounded-full bg-black/50 hover:bg-black/80 backdrop-blur-md border border-white/20 text-white transition-all hover:scale-105 cursor-pointer shadow-lg"
-          title={isPlaying ? 'Pause Showreel' : 'Play Showreel'}
-          aria-label={isPlaying ? 'Pause Showreel Video' : 'Play Showreel Video'}
-        >
-          {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-white" />}
-        </button>
+          {/* Divider */}
+          <div className="w-px h-4 sm:h-5 bg-white/20 my-auto" />
 
-        <button
-          onClick={toggleFullscreen}
-          className="p-2 rounded-full bg-black/50 hover:bg-black/80 backdrop-blur-md border border-white/20 text-white transition-all hover:scale-105 cursor-pointer shadow-lg hidden sm:flex"
-          title="Fullscreen Video"
-          aria-label="View Showreel Fullscreen"
-        >
-          <Maximize2 className="w-4 h-4" />
-        </button>
+          {/* Play / Pause Button */}
+          <button
+            onClick={togglePlay}
+            className="p-1 rounded-full flex items-center justify-center hover:bg-white/10 text-white transition-all cursor-pointer group"
+            title={isPlaying ? 'Pause Showreel' : 'Play Showreel'}
+            aria-label={isPlaying ? 'Pause Showreel Video' : 'Play Showreel Video'}
+          >
+            <div className="w-8 h-8 sm:w-8 sm:h-8 rounded-full bg-white/10 group-hover:bg-[#2563FF] text-white flex items-center justify-center transition-all duration-200">
+              {isPlaying ? (
+                <Pause className="w-4 h-4 text-white/90 group-hover:text-white" />
+              ) : (
+                <Play className="w-4 h-4 fill-white ml-0.5 text-white" />
+              )}
+            </div>
+          </button>
+
+          {/* Fullscreen Button (hidden on mobile, visible on sm+) */}
+          <div className="hidden sm:block w-px h-5 bg-white/20 my-auto" />
+          <button
+            onClick={toggleFullscreen}
+            className="hidden sm:flex p-1 rounded-full items-center justify-center hover:bg-white/10 text-white transition-all cursor-pointer group"
+            title="Fullscreen Video"
+            aria-label="View Showreel Fullscreen"
+          >
+            <div className="w-8 h-8 sm:w-8 sm:h-8 rounded-full bg-white/10 group-hover:bg-[#2563FF] text-white flex items-center justify-center transition-all duration-200">
+              <Maximize2 className="w-4 h-4 text-white/90 group-hover:text-white" />
+            </div>
+          </button>
+        </div>
       </div>
 
       {/* Main Content Area */}
-      <div className="max-w-[1440px] mx-auto w-full px-4 sm:px-10 lg:px-16 relative z-20 flex-1 flex flex-col justify-center py-6 sm:py-8">
-        <div className="max-w-3xl xl:max-w-4xl flex flex-col justify-center z-20">
+      <div className="max-w-[1440px] mx-auto w-full px-4 sm:px-10 lg:px-16 relative z-20 flex-1 flex flex-col justify-end pb-8 sm:pb-12 lg:pb-14 pt-6">
+        <div className="max-w-3xl xl:max-w-4xl flex flex-col justify-end z-20">
           {/* Master Headline: NEW DIGITAL UNIVERSE */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}

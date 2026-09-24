@@ -135,7 +135,6 @@ export default function InteractiveBackground({
   const boundingRef = useRef<{ width: number; height: number } | null>(null);
   const timeRef = useRef(0);
   const zoomProbeRef = useRef<HTMLDivElement>(null);
-  const lastSizeRef = useRef({ width: 0, height: 0, zoom: 1 });
   const isVisibleRef = useRef(true);
 
   const cfgRef = useRef({

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Sparkles, Compass, Hexagon, Diamond, CheckCircle, ArrowRight } from 'lucide-react';
+import { Compass, Hexagon, Diamond, CheckCircle } from 'lucide-react';
 
 export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }) => {
   const navigate = useNavigate();

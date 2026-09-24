@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
@@ -10,17 +10,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-
-  // Dynamic scroll state
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   // Prevent background scroll when mobile menu is open
   useEffect(() => {
@@ -46,17 +36,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
     { name: 'WORK', path: '/work' },
     { name: 'CONTACT', path: '/contact' },
   ];
-
-  const isHome = location.pathname === '/';
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 450);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const isLightNav = false;
 
@@ -179,10 +158,9 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
                       <Link
                         to={link.path}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="min-h-[44px] py-2.5 px-3 rounded-lg hover:bg-white/5 hover:text-[#3B82F6] transition-all flex items-center justify-between"
+                        className="min-h-[44px] py-2.5 px-3 rounded-lg hover:bg-white/5 hover:text-[#3B82F6] transition-all flex items-center"
                       >
                         <span>{link.name}</span>
-                        <span className="text-xs text-white/30">0{idx + 1}</span>
                       </Link>
                     </motion.li>
                   ))}

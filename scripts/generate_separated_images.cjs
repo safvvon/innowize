@@ -50,7 +50,6 @@ const head = new PNG({ width: W, height: H });
 
 // Neck socket center and radius for a natural rounded neck base
 const neckSocketCenterX = 485;
-const neckSocketCenterY = 600;
 const neckRadiusX = 110; // covers x from 375 to 595
 const neckMaxDepthY = 700;
 
