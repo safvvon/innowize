@@ -86,137 +86,88 @@ export const IntroTextLayer: React.FC = () => {
       });
     });
 
-    // Mobile: Alternating kinetic parallax scroll (1st word from left, 2nd from right, etc.)
+    // Mobile: Alternating entry (1st Left, 2nd Right, etc.) meeting in perfect alignment on the slide
     mm.add('(max-width: 767px)', () => {
       const triggerEl = document.getElementById('intro-section') || containerRef.current;
       if (!triggerEl) return;
 
-      // 1. WE: starts left -> glides right
-      gsap.to(r1.current, {
-        x: '45%',
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: triggerEl,
-          start: 'top bottom',
-          end: 'bottom top',
+          start: 'top 85%',
+          end: 'bottom 15%',
           scrub: 0.6,
         },
       });
 
-      // 2. TURN: starts right -> glides left
-      gsap.to(r2.current, {
-        x: '-45%',
-        scrollTrigger: {
-          trigger: triggerEl,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 0.6,
-        },
-      });
+      // Entry: 0 -> 0.40 | In Alignment: 0.40 -> 0.60 | Exit: 0.60 -> 1.00
+      // 1. WE (Left -> Center -> Right)
+      tl.fromTo(r1.current, { x: '-110vw' }, { x: '0vw', ease: 'power1.out', duration: 0.4 }, 0)
+        .to(r1.current, { x: '110vw', ease: 'power1.in', duration: 0.4 }, 0.6);
 
-      // 3. IDEAS: starts left -> glides right
-      gsap.to(r3.current, {
-        x: '40%',
-        scrollTrigger: {
-          trigger: triggerEl,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 0.6,
-        },
-      });
+      // 2. TURN (Right -> Center -> Left)
+      tl.fromTo(r2.current, { x: '110vw' }, { x: '0vw', ease: 'power1.out', duration: 0.4 }, 0)
+        .to(r2.current, { x: '-110vw', ease: 'power1.in', duration: 0.4 }, 0.6);
 
-      // 4. INTO: starts right -> glides left
-      gsap.to(r4.current, {
-        x: '-40%',
-        scrollTrigger: {
-          trigger: triggerEl,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 0.6,
-        },
-      });
+      // 3. IDEAS (Left -> Center -> Right)
+      tl.fromTo(r3.current, { x: '-110vw' }, { x: '0vw', ease: 'power1.out', duration: 0.4 }, 0)
+        .to(r3.current, { x: '110vw', ease: 'power1.in', duration: 0.4 }, 0.6);
 
-      // 5. DIGITAL: starts left -> glides right
-      gsap.to(r5.current, {
-        x: '35%',
-        scrollTrigger: {
-          trigger: triggerEl,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 0.6,
-        },
-      });
+      // 4. INTO (Right -> Center -> Left)
+      tl.fromTo(r4.current, { x: '110vw' }, { x: '0vw', ease: 'power1.out', duration: 0.4 }, 0)
+        .to(r4.current, { x: '-110vw', ease: 'power1.in', duration: 0.4 }, 0.6);
 
-      // 6. EXPERIENCES: starts right -> glides left
-      gsap.to(r6.current, {
-        x: '-30%',
-        scrollTrigger: {
-          trigger: triggerEl,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 0.6,
-        },
-      });
+      // 5. DIGITAL (Left -> Center -> Right)
+      tl.fromTo(r5.current, { x: '-110vw' }, { x: '0vw', ease: 'power1.out', duration: 0.4 }, 0)
+        .to(r5.current, { x: '110vw', ease: 'power1.in', duration: 0.4 }, 0.6);
 
-      // 7. SWOOSH: starts right -> glides left with experiences
-      gsap.to(r7.current, {
-        x: '-30%',
-        scrollTrigger: {
-          trigger: triggerEl,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 0.6,
-        },
-      });
+      // 6. EXPERIENCES (Right -> Center -> Left)
+      tl.fromTo(r6.current, { x: '110vw' }, { x: '0vw', ease: 'power1.out', duration: 0.4 }, 0)
+        .to(r6.current, { x: '-110vw', ease: 'power1.in', duration: 0.4 }, 0.6);
+
+      // 7. SWOOSH (Left -> Center -> Right)
+      tl.fromTo(r7.current, { x: '-110vw' }, { x: '0vw', ease: 'power1.out', duration: 0.4 }, 0)
+        .to(r7.current, { x: '110vw', ease: 'power1.in', duration: 0.4 }, 0.6);
     });
 
     return () => mm.revert();
   }, []);
 
   const textStyle =
-    'text-[23vw] min-[390px]:text-[24.5vw] min-[420px]:text-[26vw] sm:text-[19vw] md:text-[16vw] lg:text-[15vw] leading-[0.78] sm:leading-[0.75] lg:leading-[0.75] font-black italic text-white/[0.12] uppercase font-barlow relative select-none';
+    'text-[18vw] min-[390px]:text-[19.5vw] min-[420px]:text-[20.5vw] sm:text-[19vw] md:text-[16vw] lg:text-[15vw] leading-[0.78] sm:leading-[0.75] lg:leading-[0.75] font-black italic text-white/[0.12] uppercase font-barlow relative select-none text-center';
+
+  const textStyleMedium =
+    'text-[16vw] min-[390px]:text-[17vw] min-[420px]:text-[18vw] sm:text-[19vw] md:text-[16vw] lg:text-[15vw] leading-[0.78] sm:leading-[0.75] lg:leading-[0.75] font-black italic text-white/[0.12] uppercase font-barlow relative select-none text-center';
 
   const textStyleLong =
-    'text-[15.5vw] min-[390px]:text-[16.5vw] min-[420px]:text-[17.5vw] sm:text-[15.5vw] md:text-[16vw] lg:text-[15vw] leading-[0.78] sm:leading-[0.75] lg:leading-[0.75] font-black italic text-white/[0.12] uppercase font-barlow relative select-none whitespace-nowrap';
+    'text-[11.5vw] min-[390px]:text-[12.5vw] min-[420px]:text-[13.5vw] sm:text-[15.5vw] md:text-[16vw] lg:text-[15vw] leading-[0.78] sm:leading-[0.75] lg:leading-[0.75] font-black italic text-white/[0.12] uppercase font-barlow relative select-none whitespace-nowrap text-center';
 
   return (
     <div
       ref={containerRef}
       className="flex absolute inset-0 z-30 flex-col justify-between sm:justify-start h-[80vh] sm:h-full mt-[8vh] min-[390px]:mt-[9vh] sm:mt-[6vh] md:mt-[8vh] pb-[3vh] sm:pb-0 pointer-events-none overflow-hidden w-full max-w-full px-2 sm:px-4 md:ml-0"
     >
-      {/* 1. WE: starts from the left side */}
-      <div ref={r1} className="w-full flex justify-start pl-[3vw] sm:pl-[52vw] md:pl-[59vw] will-change-transform">
+      <div ref={r1} className="w-full flex justify-center md:justify-start md:pl-[59vw] will-change-transform">
         <span aria-hidden="true" className={textStyle}>we</span>
       </div>
-
-      {/* 2. TURN: starts from the right side */}
-      <div ref={r2} className="w-full flex justify-start pl-[36vw] md:pl-[5vw] will-change-transform">
+      <div ref={r2} className="w-full flex justify-center md:justify-start md:pl-[5vw] will-change-transform">
         <span aria-hidden="true" className={textStyle}>turn</span>
       </div>
-
-      {/* 3. IDEAS: starts from the left side */}
-      <div ref={r3} className="w-full flex justify-start pl-[3vw] sm:pl-[44vw] md:pl-[55vw] will-change-transform">
+      <div ref={r3} className="w-full flex justify-center md:justify-start md:pl-[55vw] will-change-transform">
         <span aria-hidden="true" className={textStyle}>ideas</span>
       </div>
-
-      {/* 4. INTO: starts from the right side */}
-      <div ref={r4} className="w-full flex justify-start pl-[36vw] md:pl-[2vw] will-change-transform">
+      <div ref={r4} className="w-full flex justify-center md:justify-start md:pl-[2vw] will-change-transform">
         <span aria-hidden="true" className={textStyle}>into</span>
       </div>
-
-      {/* 5. DIGITAL: starts from the left side */}
-      <div ref={r5} className="w-full flex justify-start pl-[2vw] sm:pl-[26vw] md:pl-[35vw] will-change-transform">
-        <span aria-hidden="true" className={textStyle}>digital</span>
+      <div ref={r5} className="w-full flex justify-center md:justify-start md:pl-[35vw] will-change-transform">
+        <span aria-hidden="true" className={textStyleMedium}>digital</span>
       </div>
-
-      {/* 6. EXPERIENCES: starts from the right side */}
-      <div ref={r6} className="w-full flex justify-start pl-[18vw] sm:pl-[2vw] md:pl-[2vw] will-change-transform">
+      <div ref={r6} className="w-full flex justify-center md:justify-start md:pl-[2vw] will-change-transform">
         <span aria-hidden="true" className={textStyleLong}>experiences</span>
       </div>
-
-      {/* 7. Underline swoosh on the right */}
       <div
         ref={r7}
-        className="w-full flex justify-start pl-[18vw] sm:pl-[14vw] md:pl-[20vw] mt-1 sm:mt-3 lg:mt-12 mb-1 md:mb-1 lg:mb-4 will-change-transform opacity-30"
+        className="w-full flex justify-center md:justify-start md:pl-[20vw] mt-1 sm:mt-3 lg:mt-12 mb-1 md:mb-1 lg:mb-4 will-change-transform opacity-30"
       >
         <svg
           width="45vw"
@@ -224,6 +175,7 @@ export const IntroTextLayer: React.FC = () => {
           viewBox="0 0 300 40"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          className="max-w-[240px] md:max-w-none"
         >
           <path d="M5 25 Q 150 0 295 25 Q 150 15 5 25 Z" fill="#2563FF" />
         </svg>
