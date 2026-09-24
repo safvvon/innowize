@@ -86,87 +86,115 @@ export const IntroTextLayer: React.FC = () => {
       });
     });
 
-    // Mobile: Alternating kinetic parallax scroll (1st from left, 2nd from right, 3rd from left, etc.)
+    // Mobile: Alternating kinetic parallax scroll (1st from left, 2nd from right, etc.)
     mm.add('(max-width: 767px)', () => {
       const triggerEl = document.getElementById('intro-section') || containerRef.current;
       if (!triggerEl) return;
 
-      // r1 ("we") - 1st: Starts Left -> Drifts Right
-      gsap.to(r1.current, {
-        x: '50%',
-        scrollTrigger: {
-          trigger: triggerEl,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 0.6,
-        },
-      });
+      // 1. WE: comes from the left side, moves right
+      gsap.fromTo(
+        r1.current,
+        { x: '-35vw' },
+        {
+          x: '25vw',
+          scrollTrigger: {
+            trigger: triggerEl,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 0.6,
+          },
+        }
+      );
 
-      // r2 ("turn") - 2nd: Starts Right -> Drifts Left
-      gsap.to(r2.current, {
-        x: '-50%',
-        scrollTrigger: {
-          trigger: triggerEl,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 0.6,
-        },
-      });
+      // 2. TURN: comes from the right side, moves left
+      gsap.fromTo(
+        r2.current,
+        { x: '35vw' },
+        {
+          x: '-25vw',
+          scrollTrigger: {
+            trigger: triggerEl,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 0.6,
+          },
+        }
+      );
 
-      // r3 ("ideas") - 3rd: Starts Left -> Drifts Right
-      gsap.to(r3.current, {
-        x: '45%',
-        scrollTrigger: {
-          trigger: triggerEl,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 0.6,
-        },
-      });
+      // 3. IDEAS: comes from the left side, moves right
+      gsap.fromTo(
+        r3.current,
+        { x: '-35vw' },
+        {
+          x: '25vw',
+          scrollTrigger: {
+            trigger: triggerEl,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 0.6,
+          },
+        }
+      );
 
-      // r4 ("into") - 4th: Starts Right -> Drifts Left
-      gsap.to(r4.current, {
-        x: '-45%',
-        scrollTrigger: {
-          trigger: triggerEl,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 0.6,
-        },
-      });
+      // 4. INTO: comes from the right side, moves left
+      gsap.fromTo(
+        r4.current,
+        { x: '35vw' },
+        {
+          x: '-25vw',
+          scrollTrigger: {
+            trigger: triggerEl,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 0.6,
+          },
+        }
+      );
 
-      // r5 ("digital") - 5th: Starts Left -> Drifts Right
-      gsap.to(r5.current, {
-        x: '35%',
-        scrollTrigger: {
-          trigger: triggerEl,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 0.6,
-        },
-      });
+      // 5. DIGITAL: comes from the left side, moves right
+      gsap.fromTo(
+        r5.current,
+        { x: '-28vw' },
+        {
+          x: '20vw',
+          scrollTrigger: {
+            trigger: triggerEl,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 0.6,
+          },
+        }
+      );
 
-      // r6 ("experiences") - 6th: Starts Right -> Drifts Left
-      gsap.to(r6.current, {
-        x: '-25%',
-        scrollTrigger: {
-          trigger: triggerEl,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 0.6,
-        },
-      });
+      // 6. EXPERIENCES: comes from the right side, moves left
+      gsap.fromTo(
+        r6.current,
+        { x: '25vw' },
+        {
+          x: '-20vw',
+          scrollTrigger: {
+            trigger: triggerEl,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 0.6,
+          },
+        }
+      );
 
-      // r7 (swoosh underline) - Follows experiences -> Drifts Left
-      gsap.to(r7.current, {
-        x: '-25%',
-        scrollTrigger: {
-          trigger: triggerEl,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 0.6,
-        },
-      });
+      // 7. SWOOSH: moves with experiences
+      gsap.fromTo(
+        r7.current,
+        { x: '25vw' },
+        {
+          x: '-20vw',
+          scrollTrigger: {
+            trigger: triggerEl,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 0.6,
+          },
+        }
+      );
     });
 
     return () => mm.revert();
@@ -183,34 +211,27 @@ export const IntroTextLayer: React.FC = () => {
       ref={containerRef}
       className="flex absolute inset-0 z-30 flex-col justify-between sm:justify-start h-[80vh] sm:h-full mt-[8vh] min-[390px]:mt-[9vh] sm:mt-[6vh] md:mt-[8vh] pb-[3vh] sm:pb-0 pointer-events-none overflow-hidden w-full max-w-full px-2 sm:px-4 md:ml-0"
     >
-      {/* 1st Word from Left */}
-      <div ref={r1} className="w-full flex justify-start pl-[3vw] sm:pl-[4vw] md:pl-[59vw] will-change-transform">
+      <div ref={r1} className="w-full flex justify-start pl-[4vw] sm:pl-[6vw] md:pl-[59vw] will-change-transform">
         <span aria-hidden="true" className={textStyle}>we</span>
       </div>
-      {/* 2nd Word from Right */}
-      <div ref={r2} className="w-full flex justify-start pl-[38vw] min-[390px]:pl-[42vw] md:pl-[5vw] will-change-transform">
+      <div ref={r2} className="w-full flex justify-start pl-[40vw] sm:pl-[44vw] md:pl-[5vw] will-change-transform">
         <span aria-hidden="true" className={textStyle}>turn</span>
       </div>
-      {/* 3rd Word from Left */}
-      <div ref={r3} className="w-full flex justify-start pl-[3vw] md:pl-[55vw] will-change-transform">
+      <div ref={r3} className="w-full flex justify-start pl-[4vw] sm:pl-[6vw] md:pl-[55vw] will-change-transform">
         <span aria-hidden="true" className={textStyle}>ideas</span>
       </div>
-      {/* 4th Word from Right */}
-      <div ref={r4} className="w-full flex justify-start pl-[40vw] min-[390px]:pl-[45vw] md:pl-[2vw] will-change-transform">
+      <div ref={r4} className="w-full flex justify-start pl-[44vw] sm:pl-[48vw] md:pl-[2vw] will-change-transform">
         <span aria-hidden="true" className={textStyle}>into</span>
       </div>
-      {/* 5th Word from Left */}
-      <div ref={r5} className="w-full flex justify-start pl-[3vw] md:pl-[35vw] will-change-transform">
+      <div ref={r5} className="w-full flex justify-start pl-[4vw] sm:pl-[6vw] md:pl-[35vw] will-change-transform">
         <span aria-hidden="true" className={textStyle}>digital</span>
       </div>
-      {/* 6th Word from Right */}
-      <div ref={r6} className="w-full flex justify-start pl-[14vw] min-[390px]:pl-[18vw] md:pl-[2vw] will-change-transform">
+      <div ref={r6} className="w-full flex justify-start pl-[14vw] sm:pl-[18vw] md:pl-[2vw] will-change-transform">
         <span aria-hidden="true" className={textStyleLong}>experiences</span>
       </div>
-      {/* Swoosh Underline aligned under experiences */}
       <div
         ref={r7}
-        className="w-full flex justify-start pl-[20vw] min-[390px]:pl-[26vw] md:pl-[20vw] mt-1 sm:mt-3 lg:mt-12 mb-1 md:mb-1 lg:mb-4 will-change-transform opacity-30"
+        className="w-full flex justify-start pl-[20vw] sm:pl-[26vw] md:pl-[20vw] mt-1 sm:mt-3 lg:mt-12 mb-1 md:mb-1 lg:mb-4 will-change-transform opacity-30"
       >
         <svg
           width="45vw"
