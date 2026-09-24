@@ -195,7 +195,7 @@ export const Hero: React.FC = () => {
           preload="auto"
           title="Innowize Digital Official Showreel"
           aria-label="Innowize Digital Showreel Video"
-          className="relative z-10 w-full h-full object-contain sm:object-cover object-[center_38%] sm:object-center scale-[3.0] sm:scale-100 origin-[center_38%] sm:origin-center transition-transform duration-300"
+          className="relative z-10 w-full h-full object-contain sm:object-cover object-[center_38%] sm:object-center scale-[3.85] sm:scale-100 origin-[center_38%] sm:origin-center transition-transform duration-300"
         />
 
         {/* Subtle Top Header Vignette Only - Zero Shade Below/At Bottom */}
