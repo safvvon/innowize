@@ -36,7 +36,7 @@ const prefetchVideo = (driveId?: string) => {
   }
 };
 
-// Image loader with high-definition fallback cascade and cache-safe rendering
+// Image loader with high-definition fallback cascade, React.memo caching, and lazy/eager prioritization
 const ImageWithFallback: React.FC<{
   src: string;
   alt: string;
@@ -44,7 +44,8 @@ const ImageWithFallback: React.FC<{
   fallbackSrc?: string;
   objectPosition?: string;
   style?: React.CSSProperties;
-}> = ({ src, alt, className = '', fallbackSrc, objectPosition, style }) => {
+  priority?: boolean;
+}> = React.memo(({ src, alt, className = '', fallbackSrc, objectPosition, style, priority = false }) => {
   const [imgSrc, setImgSrc] = useState(src);
   const [loaded, setLoaded] = useState(false);
   const [retryStep, setRetryStep] = useState(0);
@@ -72,7 +73,8 @@ const ImageWithFallback: React.FC<{
         ref={imgRef}
         src={imgSrc}
         alt={alt}
-        loading="lazy"
+        loading={priority ? 'eager' : 'lazy'}
+        fetchPriority={priority ? 'high' : 'auto'}
         decoding="async"
         referrerPolicy="no-referrer"
         onLoad={() => setLoaded(true)}
@@ -103,7 +105,7 @@ const ImageWithFallback: React.FC<{
       />
     </div>
   );
-};
+});
 
 interface CardBentoLayout {
   spanClass: string;
@@ -468,6 +470,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                           alt={project.title}
                           fallbackSrc={project.driveId ? `https://drive.google.com/thumbnail?id=${project.driveId}&sz=w1200` : undefined}
                           objectPosition={project.objectPosition}
+                          priority={idx < 2}
                           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 contrast-[1.04] saturate-[1.07] brightness-[1.02]"
                         />
                       </div>
@@ -549,6 +552,7 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                       <ImageWithFallback
                         src={collection.coverImage}
                         alt={collection.title}
+                        priority={idx < 2}
                         className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 contrast-[1.04] saturate-[1.07] brightness-[1.02]"
                       />
                     </div>

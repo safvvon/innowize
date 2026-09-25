@@ -68,6 +68,7 @@ export const IntroSection2: React.FC = () => {
                   to={`/services#${service.id}`}
                   aria-label={`Explore ${service.title} services`}
                   className="group relative rounded-2xl bg-[#090E1B] border border-[#141C30] hover:border-[#2563FF]/70 p-6 sm:p-8 flex flex-col justify-between h-full min-h-[250px] sm:min-h-[285px] transition-all duration-300 hover:-translate-y-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_40px_rgba(37,99,255,0.2)] cursor-pointer block"
+                  style={{ willChange: 'transform', transform: 'translateZ(0)' }}
                 >
                   {/* Top Row: Number on left, Blue squircle icon on right */}
                   <div>

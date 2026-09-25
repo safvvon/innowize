@@ -83,6 +83,30 @@
   perspective: 1000px;
 }
 
+/* Optimized Mobile Touch & Smooth Scrolling Performance */
+html, body {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Hardware Compositing & Fast Layouts */
+.hardware-accelerated {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* Off-screen Content Rendering Optimization */
+.content-visibility-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 400px;
+}
+
+/* Smooth Premium Interaction Timing Curves */
+.transition-smooth {
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 /* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
   *,

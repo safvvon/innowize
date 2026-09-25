@@ -82,6 +82,7 @@ export const Services: React.FC<{ onOpenContact?: (subject?: string) => void }> 
                     ? 'border-[#2563FF] ring-2 ring-[#2563FF]/60 shadow-[0_0_40px_rgba(37,99,255,0.35)] -translate-y-1'
                     : 'border-[#141C30] hover:border-[#2563FF]/70 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_40px_rgba(37,99,255,0.2)]'
                 }`}
+                style={{ willChange: 'transform', transform: 'translateZ(0)' }}
               >
                 {/* Top Row: Number on left, Blue squircle icon on right */}
                 <div>

@@ -91,7 +91,10 @@ export const Clients: React.FC = () => {
 
       {/* Infinite Client Logos Marquee */}
       <div className="relative z-30 w-full pt-10 sm:pt-16 pb-8 sm:pb-12 overflow-hidden">
-        <div className="flex w-max items-center gap-4 sm:gap-6 animate-client-marquee">
+        <div
+          className="flex w-max items-center gap-4 sm:gap-6 animate-client-marquee"
+          style={{ willChange: 'transform', transform: 'translateZ(0)' }}
+        >
           {[...clientLogos, ...clientLogos].map((c, i) => (
             <div
               key={i}

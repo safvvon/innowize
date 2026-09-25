@@ -18,7 +18,7 @@ const ContactModal = React.lazy(() => import('./components/ContactModal').then((
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Scroll to top helper on route navigation with hash anchor support
+// Scroll to top helper on route navigation with hash anchor support & ScrollTrigger refresh
 const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
 
@@ -30,10 +30,15 @@ const ScrollToTop = () => {
         if (element) {
           element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
+        ScrollTrigger.refresh();
       }, 150);
       return () => clearTimeout(timer);
     } else {
       window.scrollTo(0, 0);
+      const raf = requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+      });
+      return () => cancelAnimationFrame(raf);
     }
   }, [pathname, hash]);
 
@@ -57,6 +62,7 @@ export const AppContent: React.FC = () => {
       orientation: 'vertical',
       smoothWheel: true,
       syncTouch: false,
+      touchMultiplier: 1.5,
     });
 
     lenis.on('scroll', ScrollTrigger.update);
@@ -65,7 +71,7 @@ export const AppContent: React.FC = () => {
       lenis.raf(time * 1000);
     };
     gsap.ticker.add(updateTicker);
-    gsap.ticker.lagSmoothing(0);
+    gsap.ticker.lagSmoothing(1000, 16);
 
     return () => {
       gsap.ticker.remove(updateTicker);

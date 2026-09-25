@@ -19,15 +19,26 @@ export const Hero: React.FC = () => {
     return '/showreel.mp4';
   });
 
-  // Keep video source responsive to viewport changes
+  // Keep video source responsive to viewport changes via matchMedia for zero resize event thrashing
   useEffect(() => {
-    const handleResize = () => {
-      const isMobile = window.innerWidth <= 768;
-      const targetSrc = isMobile ? '/showreel-mobile.mp4' : '/showreel.mp4';
+    if (typeof window === 'undefined') return;
+    const mql = window.matchMedia('(max-width: 768px)');
+    const handleMediaChange = (e: MediaQueryListEvent | MediaQueryList) => {
+      const targetSrc = e.matches ? '/showreel-mobile.mp4' : '/showreel.mp4';
       setVideoSrc(prev => (prev !== targetSrc ? targetSrc : prev));
     };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    if (mql.addEventListener) {
+      mql.addEventListener('change', handleMediaChange);
+    } else {
+      mql.addListener(handleMediaChange);
+    }
+    return () => {
+      if (mql.removeEventListener) {
+        mql.removeEventListener('change', handleMediaChange);
+      } else {
+        mql.removeListener(handleMediaChange);
+      }
+    };
   }, []);
 
   // Ensure DOM element has muted and inline playback properties set immediately on mount
@@ -134,26 +145,31 @@ export const Hero: React.FC = () => {
 
     // If mobile browser policy (such as iOS Low Power Mode) blocks zero-interaction autoplay,
     // ensure the very first user interaction anywhere on the screen immediately starts playback
+    const removeInteractionListeners = () => {
+      window.removeEventListener('touchstart', handleFirstInteraction);
+      window.removeEventListener('scroll', handleFirstInteraction);
+      window.removeEventListener('pointerdown', handleFirstInteraction);
+      window.removeEventListener('click', handleFirstInteraction);
+    };
+
     const handleFirstInteraction = () => {
       if (video && video.paused) {
         video.muted = true;
         video.play().then(() => setIsPlaying(true)).catch(() => {});
       }
+      removeInteractionListeners();
     };
 
-    window.addEventListener('touchstart', handleFirstInteraction, { once: true, passive: true });
-    window.addEventListener('scroll', handleFirstInteraction, { once: true, passive: true });
-    window.addEventListener('pointerdown', handleFirstInteraction, { once: true, passive: true });
-    window.addEventListener('click', handleFirstInteraction, { once: true, passive: true });
+    window.addEventListener('touchstart', handleFirstInteraction, { passive: true });
+    window.addEventListener('scroll', handleFirstInteraction, { passive: true });
+    window.addEventListener('pointerdown', handleFirstInteraction, { passive: true });
+    window.addEventListener('click', handleFirstInteraction, { passive: true });
 
     return () => {
       video.removeEventListener('canplay', handleReady);
       video.removeEventListener('loadeddata', handleReady);
       video.removeEventListener('loadedmetadata', handleReady);
-      window.removeEventListener('touchstart', handleFirstInteraction);
-      window.removeEventListener('scroll', handleFirstInteraction);
-      window.removeEventListener('pointerdown', handleFirstInteraction);
-      window.removeEventListener('click', handleFirstInteraction);
+      removeInteractionListeners();
     };
   }, [videoSrc]);
 
@@ -267,8 +283,8 @@ export const Hero: React.FC = () => {
         }}
       >
         {/* Mobile Ambient Cinematic Backdrop Glow (Zero harsh borders, immersive atmosphere) */}
-        <div className="block sm:hidden absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95vw] h-[55vw] bg-[#2563FF]/25 rounded-full blur-[80px] pointer-events-none" />
-        <div className="block sm:hidden absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[75vw] h-[40vw] bg-[#1D4ED8]/30 rounded-full blur-[50px] pointer-events-none" />
+        <div className="block sm:hidden absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95vw] h-[55vw] bg-[#2563FF]/25 rounded-full blur-[60px] pointer-events-none transform-gpu will-change-transform" />
+        <div className="block sm:hidden absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[75vw] h-[40vw] bg-[#1D4ED8]/30 rounded-full blur-[40px] pointer-events-none transform-gpu will-change-transform" />
 
         <video
           ref={setVideoRef}
