@@ -34,6 +34,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
     { name: 'ABOUT', path: '/about' },
     { name: 'SERVICES', path: '/services' },
     { name: 'WORK', path: '/work' },
+    { name: 'JOURNAL', path: '/blog' },
     { name: 'CONTACT', path: '/contact' },
   ];
 

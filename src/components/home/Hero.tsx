@@ -1,16 +1,46 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, Volume2, VolumeX, Hexagon, MapPin, Sparkles, Maximize2, Film, X, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const Hero: React.FC = () => {
   const navigate = useNavigate();
+  const heroRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const modalVideoRef = useRef<HTMLVideoElement>(null);
   const modalContainerRef = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const [showShowreelModal, setShowShowreelModal] = useState(false);
+  const [videoSrc, setVideoSrc] = useState(() => {
+    if (typeof window !== 'undefined' && window.innerWidth <= 768) {
+      return '/showreel-mobile.mp4';
+    }
+    return '/showreel.mp4';
+  });
+
+  // Keep video source responsive to viewport changes
+  useEffect(() => {
+    const handleResize = () => {
+      const isMobile = window.innerWidth <= 768;
+      const targetSrc = isMobile ? '/showreel-mobile.mp4' : '/showreel.mp4';
+      setVideoSrc(prev => (prev !== targetSrc ? targetSrc : prev));
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Ensure DOM element has muted and inline playback properties set immediately on mount
+  const setVideoRef = useCallback((el: HTMLVideoElement | null) => {
+    if (el) {
+      el.muted = true;
+      el.defaultMuted = true;
+      el.playsInline = true;
+      el.setAttribute('playsinline', '');
+      el.setAttribute('webkit-playsinline', '');
+    }
+    (videoRef as React.MutableRefObject<HTMLVideoElement | null>).current = el;
+  }, []);
 
   // Automatically pause video when user leaves the website/tab or window loses focus
   useEffect(() => {
@@ -20,8 +50,7 @@ export const Hero: React.FC = () => {
         videoRef.current.pause();
         setIsPlaying(false);
       } else {
-        videoRef.current.play().catch(() => {});
-        setIsPlaying(true);
+        videoRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
       }
     };
 
@@ -46,9 +75,11 @@ export const Hero: React.FC = () => {
   }, []);
 
   // Pause video when scrolled out of view, resume when back in view
+  // Observe heroRef (the section container) to prevent scale transforms on video from breaking intersection
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    const hero = heroRef.current;
+    if (!video || !hero) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -56,34 +87,75 @@ export const Hero: React.FC = () => {
           video.pause();
           setIsPlaying(false);
         } else if (!document.hidden) {
-          video.play().catch(() => {});
-          setIsPlaying(true);
+          video.muted = true;
+          video.play().then(() => setIsPlaying(true)).catch(() => {});
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.05 }
     );
 
-    observer.observe(video);
+    observer.observe(hero);
 
     return () => {
       observer.disconnect();
     };
   }, []);
 
-  // Force initial play with explicit muted property to guarantee browser autoplay compliance
+  // Autoplay management: ensures showreel autoplays automatically on mobile and desktop
   useEffect(() => {
     const video = videoRef.current;
-    if (video) {
+    if (!video) return;
+
+    video.muted = true;
+    video.defaultMuted = true;
+
+    const attemptAutoplay = () => {
+      if (!video) return;
       video.muted = true;
-      video.defaultMuted = true;
       const playPromise = video.play();
       if (playPromise !== undefined) {
         playPromise
           .then(() => setIsPlaying(true))
-          .catch(() => setIsPlaying(false));
+          .catch(() => {
+            // Autoplay might be deferred by strict mobile power saver / browser policy
+          });
       }
-    }
-  }, []);
+    };
+
+    attemptAutoplay();
+
+    const handleReady = () => {
+      attemptAutoplay();
+    };
+
+    video.addEventListener('canplay', handleReady);
+    video.addEventListener('loadeddata', handleReady);
+    video.addEventListener('loadedmetadata', handleReady);
+
+    // If mobile browser policy (such as iOS Low Power Mode) blocks zero-interaction autoplay,
+    // ensure the very first user interaction anywhere on the screen immediately starts playback
+    const handleFirstInteraction = () => {
+      if (video && video.paused) {
+        video.muted = true;
+        video.play().then(() => setIsPlaying(true)).catch(() => {});
+      }
+    };
+
+    window.addEventListener('touchstart', handleFirstInteraction, { once: true, passive: true });
+    window.addEventListener('scroll', handleFirstInteraction, { once: true, passive: true });
+    window.addEventListener('pointerdown', handleFirstInteraction, { once: true, passive: true });
+    window.addEventListener('click', handleFirstInteraction, { once: true, passive: true });
+
+    return () => {
+      video.removeEventListener('canplay', handleReady);
+      video.removeEventListener('loadeddata', handleReady);
+      video.removeEventListener('loadedmetadata', handleReady);
+      window.removeEventListener('touchstart', handleFirstInteraction);
+      window.removeEventListener('scroll', handleFirstInteraction);
+      window.removeEventListener('pointerdown', handleFirstInteraction);
+      window.removeEventListener('click', handleFirstInteraction);
+    };
+  }, [videoSrc]);
 
   const togglePlay = () => {
     if (!videoRef.current) return;
@@ -178,21 +250,35 @@ export const Hero: React.FC = () => {
   }, [showShowreelModal]);
 
   return (
-    <section className="relative w-full min-h-[96vh] lg:min-h-screen bg-[#070A12] flex flex-col justify-between overflow-hidden pt-24 sm:pt-28 lg:pt-32 select-none">
+    <section ref={heroRef} className="relative w-full min-h-[96vh] lg:min-h-screen bg-[#070A12] flex flex-col justify-between overflow-hidden pt-24 sm:pt-28 lg:pt-32 select-none">
       {/* Full-Screen Innowize Digital Showreel Video Background */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden z-0 bg-[#070A12]">
+      <div 
+        onClick={togglePlay}
+        className="absolute inset-0 w-full h-full overflow-hidden z-0 bg-[#070A12] cursor-pointer"
+        title={isPlaying ? 'Click to Pause Showreel' : 'Click to Play Showreel'}
+        role="button"
+        tabIndex={0}
+        aria-label={isPlaying ? 'Pause Showreel Video' : 'Play Showreel Video'}
+        onKeyDown={(e) => {
+          if (e.key === ' ' || e.key === 'Enter') {
+            e.preventDefault();
+            togglePlay();
+          }
+        }}
+      >
         {/* Mobile Ambient Cinematic Backdrop Glow (Zero harsh borders, immersive atmosphere) */}
         <div className="block sm:hidden absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95vw] h-[55vw] bg-[#2563FF]/25 rounded-full blur-[80px] pointer-events-none" />
         <div className="block sm:hidden absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[75vw] h-[40vw] bg-[#1D4ED8]/30 rounded-full blur-[50px] pointer-events-none" />
 
         <video
-          ref={videoRef}
+          ref={setVideoRef}
+          src={videoSrc}
           poster="/images/showreel_poster.jpg"
           autoPlay
           loop
           muted
           playsInline
-          preload="metadata"
+          preload="auto"
           title="Innowize Digital Official Showreel"
           aria-label="Innowize Digital Showreel Video"
           className="relative z-10 w-full h-full object-contain sm:object-cover object-[center_38%] sm:object-center scale-[4.4] sm:scale-100 origin-[center_38%] sm:origin-center transition-transform duration-300"

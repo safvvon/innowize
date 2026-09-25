@@ -22,7 +22,7 @@ if (fs.existsSync(robotsPath)) {
   const robots = fs.readFileSync(robotsPath, 'utf8');
   assert(robots.includes('User-agent: *'), 'robots.txt allows all crawlers');
   assert(robots.includes('Allow: /'), 'robots.txt allows root public access');
-  assert(robots.includes('Sitemap: https://innowize.vercel.app/sitemap.xml'), 'robots.txt points to canonical sitemap.xml');
+  assert(robots.includes('Sitemap: https://www.innowizedigital.com/sitemap.xml'), 'robots.txt points to canonical sitemap.xml');
   assert(!robots.includes('Disallow: /'), 'robots.txt does NOT accidentally block site');
 }
 
@@ -35,17 +35,26 @@ if (fs.existsSync(sitemapPath)) {
   assert(sitemap.includes('<urlset'), 'sitemap.xml has <urlset>');
 
   const expectedUrls = [
-    'https://innowize.vercel.app/',
-    'https://innowize.vercel.app/work',
-    'https://innowize.vercel.app/services',
-    'https://innowize.vercel.app/services/video-production',
-    'https://innowize.vercel.app/services/digital-marketing',
-    'https://innowize.vercel.app/services/event-production',
-    'https://innowize.vercel.app/services/ai-creative-tech',
-    'https://innowize.vercel.app/services/ar-vr',
-    'https://innowize.vercel.app/services/live-streaming',
-    'https://innowize.vercel.app/about',
-    'https://innowize.vercel.app/contact',
+    'https://www.innowizedigital.com/',
+    'https://www.innowizedigital.com/services',
+    'https://www.innowizedigital.com/services/web-design',
+    'https://www.innowizedigital.com/services/ui-ux-design',
+    'https://www.innowizedigital.com/services/web-development',
+    'https://www.innowizedigital.com/services/branding',
+    'https://www.innowizedigital.com/services/ai-video',
+    'https://www.innowizedigital.com/services/video-production',
+    'https://www.innowizedigital.com/services/digital-marketing',
+    'https://www.innowizedigital.com/services/event-production',
+    'https://www.innowizedigital.com/services/ar-vr',
+    'https://www.innowizedigital.com/services/live-streaming',
+    'https://www.innowizedigital.com/work',
+    'https://www.innowizedigital.com/blog',
+    'https://www.innowizedigital.com/blog/web-design/modern-web-design-principles',
+    'https://www.innowizedigital.com/blog/ui-ux/ui-vs-ux-strategic-experience-design',
+    'https://www.innowizedigital.com/blog/ai-video/generative-ai-video-production-workflows',
+    'https://www.innowizedigital.com/blog/digital-marketing/data-driven-growth-strategies',
+    'https://www.innowizedigital.com/about',
+    'https://www.innowizedigital.com/contact',
   ];
 
   expectedUrls.forEach((url) => {
@@ -68,31 +77,39 @@ if (fs.existsSync(vercelPath)) {
   const vercel = JSON.parse(fs.readFileSync(vercelPath, 'utf8'));
   assert(Array.isArray(vercel.rewrites), 'vercel.json has SPA rewrites');
   assert(Array.isArray(vercel.headers), 'vercel.json has security and caching headers');
+  assert(Array.isArray(vercel.redirects), 'vercel.json has 301 redirects');
 }
 
 console.log('\n--- 4. AUDITING STATIC INDEX.HTML HEAD TAGS ---');
 const indexPath = path.join(rootDir, 'index.html');
 const indexHtml = fs.readFileSync(indexPath, 'utf8');
 
-assert(indexHtml.includes('<title>Innowize Digital | Creative Studio & Next-Gen Digital Experiences</title>'), 'index.html has optimized title');
+assert(indexHtml.includes('<title>Innowize Digital | Creative Digital Agency for Web, UI/UX &amp; Digital Experiences</title>'), 'index.html has brand-optimized title');
 assert(indexHtml.includes('name="description"'), 'index.html has meta description');
-assert(indexHtml.includes('rel="canonical" href="https://innowize.vercel.app/"'), 'index.html has canonical tag');
+assert(indexHtml.includes('rel="canonical" href="https://www.innowizedigital.com/"'), 'index.html has canonical tag pointing to https://www.innowizedigital.com/');
 assert(indexHtml.includes('name="robots" content="index, follow'), 'index.html has robots directive');
 assert(indexHtml.includes('property="og:title"'), 'index.html has og:title');
 assert(indexHtml.includes('property="og:description"'), 'index.html has og:description');
 assert(indexHtml.includes('property="og:image"'), 'index.html has og:image');
 assert(indexHtml.includes('name="twitter:card"'), 'index.html has twitter:card');
 assert(indexHtml.includes('type="application/ld+json"'), 'index.html has JSON-LD structured data');
+assert(indexHtml.includes('<noscript>'), 'index.html has crawlable noscript semantic fallback');
 
 console.log('\n--- 5. AUDITING REACT SEO SOURCE FILES ---');
 assert(fs.existsSync(path.join(rootDir, 'src', 'seo', 'seoConfig.ts')), 'src/seo/seoConfig.ts exists');
 assert(fs.existsSync(path.join(rootDir, 'src', 'seo', 'schemaGenerators.ts')), 'src/seo/schemaGenerators.ts exists');
 assert(fs.existsSync(path.join(rootDir, 'src', 'seo', 'SEOHead.tsx')), 'src/seo/SEOHead.tsx exists');
 assert(fs.existsSync(path.join(rootDir, 'src', 'pages', 'NotFound.tsx')), 'src/pages/NotFound.tsx exists');
+assert(fs.existsSync(path.join(rootDir, 'src', 'pages', 'Blog.tsx')), 'src/pages/Blog.tsx exists');
+assert(fs.existsSync(path.join(rootDir, 'src', 'pages', 'BlogPost.tsx')), 'src/pages/BlogPost.tsx exists');
+assert(fs.existsSync(path.join(rootDir, 'src', 'data', 'blogData.ts')), 'src/data/blogData.ts exists');
+assert(fs.existsSync(path.join(rootDir, 'src', 'data', 'serviceDetailsData.ts')), 'src/data/serviceDetailsData.ts exists');
 
 const appContent = fs.readFileSync(path.join(rootDir, 'src', 'App.tsx'), 'utf8');
 assert(appContent.includes('<SEOHead />'), 'App.tsx renders <SEOHead />');
 assert(appContent.includes('path="*" element={<NotFound />}'), 'App.tsx includes catch-all 404 route');
+assert(appContent.includes('path="/blog"'), 'App.tsx includes /blog route');
+assert(appContent.includes('path="/blog/:category/:slug"'), 'App.tsx includes /blog article route');
 
 console.log('\n======================================');
 console.log(`SEO AUDIT RESULT: ${passCount} Passed, ${errorCount} Failed`);

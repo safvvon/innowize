@@ -8,6 +8,7 @@ import {
   PageMetadata,
 } from './seoConfig';
 import { generateGraphSchema } from './schemaGenerators';
+import { blogPosts } from '../data/blogData';
 
 const updateOrCreateMeta = (attributeName: string, attributeValue: string, content: string) => {
   let element = document.querySelector(`meta[${attributeName}="${attributeValue}"]`);
@@ -40,13 +41,30 @@ export const SEOHead: React.FC = () => {
     if (STATIC_PAGES_META[normalizedPath]) {
       meta = STATIC_PAGES_META[normalizedPath];
     } else if (normalizedPath.startsWith('/services/')) {
-      const serviceId = normalizedPath.replace('/services/', '');
-      meta = SERVICES_META[serviceId] || {
-        title: `${serviceId.replace(/-/g, ' ').toUpperCase()} | ${SITE_CONFIG.brandName}`,
-        description: `Explore ${serviceId.replace(/-/g, ' ')} solutions by ${SITE_CONFIG.brandName}.`,
+      const rawId = normalizedPath.replace('/services/', '');
+      const serviceId = rawId === 'ai-creative-tech' ? 'ai-video' : rawId;
+      meta = SERVICES_META[serviceId] || SERVICES_META[rawId] || {
+        title: `${rawId.replace(/-/g, ' ').toUpperCase()} Services | ${SITE_CONFIG.brandName}`,
+        description: `Explore ${rawId.replace(/-/g, ' ')} solutions by ${SITE_CONFIG.brandName}.`,
         canonical: `${SITE_CONFIG.domain}/services/${serviceId}`,
         ogType: 'website',
       };
+    } else if (normalizedPath.startsWith('/blog/')) {
+      const parts = normalizedPath.split('/').filter(Boolean);
+      const slug = parts[parts.length - 1];
+      const post = blogPosts.find((p) => p.slug === slug);
+
+      if (post) {
+        meta = {
+          title: `${post.title} | ${SITE_CONFIG.brandName}`,
+          description: post.description,
+          canonical: `${SITE_CONFIG.domain}/blog/${post.category}/${post.slug}`,
+          ogType: 'article',
+          ogImage: `${SITE_CONFIG.domain}${post.heroImage}`,
+        };
+      } else {
+        meta = NOT_FOUND_META;
+      }
     } else {
       meta = NOT_FOUND_META;
     }

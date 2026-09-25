@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Compass, Hexagon, Diamond, CheckCircle } from 'lucide-react';
+import { TeamMembers } from '../components/home/TeamMembers';
 
 export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }) => {
   const navigate = useNavigate();
@@ -209,35 +210,38 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
         </div>
       </section>
 
-      {/* Stats Counter Section */}
+      {/* Verified Studio Metrics Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-8 sm:py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 p-6 sm:p-10 md:p-16 rounded-3xl bg-[#0F1628] border border-[#141A2B] text-center shadow-xl w-full">
           <div className="pb-6 md:pb-0 border-b md:border-b-0 border-white/10">
             <div className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black font-barlow text-white mb-1 sm:mb-2">
-              87.2K
+              200+
             </div>
             <div className="text-xs sm:text-sm font-poppins font-semibold tracking-wider text-[#60A5FA] uppercase">
-              Projects Completed
+              Projects Delivered
             </div>
           </div>
           <div className="py-2 md:py-0 pb-6 md:pb-0 border-b md:border-b-0 md:border-x border-white/10 md:px-6">
             <div className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black font-barlow text-white mb-1 sm:mb-2">
-              28+
+              10+
             </div>
             <div className="text-xs sm:text-sm font-poppins font-semibold tracking-wider text-[#60A5FA] uppercase">
-              Worldwide Reach
+              Years Experience
             </div>
           </div>
           <div className="pt-2 md:pt-0">
             <div className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black font-barlow text-white mb-1 sm:mb-2">
-              28,000+
+              Global
             </div>
             <div className="text-xs sm:text-sm font-poppins font-semibold tracking-wider text-[#60A5FA] uppercase">
-              Global Brand Trust
+              Singapore &amp; Worldwide Reach
             </div>
           </div>
         </div>
       </section>
+
+      {/* Real Creative Leadership & Team Section */}
+      <TeamMembers />
 
       {/* Bottom CTA Banner */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 mt-6 sm:mt-8 mb-12 sm:mb-16">

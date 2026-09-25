@@ -13,4 +13,4 @@ Allow: /*.webp$
 Allow: /*.mp4$
 
 # Canonical XML Sitemap
-Sitemap: https://innowize.vercel.app/sitemap.xml
+Sitemap: https://www.innowizedigital.com/sitemap.xml
