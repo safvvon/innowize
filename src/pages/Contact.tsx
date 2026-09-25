@@ -263,36 +263,56 @@ export const Contact: React.FC = () => {
                   </div>
                 </a>
 
-                <a
-                  href="tel:+6580808824"
-                  className="flex items-center gap-3.5 p-3 rounded-2xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/5 hover:border-[#2563FF]/50 transition-all duration-300 group"
-                >
-                  <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-[#2563FF]/15 border border-[#2563FF]/30 flex items-center justify-center group-hover:bg-[#2563FF] group-hover:text-white text-[#2563FF] transition-all duration-300">
+                {/* Phone Numbers */}
+                <div className="flex items-start gap-3.5 p-3.5 rounded-2xl bg-white/[0.03] border border-white/5">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-[#2563FF]/15 border border-[#2563FF]/30 flex items-center justify-center text-[#2563FF] mt-0.5">
                     <Phone className="w-4 h-4 stroke-[2]" />
                   </div>
-                  <div className="min-w-0">
-                    <p className="text-[10px] text-white/50 uppercase tracking-wider font-semibold">
-                      Phone
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10px] text-white/50 uppercase tracking-wider font-semibold mb-1">
+                      Phone &amp; Direct Call
                     </p>
-                    <p className="text-white group-hover:text-[#60A5FA] transition-colors text-xs sm:text-sm font-medium">
-                      +65 8080 8824
-                    </p>
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
+                      <a
+                        href="tel:+6580808824"
+                        className="text-white hover:text-[#60A5FA] transition-colors text-xs sm:text-sm font-medium inline-flex items-center gap-1.5"
+                      >
+                        <span>+65 8080 8824</span>
+                      </a>
+                      <span className="hidden sm:inline text-white/20">•</span>
+                      <a
+                        href="tel:+6591809822"
+                        className="text-white hover:text-[#60A5FA] transition-colors text-xs sm:text-sm font-medium inline-flex items-center gap-1.5"
+                      >
+                        <span>+65 9180 9822</span>
+                      </a>
+                    </div>
                   </div>
-                </a>
+                </div>
 
-                <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-white/[0.03] border border-white/5">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-[#2563FF]/15 border border-[#2563FF]/30 flex items-center justify-center text-[#2563FF]">
+                {/* Physical Location */}
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=3+Coleman+Street+%2303-24+Peninsula+Shopping+Complex+Singapore+179804"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-3.5 p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/5 hover:border-[#2563FF]/50 transition-all duration-300 group"
+                  title="Open in Google Maps"
+                >
+                  <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-[#2563FF]/15 border border-[#2563FF]/30 flex items-center justify-center group-hover:bg-[#2563FF] group-hover:text-white text-[#2563FF] transition-all duration-300 mt-0.5">
                     <MapPin className="w-4 h-4 stroke-[2]" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[10px] text-white/50 uppercase tracking-wider font-semibold">
-                      Location
+                    <p className="text-[10px] text-white/50 uppercase tracking-wider font-semibold mb-1">
+                      Studio Address (Singapore)
                     </p>
-                    <p className="text-white text-xs sm:text-sm font-medium">
-                      Singapore
+                    <p className="text-white group-hover:text-[#60A5FA] transition-colors text-xs sm:text-sm font-medium leading-relaxed">
+                      3 Coleman Street, #03-24, Wyndham Singapore, Peninsula Shopping Complex, Singapore 179804
                     </p>
+                    <span className="text-[10px] text-[#60A5FA] mt-1 inline-flex items-center gap-1 font-medium">
+                      View on Google Maps &rarr;
+                    </span>
                   </div>
-                </div>
+                </a>
               </div>
             </div>
 
@@ -301,21 +321,28 @@ export const Contact: React.FC = () => {
               <span className="text-xs font-semibold text-white/70 uppercase tracking-wider block mb-3 font-poppins">
                 Quick Connect
               </span>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 <a
                   href="https://wa.me/6580808824?text=Hello!%20I%20would%20like%20to%20discuss%20a%20project."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 px-4 py-3 bg-[#2563FF] hover:bg-[#3B82F6] text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all duration-300 hover:scale-[1.02] shadow-[0_0_20px_rgba(37,99,255,0.4)] border border-[#60A5FA]/30 text-center"
+                  className="flex items-center justify-center gap-1.5 px-3 py-3 bg-[#2563FF] hover:bg-[#3B82F6] text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all duration-300 hover:scale-[1.02] shadow-[0_0_20px_rgba(37,99,255,0.4)] border border-[#60A5FA]/30 text-center"
                 >
                   <span>WhatsApp</span>
                 </a>
                 <a
                   href="tel:+6580808824"
-                  className="flex items-center justify-center gap-2 px-4 py-3 bg-white/5 hover:bg-white/10 text-white hover:text-[#60A5FA] border border-white/15 hover:border-[#2563FF] rounded-xl font-semibold text-xs uppercase tracking-wider transition-all duration-300 hover:scale-[1.02] text-center"
+                  className="flex items-center justify-center gap-1 px-3 py-3 bg-white/5 hover:bg-white/10 text-white hover:text-[#60A5FA] border border-white/15 hover:border-[#2563FF] rounded-xl font-semibold text-xs uppercase tracking-wider transition-all duration-300 hover:scale-[1.02] text-center"
                 >
-                  <Phone className="w-3.5 h-3.5 text-[#2563FF]" />
-                  <span>Call Us Now</span>
+                  <Phone className="w-3 h-3 text-[#2563FF]" />
+                  <span>Call Line 1</span>
+                </a>
+                <a
+                  href="tel:+6591809822"
+                  className="flex items-center justify-center gap-1 px-3 py-3 bg-white/5 hover:bg-white/10 text-white hover:text-[#60A5FA] border border-white/15 hover:border-[#2563FF] rounded-xl font-semibold text-xs uppercase tracking-wider transition-all duration-300 hover:scale-[1.02] text-center"
+                >
+                  <Phone className="w-3 h-3 text-[#2563FF]" />
+                  <span>Call Line 2</span>
                 </a>
               </div>
             </div>

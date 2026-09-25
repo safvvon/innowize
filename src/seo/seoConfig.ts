@@ -31,9 +31,27 @@ export const SITE_CONFIG = {
     telephone: '+65 8080 8824',
     address: {
       '@type': 'PostalAddress',
+      streetAddress: '3 Coleman Street, #03-24, Wyndham Singapore, Peninsula Shopping Complex',
       addressLocality: 'Singapore',
+      postalCode: '179804',
       addressCountry: 'SG',
     },
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        telephone: '+65 8080 8824',
+        contactType: 'customer service',
+        areaServed: 'SG',
+        availableLanguage: ['en'],
+      },
+      {
+        '@type': 'ContactPoint',
+        telephone: '+65 9180 9822',
+        contactType: 'sales',
+        areaServed: 'SG',
+        availableLanguage: ['en'],
+      },
+    ],
     sameAs: [
       'https://www.instagram.com/innowizedigital',
       'https://www.linkedin.com/company/innowizedidital/',

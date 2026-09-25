@@ -148,7 +148,9 @@ export const Footer: React.FC<FooterProps> = () => {
             <div className="space-y-3 text-xs sm:text-sm font-poppins text-white/70">
               <div className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-[#3B82F6] flex-shrink-0 mt-0.5" />
-                <span>Singapore</span>
+                <span className="leading-snug">
+                  3 Coleman Street, #03-24, Wyndham Singapore, Peninsula Shopping Complex, Singapore 179804
+                </span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-[#3B82F6] flex-shrink-0" />
@@ -156,11 +158,16 @@ export const Footer: React.FC<FooterProps> = () => {
                   abinsiby@innowizedigital.com
                 </a>
               </div>
-              <div className="flex items-center gap-3">
-                <Phone className="w-4 h-4 text-[#3B82F6] flex-shrink-0" />
-                <a href="tel:+6580808824" className="hover:text-white transition-colors">
-                  +65 8080 8824
-                </a>
+              <div className="flex items-start gap-3">
+                <Phone className="w-4 h-4 text-[#3B82F6] flex-shrink-0 mt-0.5" />
+                <div className="flex flex-col gap-1">
+                  <a href="tel:+6580808824" className="hover:text-white transition-colors">
+                    +65 8080 8824
+                  </a>
+                  <a href="tel:+6591809822" className="hover:text-white transition-colors">
+                    +65 9180 9822
+                  </a>
+                </div>
               </div>
             </div>
           </div>
