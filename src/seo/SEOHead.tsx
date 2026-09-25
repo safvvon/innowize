@@ -41,7 +41,7 @@ export const SEOHead: React.FC = () => {
       meta = STATIC_PAGES_META[normalizedPath];
     } else if (normalizedPath.startsWith('/services/')) {
       const rawId = normalizedPath.replace('/services/', '');
-      const serviceId = rawId === 'ai-creative-tech' ? 'ai-video' : rawId;
+      const serviceId = rawId === 'ai-video' ? 'ai-creative-tech' : rawId;
       meta = SERVICES_META[serviceId] || SERVICES_META[rawId] || {
         title: `${rawId.replace(/-/g, ' ').toUpperCase()} Services | ${SITE_CONFIG.brandName}`,
         description: `Explore ${rawId.replace(/-/g, ' ')} solutions by ${SITE_CONFIG.brandName}.`,

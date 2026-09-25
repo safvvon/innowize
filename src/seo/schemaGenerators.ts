@@ -162,9 +162,9 @@ export const generateGraphSchema = (pathname: string) => {
   // 3. Individual Service Page (/services/:serviceId)
   if (normalizedPath.startsWith('/services/')) {
     const rawId = normalizedPath.replace('/services/', '');
-    const serviceId = rawId === 'ai-creative-tech' ? 'ai-video' : rawId;
+    const serviceId = rawId === 'ai-video' ? 'ai-creative-tech' : rawId;
     const service = servicesData.find((s) => s.id === serviceId);
-    const serviceDetail = serviceDetailsData[serviceId];
+    const serviceDetail = serviceDetailsData[serviceId] || serviceDetailsData['ai-video'];
     const meta = SERVICES_META[serviceId] || SERVICES_META[rawId];
 
     const breadcrumb = getBreadcrumbSchema(

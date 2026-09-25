@@ -111,16 +111,16 @@ export const Footer: React.FC<FooterProps> = () => {
             </ul>
           </div>
 
-          {/* Col 3: Capabilities & Services */}
+          {/* Col 3: Services */}
           <div className="space-y-4">
             <h3 className="text-sm sm:text-base font-bold font-paytone text-white uppercase tracking-wider">
-              Capabilities
+              Services
             </h3>
             <ul className="space-y-2 sm:space-y-2.5">
-              {servicesData.slice(0, 7).map((service) => (
+              {servicesData.map((service) => (
                 <li key={service.id}>
                   <Link
-                    to={`/services/${service.id}`}
+                    to={`/services#${service.id}`}
                     className="text-white/70 hover:text-[#60A5FA] transition-colors duration-300 text-xs sm:text-sm font-poppins flex items-center gap-1 group py-1"
                   >
                     <span className="truncate">{service.title}</span>

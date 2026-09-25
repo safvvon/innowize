@@ -58,14 +58,10 @@ export const SITE_CONFIG = {
       'https://www.youtube.com/channel/UCV37EAmAcRPr0pTo4CHKUVA',
     ],
     knowsAbout: [
-      'Web Design',
-      'UI/UX Design',
-      'Website Development',
-      'Branding & Visual Identity',
-      'AI Video Production',
-      'Cinematic Video Production',
+      'Video Production',
       'Digital Marketing',
       'Event Production',
+      'AI Creative Tech',
       'AR/VR Spatial Computing',
       'Live Streaming',
     ],
@@ -139,18 +135,18 @@ export const SERVICES_META: Record<string, PageMetadata> = {
     canonical: 'https://www.innowizedigital.com/services/branding',
     ogType: 'website',
   },
-  'ai-video': {
-    title: 'AI Video & Creative Tech Services | Generative Motion & VFX | Innowize Digital',
+  'ai-creative-tech': {
+    title: 'AI Creative Tech Services | Generative AI & Neural Motion | Innowize Digital',
     description:
-      'Pioneering generative AI video production, neural motion design, synthetic media, and algorithmic VFX engineered for forward-thinking brand narratives.',
-    canonical: 'https://www.innowizedigital.com/services/ai-video',
+      'Pioneering generative AI visual synthesis, neural motion design, automated post-production pipelines, and synthetic media engineered for futuristic brand narratives.',
+    canonical: 'https://www.innowizedigital.com/services/ai-creative-tech',
     ogType: 'website',
   },
-  'ai-creative-tech': {
-    title: 'AI Video & Creative Tech Services | Generative Motion & VFX | Innowize Digital',
+  'ai-video': {
+    title: 'AI Creative Tech Services | Generative AI & Neural Motion | Innowize Digital',
     description:
-      'Pioneering generative AI video production, neural motion design, synthetic media, and algorithmic VFX engineered for forward-thinking brand narratives.',
-    canonical: 'https://www.innowizedigital.com/services/ai-video',
+      'Pioneering generative AI visual synthesis, neural motion design, automated post-production pipelines, and synthetic media engineered for futuristic brand narratives.',
+    canonical: 'https://www.innowizedigital.com/services/ai-creative-tech',
     ogType: 'website',
   },
   'video-production': {

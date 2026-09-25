@@ -19,42 +19,7 @@
     <priority>0.9</priority>
   </url>
 
-  <!-- Individual Service Pages -->
-  <url>
-    <loc>https://www.innowizedigital.com/services/web-design</loc>
-    <lastmod>2025-02-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-
-  <url>
-    <loc>https://www.innowizedigital.com/services/ui-ux-design</loc>
-    <lastmod>2025-02-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-
-  <url>
-    <loc>https://www.innowizedigital.com/services/web-development</loc>
-    <lastmod>2025-02-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-
-  <url>
-    <loc>https://www.innowizedigital.com/services/branding</loc>
-    <lastmod>2025-02-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-
-  <url>
-    <loc>https://www.innowizedigital.com/services/ai-video</loc>
-    <lastmod>2025-02-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-
+  <!-- Individual Service Pages (6 Core Services) -->
   <url>
     <loc>https://www.innowizedigital.com/services/video-production</loc>
     <lastmod>2025-02-25</lastmod>
@@ -71,6 +36,13 @@
 
   <url>
     <loc>https://www.innowizedigital.com/services/event-production</loc>
+    <lastmod>2025-02-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://www.innowizedigital.com/services/ai-creative-tech</loc>
     <lastmod>2025-02-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
