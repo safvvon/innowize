@@ -12,8 +12,6 @@ import { SEOHead } from './seo/SEOHead';
 const About = React.lazy(() => import('./pages/About').then((m) => ({ default: m.About })));
 const Services = React.lazy(() => import('./pages/Services').then((m) => ({ default: m.Services })));
 const Work = React.lazy(() => import('./pages/Work').then((m) => ({ default: m.Work })));
-const Blog = React.lazy(() => import('./pages/Blog').then((m) => ({ default: m.Blog })));
-const BlogPostPage = React.lazy(() => import('./pages/BlogPost').then((m) => ({ default: m.BlogPostPage })));
 const Contact = React.lazy(() => import('./pages/Contact').then((m) => ({ default: m.Contact })));
 const NotFound = React.lazy(() => import('./pages/NotFound').then((m) => ({ default: m.NotFound })));
 const ContactModal = React.lazy(() => import('./components/ContactModal').then((m) => ({ default: m.ContactModal })));
@@ -89,8 +87,6 @@ export const AppContent: React.FC = () => {
             <Route path="/services" element={<Services onOpenContact={(subject) => handleOpenContact(subject)} />} />
             <Route path="/services/:serviceId" element={<Services onOpenContact={(subject) => handleOpenContact(subject)} />} />
             <Route path="/work" element={<Work onOpenContact={() => handleOpenContact()} />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:category/:slug" element={<BlogPostPage />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

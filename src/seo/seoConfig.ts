@@ -101,13 +101,6 @@ export const STATIC_PAGES_META: Record<string, PageMetadata> = {
     canonical: 'https://www.innowizedigital.com/work',
     ogType: 'website',
   },
-  '/blog': {
-    title: 'Insights & Thought Leadership on Web, AI & Design | Innowize Digital',
-    description:
-      'Read in-depth guides, technical breakdowns, and design perspectives on web design, UI/UX architecture, generative AI video, and high-performance digital marketing.',
-    canonical: 'https://www.innowizedigital.com/blog',
-    ogType: 'website',
-  },
   '/contact': {
     title: 'Contact Innowize Digital | Start Your Digital Project in Singapore',
     description:

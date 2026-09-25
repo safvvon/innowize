@@ -101,15 +101,6 @@ export const Footer: React.FC<FooterProps> = () => {
               </li>
               <li>
                 <Link
-                  to="/blog"
-                  className="text-white/70 hover:text-[#60A5FA] transition-colors duration-300 text-xs sm:text-sm font-poppins flex items-center gap-1 group py-1"
-                >
-                  <span>Journal &amp; Insights</span>
-                  <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </Link>
-              </li>
-              <li>
-                <Link
                   to="/contact"
                   className="text-white/70 hover:text-[#60A5FA] transition-colors duration-300 text-xs sm:text-sm font-poppins flex items-center gap-1 group py-1"
                 >

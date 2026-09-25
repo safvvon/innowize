@@ -8,7 +8,6 @@ import {
   PageMetadata,
 } from './seoConfig';
 import { generateGraphSchema } from './schemaGenerators';
-import { blogPosts } from '../data/blogData';
 
 const updateOrCreateMeta = (attributeName: string, attributeValue: string, content: string) => {
   let element = document.querySelector(`meta[${attributeName}="${attributeValue}"]`);
@@ -49,22 +48,6 @@ export const SEOHead: React.FC = () => {
         canonical: `${SITE_CONFIG.domain}/services/${serviceId}`,
         ogType: 'website',
       };
-    } else if (normalizedPath.startsWith('/blog/')) {
-      const parts = normalizedPath.split('/').filter(Boolean);
-      const slug = parts[parts.length - 1];
-      const post = blogPosts.find((p) => p.slug === slug);
-
-      if (post) {
-        meta = {
-          title: `${post.title} | ${SITE_CONFIG.brandName}`,
-          description: post.description,
-          canonical: `${SITE_CONFIG.domain}/blog/${post.category}/${post.slug}`,
-          ogType: 'article',
-          ogImage: `${SITE_CONFIG.domain}${post.heroImage}`,
-        };
-      } else {
-        meta = NOT_FOUND_META;
-      }
     } else {
       meta = NOT_FOUND_META;
     }

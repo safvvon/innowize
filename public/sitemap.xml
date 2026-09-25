@@ -98,43 +98,6 @@
     <priority>0.9</priority>
   </url>
 
-  <!-- Journal / Blog Hub -->
-  <url>
-    <loc>https://www.innowizedigital.com/blog</loc>
-    <lastmod>2025-02-25</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-
-  <!-- Blog Articles -->
-  <url>
-    <loc>https://www.innowizedigital.com/blog/web-design/modern-web-design-principles</loc>
-    <lastmod>2025-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.innowizedigital.com/blog/ui-ux/ui-vs-ux-strategic-experience-design</loc>
-    <lastmod>2025-01-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.innowizedigital.com/blog/ai-video/generative-ai-video-production-workflows</loc>
-    <lastmod>2025-02-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.innowizedigital.com/blog/digital-marketing/data-driven-growth-strategies</loc>
-    <lastmod>2025-02-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
   <!-- About Us -->
   <url>
     <loc>https://www.innowizedigital.com/about</loc>

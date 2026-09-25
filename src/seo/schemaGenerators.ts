@@ -1,7 +1,6 @@
 import { SITE_CONFIG, SERVICES_META, STATIC_PAGES_META } from './seoConfig';
 import { servicesData } from '../data/servicesData';
 import { serviceDetailsData } from '../data/serviceDetailsData';
-import { blogPosts } from '../data/blogData';
 
 export const getOrganizationSchema = () => SITE_CONFIG.organization;
 
@@ -206,96 +205,7 @@ export const generateGraphSchema = (pathname: string) => {
     };
   }
 
-  // 4. Blog Hub (/blog)
-  if (normalizedPath === '/blog') {
-    const breadcrumb = getBreadcrumbSchema(
-      [
-        { name: 'Home', url: `${SITE_CONFIG.domain}/` },
-        { name: 'Blog', url: pageUrl },
-      ],
-      pageUrl
-    );
-    graph.push({
-      '@type': 'Blog',
-      '@id': `${pageUrl}#blog`,
-      url: pageUrl,
-      name: STATIC_PAGES_META['/blog'].title,
-      description: STATIC_PAGES_META['/blog'].description,
-      isPartOf: {
-        '@id': `${SITE_CONFIG.domain}/#website`,
-      },
-      breadcrumb: {
-        '@id': breadcrumb['@id'],
-      },
-      blogPost: blogPosts.map((post) => ({
-        '@type': 'BlogPosting',
-        headline: post.title,
-        description: post.description,
-        url: `${SITE_CONFIG.domain}/blog/${post.category}/${post.slug}`,
-        datePublished: post.publishDate,
-        author: {
-          '@type': 'Person',
-          name: post.author.name,
-        },
-      })),
-    });
-    graph.push(breadcrumb);
-    return {
-      '@context': 'https://schema.org',
-      '@graph': graph,
-    };
-  }
-
-  // 5. Individual Blog Article (/blog/:category/:slug)
-  if (normalizedPath.startsWith('/blog/')) {
-    const parts = normalizedPath.split('/').filter(Boolean);
-    const slug = parts[parts.length - 1];
-    const post = blogPosts.find((p) => p.slug === slug);
-
-    if (post) {
-      const breadcrumb = getBreadcrumbSchema(
-        [
-          { name: 'Home', url: `${SITE_CONFIG.domain}/` },
-          { name: 'Blog', url: `${SITE_CONFIG.domain}/blog` },
-          { name: post.categoryLabel, url: `${SITE_CONFIG.domain}/blog#${post.category}` },
-          { name: post.title, url: pageUrl },
-        ],
-        pageUrl
-      );
-
-      graph.push({
-        '@type': 'BlogPosting',
-        '@id': `${pageUrl}#article`,
-        headline: post.title,
-        description: post.description,
-        url: pageUrl,
-        datePublished: post.publishDate,
-        dateModified: post.publishDate,
-        image: `${SITE_CONFIG.domain}${post.heroImage}`,
-        author: {
-          '@type': 'Person',
-          name: post.author.name,
-          jobTitle: post.author.role,
-        },
-        publisher: {
-          '@id': `${SITE_CONFIG.domain}/#organization`,
-        },
-        isPartOf: {
-          '@id': `${SITE_CONFIG.domain}/#website`,
-        },
-        breadcrumb: {
-          '@id': breadcrumb['@id'],
-        },
-      });
-      graph.push(breadcrumb);
-      return {
-        '@context': 'https://schema.org',
-        '@graph': graph,
-      };
-    }
-  }
-
-  // 6. Generic / Other Static Pages (About, Work, Contact)
+  // 4. Generic / Other Static Pages (About, Work, Contact)
   const meta = STATIC_PAGES_META[normalizedPath];
   const pageTitle = meta ? meta.title : `${SITE_CONFIG.brandName}`;
   const pageDesc = meta ? meta.description : SITE_CONFIG.organization.description;

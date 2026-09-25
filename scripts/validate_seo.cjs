@@ -48,11 +48,6 @@ if (fs.existsSync(sitemapPath)) {
     'https://www.innowizedigital.com/services/ar-vr',
     'https://www.innowizedigital.com/services/live-streaming',
     'https://www.innowizedigital.com/work',
-    'https://www.innowizedigital.com/blog',
-    'https://www.innowizedigital.com/blog/web-design/modern-web-design-principles',
-    'https://www.innowizedigital.com/blog/ui-ux/ui-vs-ux-strategic-experience-design',
-    'https://www.innowizedigital.com/blog/ai-video/generative-ai-video-production-workflows',
-    'https://www.innowizedigital.com/blog/digital-marketing/data-driven-growth-strategies',
     'https://www.innowizedigital.com/about',
     'https://www.innowizedigital.com/contact',
   ];
@@ -100,16 +95,12 @@ assert(fs.existsSync(path.join(rootDir, 'src', 'seo', 'seoConfig.ts')), 'src/seo
 assert(fs.existsSync(path.join(rootDir, 'src', 'seo', 'schemaGenerators.ts')), 'src/seo/schemaGenerators.ts exists');
 assert(fs.existsSync(path.join(rootDir, 'src', 'seo', 'SEOHead.tsx')), 'src/seo/SEOHead.tsx exists');
 assert(fs.existsSync(path.join(rootDir, 'src', 'pages', 'NotFound.tsx')), 'src/pages/NotFound.tsx exists');
-assert(fs.existsSync(path.join(rootDir, 'src', 'pages', 'Blog.tsx')), 'src/pages/Blog.tsx exists');
-assert(fs.existsSync(path.join(rootDir, 'src', 'pages', 'BlogPost.tsx')), 'src/pages/BlogPost.tsx exists');
-assert(fs.existsSync(path.join(rootDir, 'src', 'data', 'blogData.ts')), 'src/data/blogData.ts exists');
 assert(fs.existsSync(path.join(rootDir, 'src', 'data', 'serviceDetailsData.ts')), 'src/data/serviceDetailsData.ts exists');
 
 const appContent = fs.readFileSync(path.join(rootDir, 'src', 'App.tsx'), 'utf8');
 assert(appContent.includes('<SEOHead />'), 'App.tsx renders <SEOHead />');
 assert(appContent.includes('path="*" element={<NotFound />}'), 'App.tsx includes catch-all 404 route');
-assert(appContent.includes('path="/blog"'), 'App.tsx includes /blog route');
-assert(appContent.includes('path="/blog/:category/:slug"'), 'App.tsx includes /blog article route');
+assert(!appContent.includes('path="/blog"'), 'App.tsx cleanly excludes /blog routes');
 
 console.log('\n======================================');
 console.log(`SEO AUDIT RESULT: ${passCount} Passed, ${errorCount} Failed`);
