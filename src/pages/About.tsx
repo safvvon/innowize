@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Compass, Hexagon, Diamond, CheckCircle } from 'lucide-react';
-import { TeamMembers } from '../components/home/TeamMembers';
 
 export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }) => {
   const navigate = useNavigate();
@@ -239,9 +238,6 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
           </div>
         </div>
       </section>
-
-      {/* Real Creative Leadership & Team Section */}
-      <TeamMembers />
 
       {/* Bottom CTA Banner */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 mt-6 sm:mt-8 mb-12 sm:mb-16">
