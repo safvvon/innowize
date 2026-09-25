@@ -401,16 +401,18 @@ export const IntroSection3: React.FC = () => {
               >
                 {/* Blurred ambient background glow */}
                 <img
-                  src={activeVideo.thumbnail.replace('=w3840', '=w1200')}
+                  src={activeVideo.thumbnail.replace('=w3840', '=w800-rw')}
                   alt={activeVideo.title}
+                  decoding="async"
                   className="absolute inset-0 w-full h-full object-cover filter blur-3xl scale-110 opacity-35"
                 />
 
                 {/* Centered Poster Card with Shimmer & Branded Cinema Loader */}
                 <div className="relative max-w-4xl max-h-[70vh] aspect-video w-full rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/15 mx-4 bg-[#0A0D16]">
                   <img
-                    src={activeVideo.thumbnail.replace('=w3840', '=w1200')}
+                    src={activeVideo.thumbnail.replace('=w3840', '=w800-rw')}
                     alt={activeVideo.title}
+                    decoding="async"
                     className="w-full h-full object-cover filter contrast-[1.03]"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />

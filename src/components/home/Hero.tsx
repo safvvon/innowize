@@ -289,7 +289,7 @@ export const Hero: React.FC = () => {
         <video
           ref={setVideoRef}
           src={videoSrc}
-          poster="/images/showreel_poster.jpg"
+          poster="/images/showreel_poster.webp"
           autoPlay
           loop
           muted
@@ -513,7 +513,7 @@ export const Hero: React.FC = () => {
               <video
                 ref={modalVideoRef}
                 src="/showreel.mp4"
-                poster="/images/showreel_poster.jpg"
+                poster="/images/showreel_poster.webp"
                 autoPlay
                 controls
                 playsInline

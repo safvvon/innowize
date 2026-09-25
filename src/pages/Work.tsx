@@ -695,8 +695,9 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                   }`}
                 >
                   <img
-                    src={activeVideo.thumbnail.replace('=w3840', '=w1200')}
+                    src={activeVideo.thumbnail.replace('=w3840', '=w800-rw')}
                     alt={activeVideo.title}
+                    decoding="async"
                     className="absolute inset-0 w-full h-full object-cover filter blur-2xl scale-110 opacity-40"
                   />
                   <div className="relative w-full h-full flex flex-col items-center justify-center gap-4 bg-black/60 p-6 text-center z-10">
