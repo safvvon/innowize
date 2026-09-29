@@ -75,7 +75,7 @@ console.log('\n--- 4. AUDITING STATIC INDEX.HTML HEAD TAGS ---');
 const indexPath = path.join(rootDir, 'index.html');
 const indexHtml = fs.readFileSync(indexPath, 'utf8');
 
-assert(indexHtml.includes('<title>Innowize Digital | Creative Digital Agency for Web, UI/UX &amp; Digital Experiences</title>'), 'index.html has brand-optimized title');
+assert(indexHtml.includes('<title>Innowize Digital | Your storytelling Partner</title>'), 'index.html has brand-optimized title');
 assert(indexHtml.includes('name="description"'), 'index.html has meta description');
 assert(indexHtml.includes('rel="canonical" href="https://www.innowizedigital.com/"'), 'index.html has canonical tag pointing to https://www.innowizedigital.com/');
 assert(indexHtml.includes('name="robots" content="index, follow'), 'index.html has robots directive');

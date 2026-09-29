@@ -20,9 +20,14 @@ export const Footer: React.FC<FooterProps> = () => {
             <Link to="/" className="inline-block">
               <InnowizeLogo className="h-8 sm:h-10" />
             </Link>
-            <p className="text-white/70 text-xs sm:text-sm leading-relaxed font-poppins max-w-sm">
-              Creative digital studio specializing in innovative digital solutions, visual storytelling, and cutting-edge design experiences.
-            </p>
+            <div className="space-y-1.5">
+              <p className="text-[#60A5FA] text-xs font-semibold tracking-wider uppercase font-poppins">
+                Your storytelling Partner
+              </p>
+              <p className="text-white/70 text-xs sm:text-sm leading-relaxed font-poppins max-w-sm">
+                At Innowize we craft future-ready digital experiences that blend creativity, technology, and strategy to help brands thrive in the digital age.
+              </p>
+            </div>
             <div className="flex items-center space-x-3 pt-2">
               <a
                 href="https://www.instagram.com/innowizedigital?stkn=bDRiZnAzOTY2dmVn"

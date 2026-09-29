@@ -26,7 +26,7 @@ export const SITE_CONFIG = {
       caption: 'Innowize Digital Logo',
     },
     description:
-      'Innowize Digital is a premier creative digital studio specializing in web design, UI/UX, website development, cinematic video production, AI creative tech, digital marketing, and spatial experiences.',
+      'At Innowize we craft future-ready digital experiences that blend creativity, technology, and strategy to help brands thrive in the digital age.',
     email: 'info@innowizedigital.com',
     telephone: '+65 8080 8824',
     address: {
@@ -70,9 +70,9 @@ export const SITE_CONFIG = {
 
 export const STATIC_PAGES_META: Record<string, PageMetadata> = {
   '/': {
-    title: 'Innowize Digital | Creative Digital Agency for Web, UI/UX & Digital Experiences',
+    title: 'Innowize Digital | Your storytelling Partner',
     description:
-      'Innowize Digital is a Singapore-based creative digital agency crafting modern web design, UI/UX, cinematic video production, AI creative tech, and high-impact digital experiences.',
+      'At Innowize we craft future-ready digital experiences that blend creativity, technology, and strategy to help brands thrive in the digital age.',
     canonical: 'https://www.innowizedigital.com/',
     ogType: 'website',
   },

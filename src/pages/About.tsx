@@ -84,7 +84,7 @@ export const About: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact 
             </h1>
           </div>
           <p className="text-white/70 text-sm md:text-base font-poppins max-w-2xl leading-relaxed">
-            We craft future-ready digital experiences that blend creativity, technology, and strategy to help brands thrive in the digital age.
+            At Innowize we craft future-ready digital experiences that blend creativity, technology, and strategy to help brands thrive in the digital age.
           </p>
         </div>
       </section>
