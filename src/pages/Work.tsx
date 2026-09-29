@@ -271,9 +271,56 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
   const [photoLoading, setPhotoLoading] = useState(true);
   const [galleryViewMode, setGalleryViewMode] = useState<'collage' | 'single'>('collage');
 
+  // Prevent background scrolling when gallery modal or video modal is active
+  useEffect(() => {
+    if (activeGallery || activeVideo) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [activeGallery, activeVideo]);
+
   useEffect(() => {
     setPhotoLoading(true);
   }, [activePhotoIndex, activeGallery]);
+
+  // Wheel navigation throttle for single focus exploration
+  const lastWheelTime = React.useRef(0);
+  const handleFocusWheel = useCallback((e: React.WheelEvent) => {
+    const now = Date.now();
+    if (now - lastWheelTime.current < 280) return;
+    if (Math.abs(e.deltaY) > 20) {
+      lastWheelTime.current = now;
+      if (e.deltaY > 0) {
+        setActivePhotoIndex((prev) => (prev + 1) % (activeGallery?.photos.length || 1));
+      } else {
+        setActivePhotoIndex((prev) => (prev - 1 + (activeGallery?.photos.length || 1)) % (activeGallery?.photos.length || 1));
+      }
+    }
+  }, [activeGallery]);
+
+  // Touch swipe support for single focus mode
+  const touchStartX = React.useRef(0);
+  const touchStartY = React.useRef(0);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const deltaX = e.changedTouches[0].clientX - touchStartX.current;
+    const deltaY = e.changedTouches[0].clientY - touchStartY.current;
+    if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (deltaX < 0) {
+        setActivePhotoIndex((prev) => (prev + 1) % (activeGallery?.photos.length || 1));
+      } else {
+        setActivePhotoIndex((prev) => (prev - 1 + (activeGallery?.photos.length || 1)) % (activeGallery?.photos.length || 1));
+      }
+    }
+  };
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -835,7 +882,10 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
               {/* Gallery Content Area: Collage View (Default) vs Single Focus View */}
               {galleryViewMode === 'collage' ? (
                 /* 1. MASONRY COLLAGE VIEW (Default) */
-                <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 bg-black/60 scrollbar-thin scrollbar-thumb-[#2563FF]/40">
+                <div 
+                  className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 bg-black/60 scrollbar-thin scrollbar-thumb-[#2563FF]/40"
+                  style={{ overscrollBehavior: 'contain' }}
+                >
                   <div className="max-w-7xl mx-auto columns-2 sm:columns-3 md:columns-4 lg:columns-5 gap-3.5 sm:gap-4 space-y-3.5 sm:space-y-4">
                     {activeGallery.photos.map((photo, i) => (
                       <motion.div
@@ -847,15 +897,25 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                           setActivePhotoIndex(i);
                           setGalleryViewMode('single');
                         }}
-                        className="group relative break-inside-avoid rounded-2xl overflow-hidden cursor-pointer bg-[#0A0D16] border border-white/10 hover:border-[#2563FF] shadow-lg hover:shadow-[0_12px_35px_rgba(37,99,255,0.35)] transition-all duration-300 hover:-translate-y-1"
+                        className="group relative break-inside-avoid rounded-2xl overflow-hidden cursor-pointer bg-[#0F1628] border border-white/10 hover:border-[#2563FF] shadow-lg hover:shadow-[0_12px_35px_rgba(37,99,255,0.35)] transition-all duration-300 hover:-translate-y-1 aspect-[3/2]"
                       >
+                        {/* Skeleton placeholder while image loads */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-[#0F1628] via-[#141A2B] to-[#1E293B] -z-10" />
                         <img
-                          src={photo.thumbUrl.replace('=w2400', '=w800')}
+                          src={photo.thumbUrl}
                           alt={photo.title}
                           loading="lazy"
                           decoding="async"
+                          referrerPolicy="no-referrer"
+                          onError={(e) => {
+                            const target = e.currentTarget;
+                            if (!target.dataset.retried) {
+                              target.dataset.retried = 'true';
+                              target.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w800`;
+                            }
+                          }}
                           style={{ imageRendering: '-webkit-optimize-contrast' }}
-                          className="w-full h-auto object-cover rounded-2xl transition-transform duration-500 group-hover:scale-105 contrast-[1.04] saturate-[1.07]"
+                          className="w-full h-full object-cover rounded-2xl transition-transform duration-500 group-hover:scale-105 contrast-[1.04] saturate-[1.07]"
                         />
                         {/* Ambient Hover Overlay */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-3 sm:p-3.5 pointer-events-none">
@@ -871,8 +931,14 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                   </div>
                 </div>
               ) : (
-                /* 2. SINGLE FOCUS ZOOM VIEW (With Left/Right & Back to Collage) */
-                <div className="relative flex-1 bg-black flex flex-col items-center justify-center p-4 overflow-hidden select-none">
+                /* 2. SINGLE FOCUS ZOOM VIEW (With Left/Right, Wheel/Swipe & Interactive Filmstrip) */
+                <div 
+                  onWheel={handleFocusWheel}
+                  onTouchStart={handleTouchStart}
+                  onTouchEnd={handleTouchEnd}
+                  className="relative flex-1 bg-black flex flex-col items-center justify-between p-3 sm:p-4 overflow-hidden select-none"
+                  style={{ overscrollBehavior: 'contain' }}
+                >
                   {/* Floating "Back to Collage" pill */}
                   <button
                     onClick={() => setGalleryViewMode('collage')}
@@ -882,23 +948,33 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                     <span>Back to Collage Grid</span>
                   </button>
 
+                  {/* Previous Photo Button */}
                   <button
                     onClick={() =>
                       setActivePhotoIndex((prev) => (prev - 1 + activeGallery.photos.length) % activeGallery.photos.length)
                     }
-                    className="absolute left-4 z-20 p-3.5 sm:p-4 rounded-full bg-black/65 hover:bg-[#2563FF] text-white border border-white/15 transition-all cursor-pointer shadow-2xl backdrop-blur-md hover:scale-110"
-                    title="Previous Photo (Left Arrow)"
+                    className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 z-20 p-3 sm:p-4 rounded-full bg-black/65 hover:bg-[#2563FF] text-white border border-white/15 transition-all cursor-pointer shadow-2xl backdrop-blur-md hover:scale-110"
+                    title="Previous Photo (Scroll Up / Left Arrow)"
                   >
-                    <ChevronLeft className="w-6 h-6" />
+                    <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
                   </button>
 
-                  <div className="relative max-w-full max-h-full flex items-center justify-center">
+                  {/* Main Display Stage */}
+                  <div className="relative flex-1 w-full max-h-[64vh] sm:max-h-[70vh] flex items-center justify-center my-auto">
                     {/* Instant Low-Res Preview / Blur-up while full image loads */}
                     {photoLoading && (
                       <img
-                        src={activeGallery.photos[activePhotoIndex].thumbUrl.replace('=w2400', '=w800')}
+                        src={activeGallery.photos[activePhotoIndex].thumbUrl}
                         alt={activeGallery.photos[activePhotoIndex].title}
-                        className="max-h-[78vh] max-w-full object-contain rounded-2xl filter blur-sm scale-95 opacity-70"
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          if (!target.dataset.retried) {
+                            target.dataset.retried = 'true';
+                            target.src = `https://drive.google.com/thumbnail?id=${activeGallery.photos[activePhotoIndex].id}&sz=w600`;
+                          }
+                        }}
+                        className="max-h-full max-w-full object-contain rounded-2xl filter blur-sm scale-95 opacity-70"
                       />
                     )}
 
@@ -911,29 +987,80 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
 
                     <img
                       key={activeGallery.photos[activePhotoIndex].id}
-                      src={activeGallery.photos[activePhotoIndex].fullUrl.replace('=s0', '=w2048')}
+                      src={activeGallery.photos[activePhotoIndex].fullUrl}
                       alt={activeGallery.photos[activePhotoIndex].title}
+                      referrerPolicy="no-referrer"
                       onLoad={() => setPhotoLoading(false)}
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        if (!target.dataset.retried) {
+                          target.dataset.retried = 'true';
+                          target.src = `https://drive.google.com/thumbnail?id=${activeGallery.photos[activePhotoIndex].id}&sz=w1920`;
+                        }
+                        setPhotoLoading(false);
+                      }}
                       style={{ imageRendering: '-webkit-optimize-contrast' }}
-                      className={`max-h-[78vh] max-w-full object-contain rounded-2xl shadow-2xl transition-opacity duration-300 contrast-[1.03] saturate-[1.05] ${
+                      className={`max-h-full max-w-full object-contain rounded-2xl shadow-2xl transition-opacity duration-300 contrast-[1.03] saturate-[1.05] ${
                         photoLoading ? 'opacity-0 absolute' : 'opacity-100'
                       }`}
                     />
                   </div>
 
+                  {/* Next Photo Button */}
                   <button
                     onClick={() => setActivePhotoIndex((prev) => (prev + 1) % activeGallery.photos.length)}
-                    className="absolute right-4 z-20 p-3.5 sm:p-4 rounded-full bg-black/65 hover:bg-[#2563FF] text-white border border-white/15 transition-all cursor-pointer shadow-2xl backdrop-blur-md hover:scale-110"
-                    title="Next Photo (Right Arrow)"
+                    className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 z-20 p-3 sm:p-4 rounded-full bg-black/65 hover:bg-[#2563FF] text-white border border-white/15 transition-all cursor-pointer shadow-2xl backdrop-blur-md hover:scale-110"
+                    title="Next Photo (Scroll Down / Right Arrow)"
                   >
-                    <ChevronRight className="w-6 h-6" />
+                    <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
                   </button>
 
-                  {/* Bottom Photo Counter */}
-                  <div className="absolute bottom-4 inset-x-0 flex items-center justify-center pointer-events-none">
-                    <span className="px-4 py-1.5 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-xs font-poppins text-white/90 shadow-xl font-medium">
-                      {activePhotoIndex + 1} / {activeGallery.photos.length}
-                    </span>
+                  {/* Bottom Bar: Photo Counter & Interactive Thumbnail Filmstrip */}
+                  <div className="w-full max-w-4xl px-2 sm:px-4 py-2 mt-auto shrink-0 z-20 flex flex-col items-center gap-2">
+                    <div className="flex items-center gap-2">
+                      <span className="px-3.5 py-1 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-xs font-poppins text-white/90 shadow-xl font-medium">
+                        {activePhotoIndex + 1} / {activeGallery.photos.length}
+                      </span>
+                      <span className="text-[11px] text-white/50 hidden sm:inline font-poppins">
+                        • Scroll or swipe to browse photos
+                      </span>
+                    </div>
+
+                    {/* Scrollable Filmstrip */}
+                    <div className="w-full flex items-center gap-2 overflow-x-auto py-1 px-2 scrollbar-thin scrollbar-thumb-[#2563FF]/40 rounded-2xl bg-black/60 backdrop-blur-md border border-white/10">
+                      {activeGallery.photos.map((photo, idx) => (
+                        <button
+                          key={photo.id}
+                          ref={(el) => {
+                            if (idx === activePhotoIndex && el) {
+                              el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                            }
+                          }}
+                          onClick={() => setActivePhotoIndex(idx)}
+                          className={`relative shrink-0 w-12 h-9 sm:w-16 sm:h-12 rounded-lg overflow-hidden border transition-all cursor-pointer ${
+                            idx === activePhotoIndex
+                              ? 'border-[#2563FF] scale-105 shadow-[0_0_12px_rgba(37,99,255,0.7)]'
+                              : 'border-white/15 opacity-60 hover:opacity-100 hover:border-white/50'
+                          }`}
+                          title={`Photo ${idx + 1}`}
+                        >
+                          <img
+                            src={photo.thumbUrl}
+                            alt={photo.title}
+                            loading="lazy"
+                            referrerPolicy="no-referrer"
+                            onError={(e) => {
+                              const target = e.currentTarget;
+                              if (!target.dataset.retried) {
+                                target.dataset.retried = 'true';
+                                target.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w200`;
+                              }
+                            }}
+                            className="w-full h-full object-cover"
+                          />
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}
