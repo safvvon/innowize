@@ -3,6 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, Volume2, VolumeX, Hexagon, MapPin, Sparkles, Maximize2, Film, X, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+const MOBILE_SHOWREEL = '/Innowize%20showreel%20Vertical%20for%20phone%20view.mp4';
+const DESKTOP_SHOWREEL = '/Innowize%20showreel%20for%20Web.mp4';
+
 export const Hero: React.FC = () => {
   const navigate = useNavigate();
   const heroRef = useRef<HTMLElement>(null);
@@ -14,9 +17,9 @@ export const Hero: React.FC = () => {
   const [showShowreelModal, setShowShowreelModal] = useState(false);
   const [videoSrc, setVideoSrc] = useState(() => {
     if (typeof window !== 'undefined' && window.innerWidth <= 768) {
-      return '/showreel-mobile.mp4';
+      return MOBILE_SHOWREEL;
     }
-    return '/showreel.mp4';
+    return DESKTOP_SHOWREEL;
   });
 
   // Keep video source responsive to viewport changes via matchMedia for zero resize event thrashing
@@ -24,7 +27,7 @@ export const Hero: React.FC = () => {
     if (typeof window === 'undefined') return;
     const mql = window.matchMedia('(max-width: 768px)');
     const handleMediaChange = (e: MediaQueryListEvent | MediaQueryList) => {
-      const targetSrc = e.matches ? '/showreel-mobile.mp4' : '/showreel.mp4';
+      const targetSrc = e.matches ? MOBILE_SHOWREEL : DESKTOP_SHOWREEL;
       setVideoSrc(prev => (prev !== targetSrc ? targetSrc : prev));
     };
     if (mql.addEventListener) {
@@ -297,10 +300,10 @@ export const Hero: React.FC = () => {
           preload="auto"
           title="Innowize Digital Official Showreel"
           aria-label="Innowize Digital Showreel Video"
-          className="relative z-10 w-full h-full object-contain sm:object-cover object-[center_38%] sm:object-center scale-[4.4] sm:scale-100 origin-[center_38%] sm:origin-center transition-transform duration-300"
+          className="relative z-10 w-full h-full object-cover object-center transition-transform duration-300"
         >
-          <source src="/showreel-mobile.mp4" media="(max-width: 768px)" type="video/mp4" />
-          <source src="/showreel.mp4" type="video/mp4" />
+          <source src={MOBILE_SHOWREEL} media="(max-width: 768px)" type="video/mp4" />
+          <source src={DESKTOP_SHOWREEL} type="video/mp4" />
         </video>
 
         {/* Subtle Top Header Vignette Only - Zero Shade Below/At Bottom */}
@@ -512,7 +515,7 @@ export const Hero: React.FC = () => {
 
               <video
                 ref={modalVideoRef}
-                src="/showreel.mp4"
+                src={videoSrc}
                 poster="/images/showreel_poster.webp"
                 autoPlay
                 controls

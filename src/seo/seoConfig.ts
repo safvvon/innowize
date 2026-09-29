@@ -27,7 +27,7 @@ export const SITE_CONFIG = {
     },
     description:
       'Innowize Digital is a premier creative digital studio specializing in web design, UI/UX, website development, cinematic video production, AI creative tech, digital marketing, and spatial experiences.',
-    email: 'abinsiby@innowizedigital.com',
+    email: 'info@innowizedigital.com',
     telephone: '+65 8080 8824',
     address: {
       '@type': 'PostalAddress',

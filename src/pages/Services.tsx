@@ -84,21 +84,18 @@ export const Services: React.FC<{ onOpenContact?: (subject?: string) => void }> 
                 }`}
                 style={{ willChange: 'transform', transform: 'translateZ(0)' }}
               >
-                {/* Top Row: Number on left, Blue squircle icon on right */}
+                {/* Top Row: Selected badge (if active) on left, Blue squircle icon on right */}
                 <div>
                   <div className="flex items-center justify-between mb-5 sm:mb-6">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs sm:text-sm font-mono font-bold text-slate-400 tracking-wider">
-                        {service.number}
-                      </span>
-                      {isActive && (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#2563FF]/20 border border-[#2563FF]/50 text-[#60A5FA] text-[10px] font-semibold uppercase tracking-wider">
+                    <div>
+                      {isActive ? (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#2563FF]/20 border border-[#2563FF]/50 text-[#60A5FA] text-[10px] font-semibold uppercase tracking-wider">
                           <CheckCircle className="w-2.5 h-2.5" />
                           <span>Selected</span>
                         </span>
-                      )}
+                      ) : null}
                     </div>
-                    <div className="w-11 h-11 rounded-xl bg-[#0F182E] border border-[#2563FF]/40 flex items-center justify-center text-[#2563FF] group-hover:bg-[#2563FF] group-hover:text-white transition-all duration-300 shadow-sm">
+                    <div className="w-11 h-11 rounded-xl bg-[#0F182E] border border-[#2563FF]/40 flex items-center justify-center text-[#2563FF] group-hover:bg-[#2563FF] group-hover:text-white transition-all duration-300 shadow-sm ml-auto">
                       <Icon className="w-5 h-5 stroke-[1.8]" />
                     </div>
                   </div>

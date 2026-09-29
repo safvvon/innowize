@@ -70,12 +70,9 @@ export const IntroSection2: React.FC = () => {
                   className="group relative rounded-2xl bg-[#090E1B] border border-[#141C30] hover:border-[#2563FF]/70 p-6 sm:p-8 flex flex-col justify-between h-full min-h-[250px] sm:min-h-[285px] transition-all duration-300 hover:-translate-y-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_40px_rgba(37,99,255,0.2)] cursor-pointer block"
                   style={{ willChange: 'transform', transform: 'translateZ(0)' }}
                 >
-                  {/* Top Row: Number on left, Blue squircle icon on right */}
+                  {/* Top Row: Blue squircle icon */}
                   <div>
-                    <div className="flex items-center justify-between mb-6">
-                      <span className="text-xs sm:text-sm font-mono font-bold text-slate-400 tracking-wider">
-                        {service.number}
-                      </span>
+                    <div className="flex items-center justify-end mb-6">
                       <div className="w-11 h-11 rounded-xl bg-[#0F182E] border border-[#2563FF]/40 flex items-center justify-center text-[#2563FF] group-hover:bg-[#2563FF] group-hover:text-white transition-all duration-300 shadow-sm">
                         <Icon className="w-5 h-5 stroke-[1.8]" />
                       </div>

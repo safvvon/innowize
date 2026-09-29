@@ -247,7 +247,7 @@ export const Contact: React.FC = () => {
 
               <div className="space-y-3.5 font-poppins">
                 <a
-                  href="mailto:abinsiby@innowizedigital.com"
+                  href="mailto:info@innowizedigital.com"
                   className="flex items-center gap-3.5 p-3 rounded-2xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/5 hover:border-[#2563FF]/50 transition-all duration-300 group"
                 >
                   <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-[#2563FF]/15 border border-[#2563FF]/30 flex items-center justify-center group-hover:bg-[#2563FF] group-hover:text-white text-[#2563FF] transition-all duration-300">
@@ -258,7 +258,7 @@ export const Contact: React.FC = () => {
                       Email
                     </p>
                     <p className="text-white group-hover:text-[#60A5FA] transition-colors text-xs sm:text-sm font-medium truncate">
-                      abinsiby@innowizedigital.com
+                      info@innowizedigital.com
                     </p>
                   </div>
                 </a>
