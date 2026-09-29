@@ -75,10 +75,10 @@ const ReelCard: React.FC<{
         onError={() => {
           if (retryStep === 0 && project.driveId) {
             setRetryStep(1);
-            setImgSrc(`https://drive.google.com/thumbnail?id=${project.driveId}&sz=w1200`);
+            setImgSrc(`https://drive.google.com/thumbnail?id=${project.driveId}&sz=w800`);
           } else if (retryStep === 1 && project.driveId) {
             setRetryStep(2);
-            setImgSrc(`https://lh3.googleusercontent.com/d/${project.driveId}=w3840`);
+            setImgSrc(`https://drive.google.com/thumbnail?id=${project.driveId}&sz=w600`);
           }
         }}
         style={{
@@ -348,11 +348,11 @@ export const IntroSection3: React.FC = () => {
                   href={`https://drive.google.com/file/d/${activeVideo.driveId}/view?usp=sharing`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-full bg-white/10 hover:bg-[#2563FF] text-white text-xs font-poppins font-medium transition-all border border-white/10"
-                  title="Open in Google Drive in original 4K / master resolution"
+                  className="hidden min-[540px]:inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-[#2563FF] via-[#3B82F6] to-[#60A5FA] hover:brightness-110 text-white text-xs font-poppins font-semibold transition-all shadow-[0_0_20px_rgba(37,99,255,0.5)] border border-white/25"
+                  title="Open in Google Drive in original uncompressed 4K master resolution"
                 >
                   <ExternalLink className="w-3.5 h-3.5" />
-                  <span>Original 4K Quality</span>
+                  <span>Watch Original 4K Master</span>
                 </a>
 
                 <button
@@ -363,7 +363,7 @@ export const IntroSection3: React.FC = () => {
                       document.exitFullscreen().catch(() => {});
                     }
                   }}
-                  className="p-2 sm:p-2.5 rounded-full bg-white/10 hover:bg-[#2563FF] text-white transition-colors cursor-pointer border border-white/10"
+                  className="p-2 sm:p-2.5 rounded-full bg-white/10 hover:bg-[#2563FF] text-white transition-colors cursor-pointer border border-white/10 hidden sm:flex"
                   title="Toggle Browser Fullscreen"
                 >
                   <Maximize2 className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -389,24 +389,32 @@ export const IntroSection3: React.FC = () => {
             <div className="relative flex-1 w-full h-full bg-black flex items-center justify-center overflow-hidden">
               {/* Instant High-Res Poster Backdrop & Ambient Glow While Video Buffers */}
               <div
-                className={`absolute inset-0 z-0 transition-opacity duration-500 flex items-center justify-center ${
-                  videoLoading ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                className={`absolute inset-0 z-20 transition-opacity duration-500 flex items-center justify-center pointer-events-none ${
+                  videoLoading ? 'opacity-100' : 'opacity-0'
                 }`}
               >
                 {/* Blurred ambient background glow */}
                 <img
-                  src={activeVideo.thumbnail.replace('=w3840', '=w800-rw')}
+                  src={activeVideo.thumbnail}
                   alt={activeVideo.title}
                   decoding="async"
+                  referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    e.currentTarget.src = `https://drive.google.com/thumbnail?id=${activeVideo.driveId}&sz=w800`;
+                  }}
                   className="absolute inset-0 w-full h-full object-cover filter blur-3xl scale-110 opacity-35"
                 />
 
                 {/* Centered Poster Card with Shimmer & Branded Cinema Loader */}
                 <div className="relative max-w-4xl max-h-[70vh] aspect-video w-full rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/15 mx-4 bg-[#0A0D16]">
                   <img
-                    src={activeVideo.thumbnail.replace('=w3840', '=w800-rw')}
+                    src={activeVideo.thumbnail}
                     alt={activeVideo.title}
                     decoding="async"
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      e.currentTarget.src = `https://drive.google.com/thumbnail?id=${activeVideo.driveId}&sz=w800`;
+                    }}
                     className="w-full h-full object-cover filter contrast-[1.03]"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
@@ -432,12 +440,11 @@ export const IntroSection3: React.FC = () => {
 
               {/* Stream Iframe */}
               <iframe
-                src={`https://drive.google.com/file/d/${activeVideo.driveId}/preview?autoplay=1&vq=hd1080`}
+                src={`https://drive.google.com/file/d/${activeVideo.driveId}/preview`}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
                 allowFullScreen
-                className={`w-full h-full border-0 relative z-10 transition-opacity duration-500 ${
-                  videoLoading ? 'opacity-0 pointer-events-none' : 'opacity-100'
-                }`}
+                referrerPolicy="no-referrer"
+                className="w-full h-full border-0 relative z-10"
                 title={activeVideo.title}
                 onLoad={() => setVideoLoading(false)}
               />

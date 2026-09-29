@@ -36,6 +36,29 @@ const prefetchVideo = (driveId?: string) => {
   }
 };
 
+const getPhotoFallbackUrl = (currentUrl: string, step = 1): string => {
+  if (!currentUrl) return '';
+  if (currentUrl.includes('/d/')) {
+    const driveId = currentUrl.split('/d/')[1]?.split('=')[0]?.split('?')[0];
+    if (driveId) {
+      return step === 1
+        ? `https://drive.google.com/thumbnail?id=${driveId}&sz=w800`
+        : `https://drive.google.com/thumbnail?id=${driveId}&sz=w600`;
+    }
+  }
+  if (currentUrl.includes('/pw/')) {
+    const cleanBase = currentUrl.split('=')[0];
+    return step === 1 ? `${cleanBase}=w800` : `${cleanBase}=s800`;
+  }
+  if (currentUrl.includes('drive.google.com/thumbnail')) {
+    const idMatch = currentUrl.match(/id=([^&]+)/);
+    if (idMatch && idMatch[1]) {
+      return `https://drive.google.com/thumbnail?id=${idMatch[1]}&sz=w600`;
+    }
+  }
+  return currentUrl;
+};
+
 // Image loader with high-definition fallback cascade, React.memo caching, and lazy/eager prioritization
 const ImageWithFallback: React.FC<{
   src: string;
@@ -64,6 +87,29 @@ const ImageWithFallback: React.FC<{
     }
   }, [imgSrc]);
 
+  const handleImageError = () => {
+    if (retryStep === 0 && fallbackSrc && imgSrc !== fallbackSrc) {
+      setRetryStep(1);
+      setImgSrc(fallbackSrc);
+    } else if (retryStep <= 1 && imgSrc.includes('lh3.googleusercontent.com/d/')) {
+      const driveId = imgSrc.split('lh3.googleusercontent.com/d/')[1]?.split('=')[0];
+      if (driveId) {
+        setRetryStep(2);
+        setImgSrc(`https://drive.google.com/thumbnail?id=${driveId}&sz=w800`);
+      }
+    } else if (retryStep <= 2 && imgSrc.includes('lh3.googleusercontent.com/pw/')) {
+      const cleanBase = imgSrc.split('=')[0];
+      setRetryStep(3);
+      setImgSrc(`${cleanBase}=w800`);
+    } else if (retryStep <= 3) {
+      const driveMatch = imgSrc.match(/id=([^&]+)/) || imgSrc.match(/\/d\/([^=]+)/);
+      if (driveMatch && driveMatch[1]) {
+        setRetryStep(4);
+        setImgSrc(`https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w600`);
+      }
+    }
+  };
+
   return (
     <div className="relative w-full h-full bg-[#0F1628] overflow-hidden">
       {!loaded && (
@@ -78,30 +124,13 @@ const ImageWithFallback: React.FC<{
         decoding="async"
         referrerPolicy="no-referrer"
         onLoad={() => setLoaded(true)}
-        onError={() => {
-          if (retryStep === 0 && fallbackSrc && imgSrc !== fallbackSrc) {
-            setRetryStep(1);
-            setImgSrc(fallbackSrc);
-          } else if (retryStep <= 1 && imgSrc.includes('lh3.googleusercontent.com/d/')) {
-            const driveId = imgSrc.split('lh3.googleusercontent.com/d/')[1]?.split('=')[0];
-            if (driveId) {
-              setRetryStep(2);
-              setImgSrc(`https://drive.google.com/thumbnail?id=${driveId}&sz=w1200`);
-            }
-          } else if (retryStep <= 2) {
-            const idMatch = imgSrc.match(/id=([^&]+)/) || imgSrc.match(/\/d\/([^=]+)/);
-            if (idMatch && idMatch[1]) {
-              setRetryStep(3);
-              setImgSrc(`https://lh3.googleusercontent.com/d/${idMatch[1]}=w3840`);
-            }
-          }
-        }}
+        onError={handleImageError}
         style={{
           imageRendering: '-webkit-optimize-contrast',
           objectPosition: objectPosition || style?.objectPosition || 'center center',
           ...style,
         }}
-        className={`${className} transition-opacity duration-300`}
+        className={`${className} transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}
       />
     </div>
   );
@@ -737,14 +766,18 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
               >
                 {/* Instant High-Res Poster Backdrop While Video Connects */}
                 <div
-                  className={`absolute inset-0 z-0 transition-opacity duration-500 flex items-center justify-center ${
-                    videoLoading ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                  className={`absolute inset-0 z-20 transition-opacity duration-500 flex items-center justify-center pointer-events-none ${
+                    videoLoading ? 'opacity-100' : 'opacity-0'
                   }`}
                 >
                   <img
-                    src={activeVideo.thumbnail.replace('=w3840', '=w800-rw')}
+                    src={activeVideo.thumbnail}
                     alt={activeVideo.title}
                     decoding="async"
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      e.currentTarget.src = `https://drive.google.com/thumbnail?id=${activeVideo.driveId}&sz=w800`;
+                    }}
                     className="absolute inset-0 w-full h-full object-cover filter blur-2xl scale-110 opacity-40"
                   />
                   <div className="relative w-full h-full flex flex-col items-center justify-center gap-4 bg-black/60 p-6 text-center z-10">
@@ -766,12 +799,11 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
 
                 {isTabActive && (
                   <iframe
-                    src={`https://drive.google.com/file/d/${activeVideo.driveId}/preview?autoplay=1`}
+                    src={`https://drive.google.com/file/d/${activeVideo.driveId}/preview`}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
                     allowFullScreen
-                    className={`w-full h-full border-0 relative z-10 transition-opacity duration-500 ${
-                      videoLoading ? 'opacity-0 pointer-events-none' : 'opacity-100'
-                    }`}
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full border-0 relative z-10"
                     title={activeVideo.title}
                     onLoad={() => setVideoLoading(false)}
                   />
@@ -909,9 +941,10 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                           referrerPolicy="no-referrer"
                           onError={(e) => {
                             const target = e.currentTarget;
-                            if (!target.dataset.retried) {
-                              target.dataset.retried = 'true';
-                              target.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w800`;
+                            const step = parseInt(target.dataset.retryStep || '0', 10);
+                            if (step < 2) {
+                              target.dataset.retryStep = String(step + 1);
+                              target.src = getPhotoFallbackUrl(photo.thumbUrl, step + 1);
                             }
                           }}
                           style={{ imageRendering: '-webkit-optimize-contrast' }}
@@ -969,9 +1002,10 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                         referrerPolicy="no-referrer"
                         onError={(e) => {
                           const target = e.currentTarget;
-                          if (!target.dataset.retried) {
-                            target.dataset.retried = 'true';
-                            target.src = `https://drive.google.com/thumbnail?id=${activeGallery.photos[activePhotoIndex].id}&sz=w600`;
+                          const step = parseInt(target.dataset.retryStep || '0', 10);
+                          if (step < 2) {
+                            target.dataset.retryStep = String(step + 1);
+                            target.src = getPhotoFallbackUrl(activeGallery.photos[activePhotoIndex].thumbUrl, step + 1);
                           }
                         }}
                         className="max-h-full max-w-full object-contain rounded-2xl filter blur-sm scale-95 opacity-70"
@@ -993,11 +1027,13 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                       onLoad={() => setPhotoLoading(false)}
                       onError={(e) => {
                         const target = e.currentTarget;
-                        if (!target.dataset.retried) {
-                          target.dataset.retried = 'true';
-                          target.src = `https://drive.google.com/thumbnail?id=${activeGallery.photos[activePhotoIndex].id}&sz=w1920`;
+                        const step = parseInt(target.dataset.retryStep || '0', 10);
+                        if (step < 2) {
+                          target.dataset.retryStep = String(step + 1);
+                          target.src = getPhotoFallbackUrl(activeGallery.photos[activePhotoIndex].fullUrl, step + 1);
+                        } else {
+                          setPhotoLoading(false);
                         }
-                        setPhotoLoading(false);
                       }}
                       style={{ imageRendering: '-webkit-optimize-contrast' }}
                       className={`max-h-full max-w-full object-contain rounded-2xl shadow-2xl transition-opacity duration-300 contrast-[1.03] saturate-[1.05] ${
@@ -1051,9 +1087,10 @@ export const Work: React.FC<{ onOpenContact?: () => void }> = ({ onOpenContact }
                             referrerPolicy="no-referrer"
                             onError={(e) => {
                               const target = e.currentTarget;
-                              if (!target.dataset.retried) {
-                                target.dataset.retried = 'true';
-                                target.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w200`;
+                              const step = parseInt(target.dataset.retryStep || '0', 10);
+                              if (step < 2) {
+                                target.dataset.retryStep = String(step + 1);
+                                target.src = getPhotoFallbackUrl(photo.thumbUrl, step + 1);
                               }
                             }}
                             className="w-full h-full object-cover"
