@@ -8,14 +8,14 @@ import { Clients } from '../components/home/Clients';
 
 export const Home: React.FC = () => {
   return (
-    <div className="home-page w-full overflow-hidden">
+    <div className="home-page w-full overflow-x-hidden">
       <Hero />
       <div className="relative w-full overflow-hidden">
         <IntroTextLayer />
         <Intro />
-        <IntroSection2 />
-        <IntroSection3 />
       </div>
+      <IntroSection2 />
+      <IntroSection3 />
       <Clients />
     </div>
   );

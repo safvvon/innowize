@@ -19,71 +19,26 @@ export const IntroTextLayer: React.FC = () => {
 
     // Desktop source of truth: 100% exact original desktop typography and parallax scroll
     mm.add('(min-width: 768px)', () => {
-      if (!containerRef.current) return;
+      const triggerEl = document.getElementById('intro-section') || containerRef.current;
+      if (!triggerEl) return;
 
-      gsap.to(r1.current, {
-        x: '-122%',
+      const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: containerRef.current,
+          trigger: triggerEl,
           start: 'top bottom',
           end: 'bottom top',
           scrub: true,
+          fastScrollEnd: true,
         },
       });
-      gsap.to(r2.current, {
-        x: '42%',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-      gsap.to(r3.current, {
-        x: '-45%',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-      gsap.to(r4.current, {
-        x: '25%',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-      gsap.to(r5.current, {
-        x: '-35%',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-      gsap.to(r6.current, {
-        x: '20%',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-      gsap.to(r7.current, {
-        x: '20%',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
+
+      tl.to(r1.current, { x: '-122%', ease: 'none' }, 0)
+        .to(r2.current, { x: '42%', ease: 'none' }, 0)
+        .to(r3.current, { x: '-45%', ease: 'none' }, 0)
+        .to(r4.current, { x: '25%', ease: 'none' }, 0)
+        .to(r5.current, { x: '-35%', ease: 'none' }, 0)
+        .to(r6.current, { x: '20%', ease: 'none' }, 0)
+        .to(r7.current, { x: '20%', ease: 'none' }, 0);
     });
 
     // Mobile: Alternating entry (1st Left, 2nd Right, etc.) meeting in perfect alignment on the slide
@@ -96,7 +51,8 @@ export const IntroTextLayer: React.FC = () => {
           trigger: triggerEl,
           start: 'top 85%',
           end: 'bottom 15%',
-          scrub: 0.6,
+          scrub: 0.5,
+          fastScrollEnd: true,
         },
       });
 

@@ -167,15 +167,9 @@ export const IntroSection3: React.FC = () => {
     offset: ['start end', 'end start'],
   });
 
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 90,
-    damping: 26,
-    restDelta: 0.001,
-  });
-
-  // Directly moves according to user scrolling (Row 1 left, Row 2 right)
-  const scrollX1 = useTransform(smoothProgress, [0, 1], ['15%', '-25%']);
-  const scrollX2 = useTransform(smoothProgress, [0, 1], ['-25%', '15%']);
+  // Directly moves according to user scrolling without spring lag or drag (Row 1 left, Row 2 right)
+  const scrollX1 = useTransform(scrollYProgress, [0, 1], ['15%', '-25%']);
+  const scrollX2 = useTransform(scrollYProgress, [0, 1], ['-25%', '15%']);
   const workItems = ['WORK', 'WORK', 'WORK', 'WORK', 'WORK', 'WORK', 'WORK', 'WORK'];
 
   const handleSelectProject = (project: VideoProject) => {
@@ -254,7 +248,7 @@ export const IntroSection3: React.FC = () => {
       {/* Angled Rotating Video Reels Row with Infinite Seamless Marquee (-4deg tilt matching model) */}
       <div
         className="w-[125%] md:w-[110%] flex items-start justify-center relative z-40 overflow-visible -ml-[12%] md:-ml-[5%] py-6"
-        style={{ transform: 'rotate(-4deg) translateZ(0)' }}
+        style={{ transform: 'rotate(-4deg) translateZ(0)', willChange: 'transform', contain: 'paint' }}
       >
         <div className="flex w-max select-none">
           {/* Track 1: Master Video Projects */}

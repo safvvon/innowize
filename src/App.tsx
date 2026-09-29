@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Header } from './components/Header';
@@ -54,29 +53,9 @@ export const AppContent: React.FC = () => {
     setIsContactOpen(true);
   };
 
-  // Synchronize Lenis Smooth Scrolling with GSAP ScrollTrigger for 60fps jitter-free scrolling
+  // Synchronize ScrollTrigger with native browser scrolling
   useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.0,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      smoothWheel: true,
-      syncTouch: false,
-      touchMultiplier: 1.5,
-    });
-
-    lenis.on('scroll', ScrollTrigger.update);
-
-    const updateTicker = (time: number) => {
-      lenis.raf(time * 1000);
-    };
-    gsap.ticker.add(updateTicker);
-    gsap.ticker.lagSmoothing(1000, 16);
-
-    return () => {
-      gsap.ticker.remove(updateTicker);
-      lenis.destroy();
-    };
+    ScrollTrigger.refresh();
   }, []);
 
   return (
